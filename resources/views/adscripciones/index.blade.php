@@ -61,14 +61,20 @@
                                         
                                         <td style="text-align: center">
                                             <div class="btn-group" role="group" aria-label="Acciones">
-                                                <a href="{{ route('adscripciones.show', $adscripcion->id) }}" class="btn btn-info"><i class="bi bi-eye"></i></a>
+                                                <a href="{{ route('adscripciones.seguimientos', $adscripcion->id) }}" class="btn btn-warning" title="Seguimiento">
+                                                <i class="bi bi-clock-history"></i>
+                                            </a>
+
+                                                <a href="{{ route('adscripciones.show', $adscripcion->id) }}" class="btn btn-info" title="Ver">
+                                                    <i class="bi bi-eye"></i></a>
                                                 
                                                 @role('admin|carga')
-                                                <a href="{{ route('adscripciones.edit', $adscripcion->id) }}" class="btn btn-success"><i class="bi bi-pencil"></i></a>
+                                                <a href="{{ route('adscripciones.edit', $adscripcion->id) }}" class="btn btn-success" title="Editar">
+                                                    <i class="bi bi-pencil"></i></a>
                                                 <form id="delete-form-{{ $adscripcion->id }}" action="{{ route('adscripciones.destroy', $adscripcion->id) }}" method="POST" style="display: inline;">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="button" class="btn btn-danger" onclick="confirmarEliminacion({{ $adscripcion->id }})">
+                                                    <button type="button" class="btn btn-danger" title="Eliminar" onclick="confirmarEliminacion({{ $adscripcion->id }})">
                                                         <i class="bi bi-trash3"></i>
                                                     </button>
                                                 </form>

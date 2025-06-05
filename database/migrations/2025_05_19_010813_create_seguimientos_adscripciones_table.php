@@ -8,19 +8,19 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('seguimientos_concursos', function (Blueprint $table) {
+        Schema::create('seguimientos_adscripciones', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('concurso_id')->constrained()->onDelete('cascade');
-            $table->string('accion'); // Ej: "Se agregó docente titular"
+            $table->foreignId('adscripcion_id')->constrained('adscripciones')->onDelete('cascade');
+             $table->string('accion'); // Ej: "Se agregó docente titular"
             $table->text('detalle')->nullable(); // Info extra
             $table->string('usuario')->nullable(); // Quién hizo la acción
             $table->timestamp('fecha')->useCurrent(); // Cuándo se hizo
             $table->timestamps();
-        });
+         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('seguimientos_concursos');
+        Schema::dropIfExists('seguimientos_adscripciones');
     }
 };

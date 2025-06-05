@@ -24,6 +24,6 @@ class AdscripcionDocente extends Model
 
     public function docente()
     {
-        return $this->belongsTo(Adscripcion::class);
+        return $this->belongsTo(Docente::class);
     }
 }

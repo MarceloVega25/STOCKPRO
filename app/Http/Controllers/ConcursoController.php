@@ -305,34 +305,90 @@ class ConcursoController extends Controller
         }
     }
 
-    // Relaciones a comparar
-    $relaciones = [
-        'asignaturas' => ['label' => 'Asignaturas', 'modelo' => Asignatura::class, 'campo' => 'nombre'],
-        'carreras' => ['label' => 'Carreras', 'modelo' => Carrera::class, 'campo' => 'nombre'],
-        'departamentos' => ['label' => 'Departamentos', 'modelo' => Departamento::class, 'campo' => 'nombre'],
-        'inscriptos' => ['label' => 'Inscriptos', 'modelo' => Inscripto::class, 'campo' => 'nombre_apellido'],
-        'veedores' => ['label' => 'Veedores', 'modelo' => Veedor::class, 'campo' => 'nombre_apellido'],
-    ];
+    // Definir relaciones a comparar y sus etiquetas
+$relaciones = [
+    'asignaturas' => ['label' => 'Asignaturas', 'modelo' => Asignatura::class, 'campo' => 'nombre'],
+    'carreras' => ['label' => 'Carreras', 'modelo' => Carrera::class, 'campo' => 'nombre'],
+    'departamentos' => ['label' => 'Departamentos', 'modelo' => Departamento::class, 'campo' => 'nombre'],
+    'inscriptos' => ['label' => 'Inscriptos', 'modelo' => Inscripto::class, 'campo' => 'nombre_apellido'],
+    'veedores' => ['label' => 'Veedores', 'modelo' => Veedor::class, 'campo' => 'nombre_apellido'],
+    
+    // 👇 Agregados
+    'docentes_titulares' => ['label' => 'Docentes Titulares', 'modelo' => Docente::class, 'campo' => 'nombre_apellido'],
+    'docentes_suplentes' => ['label' => 'Docentes Suplentes', 'modelo' => Docente::class, 'campo' => 'nombre_apellido'],
+    'estudiantes_titulares' => ['label' => 'Estudiantes Titulares', 'modelo' => Estudiante::class, 'campo' => 'nombre_apellido'],
+    'estudiantes_suplentes' => ['label' => 'Estudiantes Suplentes', 'modelo' => Estudiante::class, 'campo' => 'nombre_apellido'],
+];
 
-    foreach ($relaciones as $rel => $conf) {
-        $originalIds = $concurso->$rel()->pluck("{$conf['modelo']::getModel()->getTable()}.id")->toArray();
+// Obtener valores anteriores para relaciones con pivot "tipo"
+$docentesTitularesIds = $original->docentes()->wherePivot('tipo', 'titular')->pluck('docente_id')->toArray();
+$docentesSuplentesIds = $original->docentes()->wherePivot('tipo', 'suplente')->pluck('docente_id')->toArray();
+$estudiantesTitularesIds = $original->estudiantes()->wherePivot('tipo', 'titular')->pluck('estudiante_id')->toArray();
+$estudiantesSuplentesIds = $original->estudiantes()->wherePivot('tipo', 'suplente')->pluck('estudiante_id')->toArray();
+
+// Cargar relaciones en el clon original
+$original->load([
+    'asignaturas',
+    'departamentos',
+    'carreras',
+    'veedores',
+    'inscriptos'
+]);
+
+// Comparar relaciones y registrar cambios
+foreach ($relaciones as $rel => $conf) {
+    // Obtener IDs originales y nuevos según el tipo de relación
+    if ($rel === 'docentes_titulares') {
+        $originalIds = $docentesTitularesIds;
+        $nuevosIds = $request->input('docentes_titulares', []);
+    } elseif ($rel === 'docentes_suplentes') {
+        $originalIds = $docentesSuplentesIds;
+        $nuevosIds = $request->input('docentes_suplentes', []);
+    } elseif ($rel === 'estudiantes_titulares') {
+        $originalIds = $estudiantesTitularesIds;
+        $nuevosIds = $request->input('estudiantes_titulares', []);
+    } elseif ($rel === 'estudiantes_suplentes') {
+        $originalIds = $estudiantesSuplentesIds;
+        $nuevosIds = $request->input('estudiantes_suplentes', []);
+    } else {
+        $originalIds = $original->$rel()->pluck("{$conf['modelo']::getModel()->getTable()}.id")->toArray();
         $nuevosIds = $request->input($rel, []);
+    }
 
+    sort($originalIds);
+    sort($nuevosIds);
+
+    if ($originalIds != $nuevosIds) {
+        $tiposDeCambio[] = $rel;
+
+        $etiqueta = $conf['label'];
+
+        // Mostrar mensaje si antes estaba vacío
+        if (empty($originalIds)) {
+            $cambios[] = "{$etiqueta}: Sin " . strtolower($etiqueta);
+        }
+
+        // Mostrar mensaje si ahora quedó vacío
+        if (empty($nuevosIds)) {
+            $cambios[] = "{$etiqueta}: Sin " . strtolower($etiqueta);
+        }
+
+        // Agregados
         $agregados = array_diff($nuevosIds, $originalIds);
-        $eliminados = array_diff($originalIds, $nuevosIds);
-
         if (!empty($agregados)) {
             $nombres = $conf['modelo']::whereIn('id', $agregados)->pluck($conf['campo'])->toArray();
-            $cambios[] = "{$conf['label']} agregados: " . implode(', ', $nombres);
-            $tiposDeCambio[] = $rel;
+            $cambios[] = "{$etiqueta} agregados: " . implode(', ', $nombres);
         }
 
+        // Eliminados
+        $eliminados = array_diff($originalIds, $nuevosIds);
         if (!empty($eliminados)) {
             $nombres = $conf['modelo']::whereIn('id', $eliminados)->pluck($conf['campo'])->toArray();
-            $cambios[] = "{$conf['label']} eliminados: " . implode(', ', $nombres);
-            $tiposDeCambio[] = $rel;
+            $cambios[] = "{$etiqueta} eliminados: " . implode(', ', $nombres);
         }
     }
+}
+
 
     // Actualiza relaciones
     
@@ -455,9 +511,13 @@ class ConcursoController extends Controller
     }
 
     public function seguimientos($id)
-    {
-        $concurso = Concurso::with('seguimientos')->findOrFail($id);
-        return view('concursos.seguimientos', compact('concurso'));
-    }
+{
+    $concurso = Concurso::with(['seguimientos' => function ($query) {
+        $query->orderByDesc('created_at')->orderByDesc('id');
+    }])->findOrFail($id);
+
+    return view('concursos.seguimientos', compact('concurso'));
+}
+
 }
 

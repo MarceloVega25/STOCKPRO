@@ -28,7 +28,6 @@
                 <th>ID</th>
                 <th>Tipo</th>
                 <th>Modalidad</th>
-                <th>Estado</th>
             </tr>
         </thead>
         <tbody>
@@ -36,8 +35,7 @@
                 <tr>
                     <td>{{ $concurso->id }}</td>
                     <td>{{ $concurso->tipo_concurso }}</td>
-                    <td>{{ $concurso->modalidad }}</td>
-                    <td>{{ $concurso->estado_concurso->nombre ?? 'Sin estado' }}</td>
+                    <td>{{ $concurso->modalidad_concurso }}</td>
                 </tr>
             @endforeach
         </tbody>

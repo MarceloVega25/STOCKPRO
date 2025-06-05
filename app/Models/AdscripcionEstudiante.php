@@ -24,6 +24,6 @@ class AdscripcionEstudiante extends Model
 
     public function estudiante()
     {
-        return $this->belongsTo(Adscripcion::class);
+        return $this->belongsTo(Estudiante::class);
     }
 }

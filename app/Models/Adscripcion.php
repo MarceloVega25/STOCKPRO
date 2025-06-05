@@ -98,18 +98,19 @@ class Adscripcion extends Model
 
     // Relaciones filtradas (docentes)
     public function docentesTitulares()
-    {
-        return $this->belongsToMany(Docente::class, 'adscripcion_docente')
-            ->wherePivot('tipo', 'titular')
-            ->withTimestamps();
-    }
+{
+    return $this->belongsToMany(Docente::class, 'adscripcion_docente')
+        ->wherePivot('tipo', 'titular')
+        ->withTimestamps();
+}
 
-    public function docentesSuplentes()
-    {
-        return $this->belongsToMany(Docente::class, 'adscripcion_docente')
-            ->wherePivot('tipo', 'suplente')
-            ->withTimestamps();
-    }
+public function docentesSuplentes()
+{
+    return $this->belongsToMany(Docente::class, 'adscripcion_docente')
+        ->wherePivot('tipo', 'suplente')
+        ->withTimestamps();
+}
+
 
     // Relaciones filtradas (estudiantes)
     public function estudiantesTitulares()
@@ -130,5 +131,11 @@ class Adscripcion extends Model
 {
     return $this->belongsTo(\App\Models\Adscripto::class, 'designado_id');
 }
+
+public function seguimientos()
+{
+    return $this->hasMany(\App\Models\SeguimientoAdscripcion::class, 'adscripcion_id');
+}
+
 
 }

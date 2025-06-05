@@ -128,6 +128,12 @@ Route::middleware(['auth', 'role:admin|carga|consulta'])->group(function () {
         ->only(['show', 'index']);
 });
 
+// Ruta para ver el seguimiento de un concurso
+Route::middleware(['auth', 'role:admin|carga|consulta'])->group(function () {
+    Route::get('adscripciones/{adscripcion}/seguimientos', [\App\Http\Controllers\AdscripcionController::class, 'seguimientos'])
+        ->name('adscripciones.seguimientos');
+});
+
 // ----------------- Jerarquias -----------------
 //Administra Jerarquias (admin, carga)
 Route::middleware(['auth', 'role:admin|carga'])->group(function () { //protege el grupo de la ruta

@@ -33,7 +33,7 @@
                                 </div>
                                 <div class="col-md-3">
                                     <label>Fecha Adscripcion</label>
-                                    <input type="date" name="fecha_adscripcion" class="form-control" value="{{ $adscripcion->fecha_concurso }}">
+                                    <input type="date" name="fecha_adscripcion" class="form-control" value="{{ $adscripcion->fecha_adscripcion }}">
                                 </div>
                                 <div class="col-md-3">
                                     <label>Expediente</label>

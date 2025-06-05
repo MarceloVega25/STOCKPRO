@@ -14,9 +14,7 @@
 <body>
     <h3>Informe de Adscripciones</h3>
 
-    @php
-        use Carbon\Carbon;
-    @endphp
+    @php use Carbon\Carbon; @endphp
 
     @if (isset($desde) && isset($hasta))
         <p>Desde: {{ Carbon::parse($desde)->format('d/m/Y') }} — Hasta: {{ Carbon::parse($hasta)->format('d/m/Y') }}</p>
@@ -42,5 +40,7 @@
             @endforeach
         </tbody>
     </table>
+
+        <p style="margin-top: 20px;"><strong>Total de concursos: {{ $datos->count() }}</strong></p>
 </body>
 </html>

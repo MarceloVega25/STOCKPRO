@@ -73,14 +73,15 @@
                                         
                                         <td style="text-align: center">
                                             <div class="btn-group" role="group" aria-label="Acciones">
-                                                <a href="{{ route('concursos.seguimientos', $concurso->id) }}" class="btn btn-warning btn-sm" title="Seguir">
-                                                <i class="bi bi-clock-history"></i> Seguimiento
+                                                <a href="{{ route('concursos.seguimientos', $concurso->id) }}" class="btn btn-warning" title="Seguimiento">
+                                                <i class="bi bi-clock-history"></i>
                                             </a>
                                                 <a href="{{ route('concursos.show', $concurso->id) }}" class="btn btn-info" title="Ver">
                                                     <i class="bi bi-eye"></i></a>
                                                 
                                                 @role('admin|carga')
-                                                <a href="{{ route('concursos.edit', $concurso->id) }}" class="btn btn-success" title="Editar"><i class="bi bi-pencil"></i></a>
+                                                <a href="{{ route('concursos.edit', $concurso->id) }}" class="btn btn-success" title="Editar">
+                                                    <i class="bi bi-pencil"></i></a>
                                                 <form id="delete-form-{{ $concurso->id }}" action="{{ route('concursos.destroy', $concurso->id) }}" method="POST" style="display: inline;">
                                                     @csrf
                                                     @method('DELETE')
