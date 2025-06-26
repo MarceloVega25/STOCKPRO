@@ -4,12 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Adscripcion extends Model 
 {
     protected $table = 'adscripciones'; // <- Forzamos el nombre correcto}
     
-    use HasFactory;
+    use HasFactory,SoftDeletes;
 
     protected $fillable = [
         'numero',

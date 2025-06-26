@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Asignatura extends Model
 {
-    use HasFactory; // Agrega esta línea
+    use HasFactory,SoftDeletes; // Agrega esta línea
 
     protected $fillable = [
         'nombre',
