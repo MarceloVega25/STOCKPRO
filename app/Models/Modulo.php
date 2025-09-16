@@ -11,4 +11,6 @@ class Modulo extends Model
     use HasFactory,SoftDeletes;
 
     protected $fillable = ['nombre'];
+
+    protected $table = 'modulos';
 }

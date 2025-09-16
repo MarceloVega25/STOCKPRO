@@ -16,6 +16,7 @@ use App\Http\Controllers\UsuarioController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ConcursoController;
 use App\Http\Controllers\AdscripcionController;
+use App\Http\Controllers\AuditoriaController;
 use App\Http\Controllers\InformeController;
 
 // Ruta principal con middleware de autenticación
@@ -286,3 +287,5 @@ Route::get('/notificacion', function () {
 Route::post('/mail/send', [MailController::class, 'sendMail'])->name('mail.send');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::resource('auditorias', AuditoriaController::class)->only(['index', 'show']);

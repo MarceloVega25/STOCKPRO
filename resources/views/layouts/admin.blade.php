@@ -716,6 +716,22 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </a>
                 </li>
                 @endrole
+
+@role('admin')
+<li class="nav-item">
+    <a href="{{ route('auditorias.index') }}" class="nav-link active bg-primary text-white">
+        <i class="nav-icon fas">
+            <i class="bi bi-clipboard-data"></i>
+        </i>
+        <p>Auditoría
+            <i class="right fas fa-angle-left"></i>
+        </p>
+    </a>
+</li>
+@endrole
+
+
+
                 <li class="nav-item">
 
                     <a class="nav-link" href="{{ route('logout') }}"
