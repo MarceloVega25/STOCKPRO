@@ -44,7 +44,7 @@
     @if (session('mensaje') === 'existe')
         <script>
             Swal.fire({
-                title: 'DNI Encontrado',
+                title: 'Email Encontrado',
                 text: 'El EMAIL ya está Registrado. Será redirigido al formulario de Edición.',
                 icon: 'info',
                 confirmButtonText: 'OK',

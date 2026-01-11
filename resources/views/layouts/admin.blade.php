@@ -791,7 +791,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <div class="float-right d-none d-sm-inline">
             <strong>
                 <a href="https://www.fich.unl.edu.ar/facultad/wp-content/uploads/sites/2/2024/02/Calendario_2025_A4-2.pdf"
-                    target="_blank" class="text-dark">2025</a>
+                    target="_blank" class="text-dark">2026</a>
             </strong>
         </div>
         <!-- Default to the left -->
