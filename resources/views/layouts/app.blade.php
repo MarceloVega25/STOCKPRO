@@ -11,7 +11,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Favicon -->
-    <!-- <link rel="icon" type="image/png" href="{{ asset('images/siscondoc.png') }}"-->
+    <!-- <link rel="icon" type="image/png" href="{{ asset('images/icono.jpg') }}"-->
 
     <!-- Si usas .ico, cambia la línea de arriba por esta -->
     
@@ -35,7 +35,7 @@
     <!--foto fondo login-->
     <style>
         body.login-page {
-            background-image: url('{{ asset('images/FICH.png') }}');
+            background-image: url('{{ asset('images/stockpro.jpg') }}');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -57,8 +57,8 @@
 
             <div class="container">
                 <a class="navbar-brand d-flex align-items-center" href="{{ url('/') }}">
-                    <img src="{{ asset('images/LOGO1.jpg') }}" alt="FICH Logo" width="100px" class="me-2">
-                    <span>Bienvenido al Sistema de Gestión de Concursos Docentes</span>
+                    <img src="{{ asset('images/icono.jpg') }}" alt="FICH Logo" width="40px" class="me-2">
+                    <span>Bienvenido al Sistema de Gestión de Compras, Ventas, Stock y Repartos</span>
                 </a>                
                 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
