@@ -1,0 +1,24 @@
+/* Custom overrides for STOCKPRO layout */
+
+/* Forzar mismo color exacto en header y footer */
+.main-header.navbar,
+.main-footer {
+  background-color: #212529 !important; /* ajusta aquí el color si prefieres otro */
+  color: #ffffff !important;
+  border-top: none !important;
+}
+
+/* Asegurar enlaces blancos en el footer */
+.main-footer a { color: #ffffff !important; }
+
+/* Mejora contraste de los items del sidebar activos */
+.nav-sidebar .nav-link.active,
+.nav-sidebar .nav-link.active.bg-primary {
+  background-color: #0d6efd !important; /* primary */
+  color: #ffffff !important;
+}
+
+/* Pequeña transición para hover/active */
+.nav-sidebar .nav-link {
+  transition: background-color 120ms ease-in-out, color 120ms ease-in-out;
+}

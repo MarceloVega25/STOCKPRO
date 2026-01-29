@@ -53,7 +53,7 @@
 <body class="@yield('body-class')">
 
     <div id="app">
-        <nav class="navbar navbar-expand-md bg-primary navbar-dark shadow-sm">
+        <nav class="navbar navbar-expand-md bg-dark navbar-dark shadow-sm">
 
             <div class="container">
                 <a class="navbar-brand d-flex align-items-center" href="{{ url('/') }}">
