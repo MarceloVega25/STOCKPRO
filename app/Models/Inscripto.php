@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Inscripto extends Model
 {
-    use HasFactory,SoftDeletes; // Agrega esta línea
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'nombre_apellido',

@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\InscriptoController;
+use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\AdscriptoController;
 use App\Http\Controllers\DocenteController;
 use App\Http\Controllers\EstudianteController;
@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\UsuarioController;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\ConcursoController;
+use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\AdscripcionController;
 use App\Http\Controllers\AuditoriaController;
 use App\Http\Controllers\InformeController;
@@ -49,46 +49,46 @@ Route::middleware(['auth', 'role:admin|carga|consulta'])->group(function () {
         ->only(['show',]);
 });
 
-// ----------------- Inscriptos -----------------
-//Administra Inscriptos (admin, carga)
+// ----------------- Productos -----------------
+//Administra Productos (admin, carga)
 Route::middleware(['auth', 'role:admin|carga'])->group(function () { //protege el grupo de la ruta
     // Ruta intermedia
-    Route::get('/inscriptos/buscar', [InscriptoController::class, 'mostrarBusqueda'])
-        ->name('inscriptos.buscar');
+    Route::get('/productos/buscar', [ProductoController::class, 'mostrarBusqueda'])
+        ->name('productos.buscar');
     // Ruta que procesa el DNI
-    Route::post('/inscriptos/buscar', [InscriptoController::class, 'buscarDni'])
-        ->name('inscriptos.buscarDni');
+    Route::post('/productos/buscar', [ProductoController::class, 'buscarDni'])
+        ->name('productos.buscarDni');
 
     // EXCEPCION (para que no se contrapongan los roles)
-    Route::resource('inscriptos', \App\Http\Controllers\InscriptoController::class)
+    Route::resource('productos', \App\Http\Controllers\ProductoController::class)
         ->except(['show', 'index']);
 });
 
-// Ver inscriptos (admin, carga y consulta)
+// Ver productos (admin, carga y consulta)
 Route::middleware(['auth', 'role:admin|carga|consulta'])->group(function () {
-    Route::resource('inscriptos', \App\Http\Controllers\InscriptoController::class)
+    Route::resource('productos', \App\Http\Controllers\ProductoController::class)
         ->only(['show', 'index']);
 });
 
-// ----------------- Concursos -----------------
-//Administra Concursos (admin, carga)
+// ----------------- Categorias -----------------
+//Administra Categorias (admin, carga)
 Route::middleware(['auth', 'role:admin|carga'])->group(function () { //protege el grupo de la ruta
 
     // EXCEPCION (para que no se contrapongan los roles)
-    Route::resource('concursos', \App\Http\Controllers\ConcursoController::class)
+    Route::resource('categorias', \App\Http\Controllers\CategoriaController::class)
         ->except(['show', 'index']);
 });
 
-// Ver concursos (admin, carga y consulta)
+// Ver categorias (admin, carga y consulta)
 Route::middleware(['auth', 'role:admin|carga|consulta'])->group(function () {
-    Route::resource('concursos', \App\Http\Controllers\ConcursoController::class)
+    Route::resource('categorias', \App\Http\Controllers\CategoriaController::class)
         ->only(['show', 'index']);
 });
 
-// Ruta para ver el seguimiento de un concurso
+// Ruta para ver el seguimiento de una categoria
 Route::middleware(['auth', 'role:admin|carga|consulta'])->group(function () {
-    Route::get('concursos/{concurso}/seguimientos', [\App\Http\Controllers\ConcursoController::class, 'seguimientos'])
-        ->name('concursos.seguimientos');
+    Route::get('categorias/{categoria}/seguimientos', [\App\Http\Controllers\CategoriaController::class, 'seguimientos'])
+        ->name('categorias.seguimientos');
 });
 
 // ----------------- Adscriptos -----------------
@@ -129,7 +129,7 @@ Route::middleware(['auth', 'role:admin|carga|consulta'])->group(function () {
         ->only(['show', 'index']);
 });
 
-// Ruta para ver el seguimiento de un concurso
+// Ruta para ver el seguimiento de un adscripciones
 Route::middleware(['auth', 'role:admin|carga|consulta'])->group(function () {
     Route::get('adscripciones/{adscripcion}/seguimientos', [\App\Http\Controllers\AdscripcionController::class, 'seguimientos'])
         ->name('adscripciones.seguimientos');

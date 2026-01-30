@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 
 use App\Models\Usuario;
 use App\Models\Inscripto;
+use App\Models\Producto;
 use App\Models\Concurso;
 use App\Models\Adscripto;
 use App\Models\Adscripcion;
@@ -19,6 +20,7 @@ use App\Models\Veedor;
 
 use App\Observers\UsuarioObserver;
 use App\Observers\InscriptoObserver;
+use App\Observers\ProductoObserver;
 use App\Observers\ConcursoObserver;
 use App\Observers\AdscriptoObserver;
 use App\Observers\AdscripcionObserver;
@@ -48,6 +50,7 @@ class AppServiceProvider extends ServiceProvider
 {
     Usuario::observe(UsuarioObserver::class);
     Inscripto::observe(InscriptoObserver::class);
+    Producto::observe(ProductoObserver::class);
     Concurso::observe(ConcursoObserver::class);
     Adscripto::observe(AdscriptoObserver::class);
     Adscripcion::observe(AdscripcionObserver::class);

@@ -11,12 +11,12 @@ class InscriptoController extends Controller
     public function index()
     {
         $inscriptos = Inscripto::all()->sortByDesc('id');
-        return view('inscriptos.index', ['inscriptos' => $inscriptos]);
+        return view('productos.index', ['inscriptos' => $inscriptos]);
     }
 
     public function create()
     {
-        return view('inscriptos.create');
+        return view('productos.create');
     }
 
     public function store(Request $request)
@@ -26,7 +26,7 @@ class InscriptoController extends Controller
             'dni' => ['required', 'digits:8', 'regex:/^[0-9]{8}$/', 'unique:inscriptos,dni'],
             'fecha_nacimiento' => ['required', 'date', 'before_or_equal:' . now()->subYears(18)->format('Y-m-d')],
             'genero' => 'required',
-            'email' => 'required|unique:inscriptos,email',
+            'email' => 'required|email|unique:inscriptos,email',
             'telefono' => 'required',
             'direccion' => 'required',
             'localidad_ciudad' => 'required',
@@ -48,8 +48,8 @@ class InscriptoController extends Controller
             'direccion.required' => 'La dirección es obligatoria.',
             'localidad_ciudad.required' => 'La localidad o ciudad es obligatoria.',
             'cv.required' => 'Debe adjuntar el CV.',
-            'cv.mimes' => 'El CV debe estar en formato PDF.',
-            'cv.max' => 'El tamaño máximo del CV es de 2MB.',
+            'cv.mimes' => 'El CV debe estar en formato PDF, DOC o DOCX.',
+            'cv.max' => 'El tamaño máximo del CV es de 5MB.',
         ]);
 
         $inscripto = new Inscripto();
@@ -70,19 +70,19 @@ class InscriptoController extends Controller
 
         $inscripto->save();
 
-        return redirect()->route('inscriptos.index')->with('mensaje', 'Se Registró al Inscripto Correctamente');
+        return redirect()->route('inscriptos.index')->with('mensaje', 'Se registró al Inscripto correctamente');
     }
 
     public function show($id)
     {
         $inscripto = Inscripto::findOrFail($id);
-        return view('inscriptos.show', ['inscripto' => $inscripto]);
+        return view('productos.show', ['inscripto' => $inscripto]);
     }
 
     public function edit($id)
     {
         $inscripto = Inscripto::findOrFail($id);
-        return view('inscriptos.edit', ['inscripto' => $inscripto]);
+        return view('productos.edit', ['inscripto' => $inscripto]);
     }
 
     public function update(Request $request, $id)
@@ -92,7 +92,7 @@ class InscriptoController extends Controller
             'dni' => ['required', 'digits:8', 'regex:/^[0-9]{8}$/', 'unique:inscriptos,dni,' . $id],
             'fecha_nacimiento' => ['required', 'date', 'before_or_equal:' . now()->subYears(18)->format('Y-m-d')],
             'genero' => 'required',
-            'email' => 'required|unique:inscriptos,email,' . $id,
+            'email' => 'required|email|unique:inscriptos,email,' . $id,
             'telefono' => 'required',
             'direccion' => 'required',
             'localidad_ciudad' => 'required',
@@ -113,9 +113,8 @@ class InscriptoController extends Controller
             'telefono.required' => 'El teléfono es obligatorio.',
             'direccion.required' => 'La dirección es obligatoria.',
             'localidad_ciudad.required' => 'La localidad o ciudad es obligatoria.',
-            'cv.required' => 'Debe adjuntar el CV.',
-            'cv.mimes' => 'El CV debe estar en formato PDF.',
-            'cv.max' => 'El tamaño máximo del CV es de 2MB.',
+            'cv.mimes' => 'El CV debe estar en formato PDF, DOC o DOCX.',
+            'cv.max' => 'El tamaño máximo del CV es de 5MB.',
         ]);
 
         $inscripto = Inscripto::findOrFail($id);
@@ -170,35 +169,31 @@ class InscriptoController extends Controller
     }
 
     public function mostrarBusqueda()
-{
-    return view('inscriptos.buscar_dni');
-}
+    {
+        return view('productos.buscar_dni');
+    }
 
-public function buscarDni(Request $request)
-{
-    $request->validate([
-        'dni' => ['required', 'digits:8'],
-    ], [
-        'dni.required' => 'El DNI es obligatorio.',
-        'dni.digits' => 'El DNI debe tener exactamente 8 dígitos numéricos.',
-    ]);
-    
-
-    $inscripto = Inscripto::where('dni', $request->dni)->first();
-
-    if ($inscripto) {
-        // Mensaje y redirección con JavaScript desde la vista
-        return redirect()->route('inscriptos.buscar')->with([
-            'mensaje' => 'existe',
-            'inscripto_id' => $inscripto->id
+    public function buscarDni(Request $request)
+    {
+        $request->validate([
+            'dni' => ['required', 'digits:8'],
+        ], [
+            'dni.required' => 'El DNI es obligatorio.',
+            'dni.digits' => 'El DNI debe tener exactamente 8 dígitos numéricos.',
         ]);
-    } else {
+
+        $inscripto = Inscripto::where('dni', $request->dni)->first();
+
+        if ($inscripto) {
+            return redirect()->route('inscriptos.buscar')->with([
+                'mensaje' => 'existe',
+                'inscripto_id' => $inscripto->id,
+            ]);
+        }
+
         return redirect()->route('inscriptos.buscar')->with([
             'mensaje' => 'nuevo',
-            'dni' => $request->dni
+            'dni' => $request->dni,
         ]);
     }
-}
-
-
 }
