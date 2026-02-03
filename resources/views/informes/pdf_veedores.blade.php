@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Informe de Veedores</title>
+    <title>Informe de Vendedores</title>
     <style>
         @import url('https://fonts.googleapis.com/css?family=Roboto');
         body { font-family: Roboto, sans-serif; font-size: 12px; }
@@ -12,7 +12,7 @@
     </style>
 </head>
 <body>
-    <h3>Informe de Veedores</h3>
+    <h3>Informe de Vendedores</h3>
 
     @php use Carbon\Carbon; @endphp
 
@@ -31,16 +31,16 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($datos as $veedor)
+            @foreach ($datos as $vendedor)
                 <tr>
-                    <td>{{ $veedor->nombre_apellido }}</td>
-                    <td>{{ $veedor->dni }}</td>
-                    <td>{{ $veedor->cargo }}</td>
+                    <td>{{ $vendedor->nombre_apellido }}</td>
+                    <td>{{ $vendedor->dni }}</td>
+                    <td>{{ $vendedor->cargo }}</td>
                 </tr>
             @endforeach
         </tbody>
     </table>
 
-    <p style="margin-top: 20px;"><strong>Total de veedores: {{ $datos->count() }}</strong></p>
+    <p style="margin-top: 20px;"><strong>Total de vendedores: {{ $datos->count() }}</strong></p>
 </body>
 </html>

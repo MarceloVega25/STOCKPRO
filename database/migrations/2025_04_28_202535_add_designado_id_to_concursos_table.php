@@ -11,10 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('concursos', function (Blueprint $table) {
-            $table->unsignedBigInteger('designado_id')->nullable()->after('id');
-            $table->foreign('designado_id')->references('id')->on('inscriptos')->onDelete('set null');
-        });
+        return;
     }
 
     /**
@@ -22,9 +19,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('concursos', function (Blueprint $table) {
-            $table->dropForeign(['designado_id']);
-            $table->dropColumn('designado_id');
-        });
+        return;
     }
 };

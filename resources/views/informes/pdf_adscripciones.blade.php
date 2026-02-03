@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Informe de Adscripciones</title>
+    <title>Informe de Compras</title>
     <style>
         @import url('https://fonts.googleapis.com/css?family=Roboto');
         body { font-family: Roboto, sans-serif; font-size: 12px; }
@@ -12,7 +12,7 @@
     </style>
 </head>
 <body>
-    <h3>Informe de Adscripciones</h3>
+    <h3>Informe de Compras</h3>
 
     @php use Carbon\Carbon; @endphp
 
@@ -31,11 +31,11 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($datos as $adscripcion)
+            @foreach ($datos as $compra)
                 <tr>
-                    <td>{{ $adscripcion->id }}</td>
-                    <td>{{ $adscripcion->tipo_adscripcion }}</td>
-                    <td>{{ $adscripcion->modalidad_adscripcion }}</td>
+                    <td>{{ $compra->id }}</td>
+                    <td>{{ $compra->tipo_adscripcion }}</td>
+                    <td>{{ $compra->modalidad_adscripcion }}</td>
                 </tr>
             @endforeach
         </tbody>

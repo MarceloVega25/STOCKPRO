@@ -110,15 +110,15 @@
                     data-accordion="false">
                     <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-               
+               <!-- Inicio -->
                <li class="nav-item">
-    <a href="{{  url('/')  }}" class="nav-link active bg-dark text-white'">
-        <i class="nav-icon bi bi-house-door-fill"></i>
-        <p>Inicio</p>
-    </a>
-</li>
-
-                    <li class="nav-item">
+                <a href="{{  url('/')  }}" class="nav-link active bg-dark text-white">
+                <i class="nav-icon bi bi-house-door-fill"></i>
+                <p>Inicio</p>
+                </a>
+                </li>
+                <!-- Deposito -->
+                <li class="nav-item">
                         <a href="#" class="nav-link active bg-dark text-white">
                             <i class="nav-icon fas">
                                 <i class="bi bi-boxes"></i>
@@ -136,7 +136,7 @@
                                         <i class="bi bi-file-earmark-person-fill"></i>
                                     </i>
                                     <p>
-                                        Inscriptos
+                                        Productos
                                         <i class="right fas fa-angle-left"></i>
                                         </i>
                                     </p>
@@ -144,17 +144,17 @@
                                 <ul class="nav nav-treeview">
                                     @role('admin|carga')
                                     <li class="nav-item">
-                                        <a href="{{ route('inscriptos.buscar') }}" class="nav-link">
+                                        <a href="{{ route('productos.create') }}" class="nav-link">
                                             <i class="far fa-circle nav-icon"></i>
-                                            <p>Nuevo "Aspirante"</p>
+                                            <p>Nuevo "Producto"</p>
                                         </a>
 
                                     </li>
                                     @endrole
                                     <li class="nav-item">
-                                        <a href="{{ route('inscriptos.index') }}" class="nav-link">
+                                        <a href="{{ route('productos.index') }}" class="nav-link">
                                             <i class="far fa-circle nav-icon"></i>
-                                            <p>Listado de Inscriptos</p>
+                                            <p>Listado de Productos</p>
                                         </a>
                                     </li>
                                 </ul>
@@ -166,7 +166,7 @@
                                         <i class="bi bi-clipboard2-check-fill"></i>
                                     </i>
                                     <p>
-                                        Concursos
+                                        Categorías
                                         <i class="right fas fa-angle-left"></i>
                                         </i>
                                     </p>
@@ -174,25 +174,83 @@
                                 <ul class="nav nav-treeview">
                                     @role('admin|carga')
                                     <li class="nav-item">
-                                        <a href="{{ route('concursos.create') }}" class="nav-link">
+                                        <a href="{{ route('categorias.create') }}" class="nav-link">
                                             <i class="far fa-circle nav-icon"></i>
-                                            <p>Nuevo "Concurso"</p>
+                                            <p>Nueva "Categoría"</p>
                                         </a>
 
                                     </li>
                                     @endrole
                                     <li class="nav-item">
-                                        <a href="{{ route('concursos.index') }}" class="nav-link">
+                                        <a href="{{ route('categorias.index') }}" class="nav-link">
                                             <i class="far fa-circle nav-icon"></i>
-                                            <p>Listado de Concursos</p>
+                                            <p>Listado de Categorías</p>
                                         </a>
                                     </li>
                                 </ul>
                             </li>
 
+                            <li class="nav-item">
+                                <a href="#" class="nav-link active">
+                                    <i class="nav-icon fas">
+                                        <i class="bi bi-collection-fill"></i>
+                                    </i>
+                                    <p>
+                                        Stock
+                                        <i class="right fas fa-angle-left"></i>
+                                        </i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    @role('admin|carga')
+                                    <li class="nav-item">
+                                        <a href="{{ \Illuminate\Support\Facades\Route::has('stock.create') ? route('stock.create') : '#' }}" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Nuevo "Stock"</p>
+                                        </a>
+                                    </li>
+                                    @endrole
+                                    <li class="nav-item">
+                                        <a href="{{ \Illuminate\Support\Facades\Route::has('stock.index') ? route('stock.index') : '#' }}" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Listado Stock</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="#" class="nav-link active">
+                                    <i class="nav-icon fas">
+                                        <i class="bi bi-mortarboard-fill"></i>
+                                    </i>
+                                    <p>
+                                        Movimientos de Stock
+                                        <i class="right fas fa-angle-left"></i>
+                                        </i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    @role('admin|carga')
+                                    <li class="nav-item">
+                                        <a href="{{ \Illuminate\Support\Facades\Route::has('movimientos_stock.create') ? route('movimientos_stock.create') : '#' }}" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Nuevo "Movimiento"</p>
+                                        </a>
+                                    </li>
+                                    @endrole
+                                    <li class="nav-item">
+                                        <a href="{{ \Illuminate\Support\Facades\Route::has('movimientos_stock.index') ? route('movimientos_stock.index') : '#' }}" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Listado de Movimientos</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            
                         </ul>
                     </li>
-
+<!-- Compras -->
                     <li class="nav-item">
                         <a href="#" class="nav-link active bg-dark text-white">
                             <i class="nav-icon fas">
@@ -211,7 +269,7 @@
                                         <i class="bi bi-file-earmark-person-fill"></i>
                                     </i>
                                     <p>
-                                        Adscriptos
+                                        Proveedores
                                         <i class="right fas fa-angle-left"></i>
                                         </i>
                                     </p>
@@ -219,16 +277,16 @@
                                 <ul class="nav nav-treeview">
                                     @role('admin|carga')
                                     <li class="nav-item">
-                                        <a href="{{ route('adscriptos.buscar') }}" class="nav-link">
+                                        <a href="{{ route('proveedores.create') }}" class="nav-link">
                                             <i class="far fa-circle nav-icon"></i>
-                                            <p>Nuevo "Adscriptos"</p>
+                                            <p>Nuevo "Proveedor"</p>
                                         </a>
                                     </li>
                                     @endrole
                                     <li class="nav-item">
-                                        <a href="{{ route('adscriptos.index') }}" class="nav-link">
+                                        <a href="{{ route('proveedores.index') }}" class="nav-link">
                                             <i class="far fa-circle nav-icon"></i>
-                                            <p>Listado de Adscriptos</p>
+                                            <p>Listado de Proveedores</p>
                                         </a>
                                     </li>
                                 </ul>
@@ -240,7 +298,7 @@
                                         <i class="bi bi-clipboard2-check-fill"></i>
                                     </i>
                                     <p>
-                                        Adscripciones
+                                        Compras
                                         <i class="right fas fa-angle-left"></i>
                                         </i>
                                     </p>
@@ -248,17 +306,17 @@
                                 <ul class="nav nav-treeview">
                                     @role('admin|carga')
                                     <li class="nav-item">
-                                        <a href="{{ route('adscripciones.create') }}" class="nav-link">
+                                        <a href="{{ \Illuminate\Support\Facades\Route::has('compras.create') ? route('compras.create') : '#' }}" class="nav-link">
                                             <i class="far fa-circle nav-icon"></i>
-                                            <p>Nueva "Adscripcion"</p>
+                                            <p>Nueva "Compra"</p>
                                         </a>
 
                                     </li>
                                     @endrole
                                     <li class="nav-item">
-                                        <a href="{{ route('adscripciones.index') }}" class="nav-link">
+                                        <a href="{{ \Illuminate\Support\Facades\Route::has('compras.index') ? route('compras.index') : '#' }}" class="nav-link">
                                             <i class="far fa-circle nav-icon"></i>
-                                            <p>Listado de Adscripciones</p>
+                                            <p>Listado de Compras</p>
                                         </a>
                                     </li>
                                 </ul>
@@ -266,7 +324,7 @@
                         </ul>
                     </li>
 
-
+<!-- Ventas -->
                     <li class="nav-item">
                         <a href="#" class="nav-link active bg-dark text-white">
                             <i class="nav-icon fas">
@@ -286,7 +344,7 @@
                                         <i class="bi bi-diagram-3-fill"></i>
                                     </i>
                                     <p>
-                                        Jerarquia
+                                        Clientes
                                         <i class="right fas fa-angle-left"></i>
                                         </i>
                                     </p>
@@ -294,16 +352,16 @@
                                 <ul class="nav nav-treeview">
                                     @role('admin|carga')
                                     <li class="nav-item">
-                                        <a href="{{ route('jerarquias.create') }}" class="nav-link">
+                                        <a href="{{ route('clientes.create') }}" class="nav-link">
                                             <i class="far fa-circle nav-icon"></i>
-                                            <p>Nuevo "Jerarquia"</p>
+                                            <p>Nuevo "Cliente"</p>
                                         </a>
                                     </li>
                                     @endrole
                                     <li class="nav-item">
-                                        <a href="{{ route('jerarquias.index') }}" class="nav-link">
+                                        <a href="{{ route('clientes.index') }}" class="nav-link">
                                             <i class="far fa-circle nav-icon"></i>
-                                            <p>Listado de Jerarquias</p>
+                                            <p>Listado de Clientes</p>
                                         </a>
                                     </li>
                                 </ul>
@@ -315,7 +373,7 @@
                                         <i class="bi bi-book-fill"></i>
                                     </i>
                                     <p>
-                                        Asignatura
+                                        Ventas
                                         <i class="right fas fa-angle-left"></i>
                                         </i>
                                     </p>
@@ -323,73 +381,16 @@
                                 <ul class="nav nav-treeview">
                                     @role('admin|carga')
                                     <li class="nav-item">
-                                        <a href="{{ route('asignaturas.create') }}" class="nav-link">
+                                        <a href="{{ route('ventas.create') }}" class="nav-link">
                                             <i class="far fa-circle nav-icon"></i>
-                                            <p>Nuevo "Asignatura"</p>
+                                            <p>Nuevo "Venta"</p>
                                         </a>
                                     </li>
                                     @endrole
                                     <li class="nav-item">
-                                        <a href="{{ route('asignaturas.index') }}" class="nav-link">
+                                        <a href="{{ route('ventas.index') }}" class="nav-link">
                                             <i class="far fa-circle nav-icon"></i>
-                                            <p>Listado de Asignaturas</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link active">
-                                    <i class="nav-icon fas">
-                                        <i class="bi bi-collection-fill"></i>
-                                    </i>
-                                    <p>
-                                        Departamento
-                                        <i class="right fas fa-angle-left"></i>
-                                        </i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview">
-                                    @role('admin|carga')
-                                    <li class="nav-item">
-                                        <a href="{{ route('departamentos.create') }}" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Nuevo "Departamento"</p>
-                                        </a>
-                                    </li>
-                                    @endrole
-                                    <li class="nav-item">
-                                        <a href="{{ route('departamentos.index') }}" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Listado Departamentos</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-
-                            <li class="nav-item">
-                                <a href="#" class="nav-link active">
-                                    <i class="nav-icon fas">
-                                        <i class="bi bi-mortarboard-fill"></i>
-                                    </i>
-                                    <p>
-                                        Carreras
-                                        <i class="right fas fa-angle-left"></i>
-                                        </i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview">
-                                    @role('admin|carga')
-                                    <li class="nav-item">
-                                        <a href="{{ route('carreras.create') }}" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Nuevo "Carrera"</p>
-                                        </a>
-                                    </li>
-                                    @endrole
-                                    <li class="nav-item">
-                                        <a href="{{ route('carreras.index') }}" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Listado de Carreras</p>
+                                            <p>Listado de Ventas</p>
                                         </a>
                                     </li>
                                 </ul>
@@ -416,7 +417,7 @@
                                         <i class="bi bi-microsoft-teams"></i>
                                     </i>
                                     <p>
-                                        Docentes
+                                        Repartos
                                         <i class="right fas fa-angle-left"></i>
                                         </i>
                                     </p>
@@ -424,16 +425,16 @@
                                 <ul class="nav nav-treeview">
                                     @role('admin|carga')
                                     <li class="nav-item">
-                                        <a href="{{ route('docentes.buscar') }}" class="nav-link">
+                                        <a href="{{ route('repartos.create') }}" class="nav-link">
                                             <i class="far fa-circle nav-icon"></i>
-                                            <p>Nuevo "Docente"</p>
+                                            <p>Nuevo "Reparto"</p>
                                         </a>
                                     </li>
                                     @endrole
                                     <li class="nav-item">
-                                        <a href="{{ route('docentes.index') }}" class="nav-link">
+                                        <a href="{{ route('repartos.index') }}" class="nav-link">
                                             <i class="far fa-circle nav-icon"></i>
-                                            <p>Listado de Docentes</p>
+                                            <p>Listado de Repartos</p>
                                         </a>
                                     </li>
                                 </ul>
@@ -445,7 +446,7 @@
                                         <i class="bi bi-person-rolodex"></i>
                                     </i>
                                     <p>
-                                        Estudiantes
+                                        Vehículos
                                         <i class="right fas fa-angle-left"></i>
                                         </i>
                                     </p>
@@ -453,16 +454,16 @@
                                 <ul class="nav nav-treeview">
                                     @role('admin|carga')
                                     <li class="nav-item">
-                                        <a href="{{ route('estudiantes.buscar') }}" class="nav-link">
+                                        <a href="{{ \Illuminate\Support\Facades\Route::has('vehiculos.create') ? route('vehiculos.create') : '#' }}" class="nav-link">
                                             <i class="far fa-circle nav-icon"></i>
-                                            <p>Nuevo "Estudiante"</p>
+                                            <p>Nuevo "Vehículo"</p>
                                         </a>
                                     </li>
                                     @endrole
                                     <li class="nav-item">
-                                        <a href="{{ route('estudiantes.index') }}" class="nav-link">
+                                        <a href="{{ \Illuminate\Support\Facades\Route::has('vehiculos.index') ? route('vehiculos.index') : '#' }}" class="nav-link">
                                             <i class="far fa-circle nav-icon"></i>
-                                            <p>Listado de Estudiantes</p>
+                                            <p>Listado de Vehículos</p>
                                         </a>
                                     </li>
                                 </ul>
@@ -474,7 +475,7 @@
                                         <i class="bi bi-person-fill-check"></i>
                                     </i>
                                     <p>
-                                        Veedores
+                                        Vendedores
                                         <i class="right fas fa-angle-left"></i>
                                         </i>
                                     </p>
@@ -482,16 +483,16 @@
                                 <ul class="nav nav-treeview">
                                     @role('admin|carga')
                                     <li class="nav-item">
-                                        <a href="{{ route('veedores.buscar') }}" class="nav-link">
+                                        <a href="{{ \Illuminate\Support\Facades\Route::has('vendedores.create') ? route('vendedores.create') : '#' }}" class="nav-link">
                                             <i class="far fa-circle nav-icon"></i>
-                                            <p>Nuevo "Veedor"</p>
+                                            <p>Nuevo "Vendedor"</p>
                                         </a>
                                     </li>
                                     @endrole
                                     <li class="nav-item">
-                                        <a href="{{ route('veedores.index') }}" class="nav-link">
+                                        <a href="{{ \Illuminate\Support\Facades\Route::has('vendedores.index') ? route('vendedores.index') : '#' }}" class="nav-link">
                                             <i class="far fa-circle nav-icon"></i>
-                                            <p>Listado de Veedores</p>
+                                            <p>Listado de Vendedores</p>
                                         </a>
                                     </li>
                                 </ul>

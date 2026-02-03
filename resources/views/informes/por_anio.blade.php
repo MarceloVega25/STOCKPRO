@@ -43,6 +43,9 @@
                                 <select name="modulo" class="form-control" required>
                                     <option value="" disabled selected>Seleccione un módulo</option>
                                     @foreach ($modulos as $modulo)
+                                        @if (strtolower($modulo->nombre) === 'concursos')
+                                            @continue
+                                        @endif
                                         @if (strtolower($modulo->nombre) === 'usuarios')
                                             @if (Auth::user()->hasRole('admin'))
                                                 <option value="usuarios">Usuarios</option>

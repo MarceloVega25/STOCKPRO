@@ -7,17 +7,17 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\{
-    Inscripto,
-    Concurso,
-    Adscripto,
-    Adscripcion,
-    Docente,
-    Estudiante,
-    Veedor,
-    Jerarquia,
+    Categoria,
+    Proveedor,
+    Cliente,
     Carrera,
     Departamento,
-    Asignatura,
+    Compra,
+    Reparto,
+    Vehiculo,
+    Vendedor,
+    Venta,
+    Producto,
     Usuario,
     Modulo,
     InformeGenerado
@@ -28,7 +28,7 @@ class InformeController extends Controller
     public function index()
     {
         $modulos = Modulo::orderBy('nombre')->get();
-        return view('informes.index', compact('modulos'));
+        return view('informes.por_fecha', compact('modulos'));
     }
 
     public function porFecha()
@@ -50,17 +50,27 @@ class InformeController extends Controller
         $hasta = $request->fecha_fin;
 
         $modelos = [
-            'inscriptos' => Inscripto::class,
-            'concursos' => Concurso::class,
-            'adscriptos' => Adscripto::class,
-            'adscripciones' => Adscripcion::class,
-            'docentes' => Docente::class,
-            'estudiantes' => Estudiante::class,
-            'veedores' => Veedor::class,
-            'jerarquias' => Jerarquia::class,
+            'categorias' => Categoria::class,
+            // compatibilidad: antes 'concursos'
+            'concursos' => Categoria::class,
+            // compatibilidad: antes 'adscriptos'
+            'adscriptos' => Proveedor::class,
+            'proveedores' => Proveedor::class,
+            'adscripciones' => Compra::class,
+            'docentes' => Reparto::class,
+            'estudiantes' => Vehiculo::class,
+            'veedores' => Vendedor::class,
+            // compatibilidad: antes 'jerarquias'
+            'jerarquias' => Cliente::class,
+            'clientes' => Cliente::class,
             'carreras' => Carrera::class,
             'departamentos' => Departamento::class,
-            'asignaturas' => Asignatura::class,
+            'stock' => Departamento::class,
+            'movimientos_stock' => Carrera::class,
+            'asignaturas' => Venta::class,
+            // compatibilidad: antes 'inscriptos'
+            'inscriptos' => Producto::class,
+            'productos' => Producto::class,
             'usuarios' => Usuario::class,
         ];
 
@@ -76,6 +86,32 @@ class InformeController extends Controller
         }
 
         $vista = "informes.pdf_" . $modulo;
+        if ($modulo === 'adscriptos') {
+            $vista = 'informes.pdf_proveedores';
+        }
+        if ($modulo === 'jerarquias') {
+            $vista = 'informes.pdf_clientes';
+        }
+        if ($modulo === 'proveedores') {
+            $vista = 'informes.pdf_proveedores';
+        }
+        if ($modulo === 'clientes') {
+            $vista = 'informes.pdf_clientes';
+        }
+        // compatibilidad: antes 'inscriptos'
+        if ($modulo === 'inscriptos') {
+            $vista = 'informes.pdf_productos';
+        }
+        // compatibilidad: antes 'concursos'
+        if ($modulo === 'concursos') {
+            $vista = 'informes.pdf_categorias';
+        }
+        if ($modulo === 'stock') {
+            $vista = 'informes.pdf_departamentos';
+        }
+        if ($modulo === 'movimientos_stock') {
+            $vista = 'informes.pdf_carreras';
+        }
         if (!view()->exists($vista)) {
             return back()->with('error', 'La vista PDF para este módulo no existe: ' . $vista);
         }
@@ -103,17 +139,27 @@ class InformeController extends Controller
         $modulo = $request->modulo;
 
         $modelos = [
-            'inscriptos' => Inscripto::class,
-            'concursos' => Concurso::class,
-            'adscriptos' => Adscripto::class,
-            'adscripciones' => Adscripcion::class,
-            'docentes' => Docente::class,
-            'estudiantes' => Estudiante::class,
-            'veedores' => Veedor::class,
-            'jerarquias' => Jerarquia::class,
+            'categorias' => Categoria::class,
+            // compatibilidad: antes 'adscriptos'
+            'adscriptos' => Proveedor::class,
+            'proveedores' => Proveedor::class,
+            'adscripciones' => Compra::class,
+            'docentes' => Reparto::class,
+            'estudiantes' => Vehiculo::class,
+            'veedores' => Vendedor::class,
+            // compatibilidad: antes 'jerarquias'
+            'jerarquias' => Cliente::class,
+            'clientes' => Cliente::class,
             'carreras' => Carrera::class,
             'departamentos' => Departamento::class,
-            'asignaturas' => Asignatura::class,
+            'stock' => Departamento::class,
+            'movimientos_stock' => Carrera::class,
+            'asignaturas' => Venta::class,
+            // compatibilidad: antes 'inscriptos'
+            'inscriptos' => Producto::class,
+            // compatibilidad: antes 'concursos'
+            'concursos' => Categoria::class,
+            'productos' => Producto::class,
             'usuarios' => Usuario::class,
         ];
 
@@ -129,6 +175,24 @@ class InformeController extends Controller
         }
 
         $vista = "informes.pdf_" . $modulo;
+        if ($modulo === 'adscriptos') {
+            $vista = 'informes.pdf_proveedores';
+        }
+        if ($modulo === 'jerarquias') {
+            $vista = 'informes.pdf_clientes';
+        }
+        if ($modulo === 'proveedores') {
+            $vista = 'informes.pdf_proveedores';
+        }
+        if ($modulo === 'clientes') {
+            $vista = 'informes.pdf_clientes';
+        }
+        if ($modulo === 'inscriptos') {
+            $vista = 'informes.pdf_productos';
+        }
+        if ($modulo === 'concursos') {
+            $vista = 'informes.pdf_categorias';
+        }
         if (!view()->exists($vista)) {
             return back()->with('error', 'La vista PDF para este módulo no existe: ' . $vista);
         }

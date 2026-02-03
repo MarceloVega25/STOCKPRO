@@ -11,17 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('concurso_docente', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('concurso_id')->constrained()->onDelete('cascade');
-            $table->foreignId('docente_id')->constrained()->onDelete('cascade');
-            $table->enum('tipo', ['titular', 'suplente']);
-            $table->timestamps();
-
-            $table->unique(['concurso_id', 'docente_id', 'tipo']);
-
-        });
-        
+        return;
     }
 
     /**
@@ -29,6 +19,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('concurso_docente');
+        return;
     }
 };

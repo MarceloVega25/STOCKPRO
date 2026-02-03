@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Adscripto;
-use App\Models\Inscripto;
-use App\Models\Docente;
-use App\Models\Estudiante;
-use App\Models\Veedor;
+use App\Models\Proveedor;
+use App\Models\Producto;
+use App\Models\Reparto;
+use App\Models\Vehiculo;
+use App\Models\Vendedor;
 use App\Models\Usuario;
-use App\Models\Concurso;
-use App\Models\Adscripcion;
+use App\Models\Categoria;
+use App\Models\Compra;
 use App\Models\InformeGenerado;
 
 use App\Http\Controllers\Controller;
@@ -18,24 +18,24 @@ use Illuminate\Http\Request;
 class AdminController extends Controller
 {
 public function index(){
-    $inscriptos = Inscripto::all();
-    $adscriptos = Adscripto::all();
-    $docentes = Docente::all();
-    $estudiantes = Estudiante::all();
-    $veedores = Veedor::all();
+    $productos = Producto::all();
+    $proveedores = Proveedor::all();
+    $repartos = Reparto::all();
+    $vehiculos = Vehiculo::all();
+    $vendedores = Vendedor::all();
     $usuarios = Usuario::all();
-    $concursos = Concurso::all();
-    $adscripciones = Adscripcion::all();
+    $categorias = Categoria::all();
+    $compras = Compra::all();
     $informes = InformeGenerado::all();
 
-    return view('index',['inscriptos' => $inscriptos,
-    'adscriptos' => $adscriptos, 
-    'docentes' => $docentes, 
-    'estudiantes' => $estudiantes,
-    'veedores'=>$veedores,
-'usuarios'=>$usuarios,
-'concursos'=>$concursos,
-'adscripciones'=>$adscripciones,
-'informes'=>$informes]);
+    return view('index',['productos' => $productos,
+    'proveedores' => $proveedores, 
+    'repartos' => $repartos, 
+    'vehiculos' => $vehiculos,
+    'vendedores'=>$vendedores,
+    'usuarios'=>$usuarios,
+    'categorias'=>$categorias,
+    'compras'=>$compras,
+    'informes'=>$informes]);
 }
 }

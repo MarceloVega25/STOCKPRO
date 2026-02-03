@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Informe de Docentes</title>
+    <title>Informe de Repartos</title>
     <style>
         @import url('https://fonts.googleapis.com/css?family=Roboto');
         body { font-family: Roboto, sans-serif; font-size: 12px; }
@@ -12,7 +12,7 @@
     </style>
 </head>
 <body>
-    <h3>Informe de Docentes</h3>
+    <h3>Informe de Repartos</h3>
 
     @php use Carbon\Carbon; @endphp
 
@@ -31,16 +31,16 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($datos as $docente)
+            @foreach ($datos as $reparto)
                 <tr>
-                    <td>{{ $docente->nombre_apellido }}</td>
-                    <td>{{ $docente->dni }}</td>
-                    <td>{{ $docente->institucion }}</td>
+                    <td>{{ $reparto->nombre_apellido }}</td>
+                    <td>{{ $reparto->dni }}</td>
+                    <td>{{ $reparto->institucion }}</td>
                 </tr>
             @endforeach
         </tbody>
     </table>
 
-    <p style="margin-top: 20px;"><strong>Total de docentes: {{ $datos->count() }}</strong></p>
+    <p style="margin-top: 20px;"><strong>Total de repartos: {{ $datos->count() }}</strong></p>
 </body>
 </html>

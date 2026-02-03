@@ -11,18 +11,18 @@
       <!-- small box -->
       <div class="small-box bg-primary" style="height: 160px">
         <div class="inner">
-          <?php $contador_de_inscripto = 0; ?>
-          @foreach ($inscriptos as $inscripto)
-          <?php $contador_de_inscripto = $contador_de_inscripto + 1;?>            
+          <?php $contador_de_producto = 0; ?>
+          @foreach ($productos as $producto)
+          <?php $contador_de_producto = $contador_de_producto + 1;?>            
           @endforeach
-          <h3><?=$contador_de_inscripto;?></h3>
+          <h3><?=$contador_de_producto;?></h3>
 
-          <p>Inscriptos</p>
+          <p>Productos</p>
         </div>
         <div class="icon">
           <i class="bi bi-person-badge"></i>
         </div>
-        <a href="{{ url('inscriptos') }}" class="small-box-footer" style="margin-top: 20px">Más información <i class="fas fa-arrow-circle-right"></i></a>
+        <a href="{{ url('productos') }}" class="small-box-footer" style="margin-top: 20px">Más información <i class="fas fa-arrow-circle-right"></i></a>
       </div>
     </div>
 
@@ -31,18 +31,18 @@
       <!-- small box -->
       <div class="small-box bg-success" style="height: 160px">
         <div class="inner">
-          <?php $contador_de_adscripto = 0; ?>
-          @foreach ($adscriptos as $adscripto)
-          <?php $contador_de_adscripto = $contador_de_adscripto + 1;?>            
+          <?php $contador_de_proveedor = 0; ?>
+          @foreach ($proveedores as $proveedor)
+          <?php $contador_de_proveedor = $contador_de_proveedor + 1;?>            
           @endforeach
-          <h3><?=$contador_de_adscripto;?></h3>
+          <h3><?=$contador_de_proveedor;?></h3>
 
-          <p>Adscriptos</p>
+          <p>Proveedores</p>
         </div>
         <div class="icon">
           <i class="bi bi-file-earmark-person-fill"></i>
         </div>
-        <a href="{{ url('adscriptos') }}" class="small-box-footer" style="margin-top: 20px">Más información <i class="fas fa-arrow-circle-right"></i></a>
+        <a href="{{ url('proveedores') }}" class="small-box-footer" style="margin-top: 20px">Más información <i class="fas fa-arrow-circle-right"></i></a>
       </div>
     </div>
 
@@ -51,18 +51,18 @@
       <!-- small box -->
       <div class="small-box bg-warning" style="height: 160px">
         <div class="inner">
-          <?php $contador_de_docente = 0; ?>
-          @foreach ($docentes as $docente)
-          <?php $contador_de_docente = $contador_de_docente + 1;?>            
+          <?php $contador_de_reparto = 0; ?>
+          @foreach ($repartos as $reparto)
+          <?php $contador_de_reparto = $contador_de_reparto + 1;?>            
           @endforeach
-          <h3><?=$contador_de_docente;?></h3>
+          <h3><?=$contador_de_reparto;?></h3>
 
-          <p>Docentes</p>
+          <p>Repartos</p>
         </div>
         <div class="icon">
           <i class="bi bi-people"></i>
         </div>
-        <a href="{{ url('docentes') }}" class="small-box-footer" style="margin-top: 20px">Más información <i class="fas fa-arrow-circle-right"></i></a>
+        <a href="{{ url('repartos') }}" class="small-box-footer" style="margin-top: 20px">Más información <i class="fas fa-arrow-circle-right"></i></a>
       </div>
     </div>
 
@@ -71,18 +71,18 @@
       <!-- small box -->
       <div class="small-box bg-secondary" style="height: 160px">
         <div class="inner">
-          <?php $contador_de_estudiante = 0; ?>
-          @foreach ($estudiantes as $estudiante)
-          <?php $contador_de_estudiante = $contador_de_estudiante + 1;?>            
+          <?php $contador_de_vehiculo = 0; ?>
+          @foreach ($vehiculos as $vehiculo)
+          <?php $contador_de_vehiculo = $contador_de_vehiculo + 1;?>            
           @endforeach
-          <h3><?=$contador_de_estudiante;?></h3>
+          <h3><?=$contador_de_vehiculo;?></h3>
 
-          <p>Estudiantes</p>
+          <p>Vehículos</p>
         </div>
         <div class="icon">
           <i class="bi bi-person-rolodex"></i>
         </div>
-        <a href="{{ url('estudiantes') }}" class="small-box-footer" style="margin-top: 20px">Más información <i class="fas fa-arrow-circle-right"></i></a>
+        <a href="{{ url('vehiculos') }}" class="small-box-footer" style="margin-top: 20px">Más información <i class="fas fa-arrow-circle-right"></i></a>
       </div>
     </div>
 
@@ -91,18 +91,18 @@
       <!-- small box -->
       <div class="small-box bg-danger" style="height: 160px">
         <div class="inner">
-          <?php $contador_de_veedor = 0; ?>
-          @foreach ($veedores as $veedor)
-          <?php $contador_de_veedor = $contador_de_veedor + 1;?>            
+          <?php $contador_de_vendedor = 0; ?>
+          @foreach ($vendedores as $vendedor)
+          <?php $contador_de_vendedor = $contador_de_vendedor + 1;?>            
           @endforeach
-          <h3><?=$contador_de_veedor;?></h3>
+          <h3><?=$contador_de_vendedor;?></h3>
 
-          <p>Veedores</p>
+          <p>Vendedores</p>
         </div>
         <div class="icon">
           <i class="bi bi-person-fill-check"></i>
         </div>
-        <a href="{{ url('veedores') }}" class="small-box-footer" style="margin-top: 20px">Más información <i class="fas fa-arrow-circle-right"></i></a>
+        <a href="{{ url('vendedores') }}" class="small-box-footer" style="margin-top: 20px">Más información <i class="fas fa-arrow-circle-right"></i></a>
       </div>
     </div>
 
@@ -111,18 +111,18 @@
       <!-- small box -->
       <div class="small-box bg-info" style="height: 160px">
         <div class="inner">
-          <?php $contador_de_concurso = 0; ?>
-          @foreach ($concursos as $concurso)
-          <?php $contador_de_concurso = $contador_de_concurso + 1;?>            
+          <?php $contador_de_categoria = 0; ?>
+          @foreach ($categorias as $categoria)
+          <?php $contador_de_categoria = $contador_de_categoria + 1;?>            
           @endforeach
-          <h3><?=$contador_de_concurso;?></h3>
+          <h3><?=$contador_de_categoria;?></h3>
 
-          <p>Concursos</p>
+          <p>Categorías</p>
         </div>
         <div class="icon">
           <i class="bi bi-journal-text"></i>
         </div>
-        <a href="{{ url('concursos') }}" class="small-box-footer" style="margin-top: 20px">Más información <i class="fas fa-arrow-circle-right"></i></a>
+        <a href="{{ url('categorias') }}" class="small-box-footer" style="margin-top: 20px">Más información <i class="fas fa-arrow-circle-right"></i></a>
       </div>
     </div>
 
@@ -131,18 +131,18 @@
       <!-- small box -->
       <div class="small-box bg-orange" style="height: 160px">
         <div class="inner">
-          <?php $contador_de_adscripcion = 0; ?>
-          @foreach ($adscripciones as $adscripcion)
-          <?php $contador_de_adscripcion = $contador_de_adscripcion + 1;?>            
+          <?php $contador_de_compra = 0; ?>
+          @foreach ($compras as $compra)
+          <?php $contador_de_compra = $contador_de_compra + 1;?>            
           @endforeach
-          <h3><?=$contador_de_adscripcion;?></h3>
+          <h3><?=$contador_de_compra;?></h3>
 
-          <p>Adscripciones</p>
+          <p>Compras</p>
         </div>
         <div class="icon">
           <i class="bi bi-clipboard2-check"></i>
         </div>
-        <a href="{{ url('adscripciones') }}" class="small-box-footer" style="margin-top: 20px">Más información <i class="fas fa-arrow-circle-right"></i></a>
+        <a href="{{ url('compras') }}" class="small-box-footer" style="margin-top: 20px">Más información <i class="fas fa-arrow-circle-right"></i></a>
       </div>
     </div>
 @role('admin|carga')

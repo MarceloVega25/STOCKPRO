@@ -13,10 +13,10 @@ return new class extends Migration {
             $table->unsignedBigInteger('registro_id');
             $table->longText('datos_anteriores')->nullable();
             $table->longText('datos_nuevos')->nullable();
-            $table->unsignedBigInteger('usuario_id');
+            $table->unsignedBigInteger('usuario_id')->nullable();
             $table->timestamp('fecha')->useCurrent();
 
-            $table->foreign('usuario_id')->references('id')->on('usuarios')->onDelete('cascade');
+            $table->foreign('usuario_id')->references('id')->on('usuarios')->nullOnDelete();
         });
     }
 

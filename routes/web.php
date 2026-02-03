@@ -1,23 +1,25 @@
 <?php
 
 use App\Http\Controllers\ProductoController;
-use App\Http\Controllers\AdscriptoController;
-use App\Http\Controllers\DocenteController;
-use App\Http\Controllers\EstudianteController;
-use App\Http\Controllers\VeedorController;
-use App\Http\Controllers\AsignaturaController;
+use App\Http\Controllers\ProveedorController;
+use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\CarreraController;
 use App\Http\Controllers\DepartamentoController;
-use App\Http\Controllers\JerarquiaController;
+use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\AdminController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\UsuarioController;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\CategoriaController;
-use App\Http\Controllers\AdscripcionController;
+use App\Http\Controllers\CompraController;
 use App\Http\Controllers\AuditoriaController;
 use App\Http\Controllers\InformeController;
+use App\Http\Controllers\VentaController;
+use App\Http\Controllers\RepartoController;
+use App\Http\Controllers\VehiculoController;
+use App\Http\Controllers\VendedorController;
+use App\Http\Controllers\StockController;
+use App\Http\Controllers\MovimientoStockController;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 // Ruta principal con middleware de autenticación
 //Route::get('/', function () {return view('index');})->middleware('auth');
@@ -75,183 +77,166 @@ Route::middleware(['auth', 'role:admin|carga|consulta'])->group(function () {
 Route::middleware(['auth', 'role:admin|carga'])->group(function () { //protege el grupo de la ruta
 
     // EXCEPCION (para que no se contrapongan los roles)
-    Route::resource('categorias', \App\Http\Controllers\CategoriaController::class)
+    Route::resource('categorias', CategoriaController::class)
+        ->parameters(['categorias' => 'categoria'])
         ->except(['show', 'index']);
 });
 
 // Ver categorias (admin, carga y consulta)
 Route::middleware(['auth', 'role:admin|carga|consulta'])->group(function () {
-    Route::resource('categorias', \App\Http\Controllers\CategoriaController::class)
+    Route::resource('categorias', CategoriaController::class)
+        ->parameters(['categorias' => 'categoria'])
         ->only(['show', 'index']);
 });
 
 // Ruta para ver el seguimiento de una categoria
 Route::middleware(['auth', 'role:admin|carga|consulta'])->group(function () {
-    Route::get('categorias/{categoria}/seguimientos', [\App\Http\Controllers\CategoriaController::class, 'seguimientos'])
+    Route::get('categorias/{categoria}/seguimientos', [CategoriaController::class, 'seguimientos'])
         ->name('categorias.seguimientos');
 });
 
-// ----------------- Adscriptos -----------------
-//Administra Adscriptos (admin, carga)
+// ----------------- Proveedores -----------------
+//Administra Proveedores (admin, carga)
 Route::middleware(['auth', 'role:admin|carga'])->group(function () { //protege el grupo de la ruta
     // Ruta intermedia
-    Route::get('/adscriptos/buscar', [AdscriptoController::class, 'mostrarBusqueda'])
-        ->name('adscriptos.buscar');
+    Route::get('/proveedores/buscar', [ProveedorController::class, 'mostrarBusqueda'])
+        ->name('proveedores.buscar');
     // Ruta que procesa el DNI
-    Route::post('/adscriptos/buscar', [AdscriptoController::class, 'buscarDni'])
-        ->name('adscriptos.buscarDni');
+    Route::post('/proveedores/buscar', [ProveedorController::class, 'buscarDni'])
+        ->name('proveedores.buscarDni');
 
     // EXCEPCION (para que no se contrapongan los roles)
-    Route::resource('adscriptos', \App\Http\Controllers\AdscriptoController::class)
+    Route::resource('proveedores', \App\Http\Controllers\ProveedorController::class)
         ->except(['show', 'index']);
 });
 
-// Ver adscriptos (admin, carga y consulta)
+// Ver proveedores (admin, carga y consulta)
 Route::middleware(['auth', 'role:admin|carga|consulta'])->group(function () {
-    Route::resource('adscriptos', \App\Http\Controllers\AdscriptoController::class)
+    Route::resource('proveedores', \App\Http\Controllers\ProveedorController::class)
         ->only(['show', 'index']);
 });
 
-// ----------------- Adscripciones -----------------
-//Administra Adscripciones (admin, carga)
+// ----------------- Compras -----------------
+// Compras reemplaza Adscripciones
 Route::middleware(['auth', 'role:admin|carga'])->group(function () {
-
-    // EXCEPCION (para que no se contrapongan los roles)
-    Route::resource('adscripciones', \App\Http\Controllers\AdscripcionController::class)
-        ->parameters(['adscripciones' => 'adscripcion'])
+    Route::resource('compras', CompraController::class)
         ->except(['show', 'index']);
 });
 
-// Ver Adscripciones (admin, carga y consulta)
 Route::middleware(['auth', 'role:admin|carga|consulta'])->group(function () {
-    Route::resource('adscripciones', \App\Http\Controllers\AdscripcionController::class)
-        ->parameters(['adscripciones' => 'adscripcion'])
+    Route::resource('compras', CompraController::class)
         ->only(['show', 'index']);
 });
 
-// Ruta para ver el seguimiento de un adscripciones
 Route::middleware(['auth', 'role:admin|carga|consulta'])->group(function () {
-    Route::get('adscripciones/{adscripcion}/seguimientos', [\App\Http\Controllers\AdscripcionController::class, 'seguimientos'])
-        ->name('adscripciones.seguimientos');
+    Route::get('compras/{compra}/seguimientos', [CompraController::class, 'seguimientos'])
+        ->name('compras.seguimientos');
 });
 
-// ----------------- Jerarquias -----------------
-//Administra Jerarquias (admin, carga)
-Route::middleware(['auth', 'role:admin|carga'])->group(function () { //protege el grupo de la ruta
-
-     // EXCEPCION (para que no se contrapongan los roles)
-    Route::resource('jerarquias', \App\Http\Controllers\JerarquiaController::class)
-    ->except(['show', 'index']);
+// ----------------- Clientes -----------------
+//Administra Clientes (admin, carga)
+Route::middleware(['auth', 'role:admin|carga'])->group(function () {
+    Route::resource('clientes', \App\Http\Controllers\ClienteController::class)
+        ->except(['show', 'index']);
 });
 
+// Ver Clientes (admin, carga y consulta)
 Route::middleware(['auth', 'role:admin|carga|consulta'])->group(function () {
-    // Ver Jerarquias (admin, carga y consulta)
-    Route::resource('jerarquias', \App\Http\Controllers\JerarquiaController::class)
-    ->only(['show', 'index']);
+    Route::resource('clientes', \App\Http\Controllers\ClienteController::class)
+        ->only(['show', 'index']);
 });
 
 // ----------------- Departamentos -----------------
-//Administra Departamentos (admin, carga)
-Route::middleware(['auth', 'role:admin|carga'])->group(function () { //protege el grupo de la ruta
+// Legacy deshabilitado: Departamentos -> Stock
+// Legacy deshabilitado: Carreras -> Movimientos de Stock
 
-    // EXCEPCION (para que no se contrapongan los roles)
-    Route::resource('departamentos', \App\Http\Controllers\DepartamentoController::class)
-    ->except(['show', 'index']);
+// ----------------- Stock -----------------
+// Stock reemplaza Departamentos
+Route::middleware(['auth', 'role:admin|carga'])->group(function () {
+    Route::resource('stock', StockController::class)
+        ->except(['show', 'index']);
 });
 
-// Ver Departamentos (admin, carga y consulta)
 Route::middleware(['auth', 'role:admin|carga|consulta'])->group(function () {
-    Route::resource('departamentos', \App\Http\Controllers\DepartamentoController::class)
+    Route::resource('stock', StockController::class)
         ->only(['show', 'index']);
 });
 
-// ----------------- Carreras -----------------
-//Administra Carreras (admin, carga)
-Route::middleware(['auth', 'role:admin|carga'])->group(function () { //protege el grupo de la ruta
-
-    // EXCEPCION (para que no se contrapongan los roles)
-    Route::resource('carreras', \App\Http\Controllers\CarreraController::class)
-    ->except(['show', 'index']);
+// ----------------- Movimientos de Stock -----------------
+// Movimientos de Stock reemplaza Carreras
+Route::middleware(['auth', 'role:admin|carga'])->group(function () {
+    Route::resource('movimientos_stock', MovimientoStockController::class)
+        ->except(['show', 'index']);
 });
 
-// Ver Carreras (admin, carga y consulta)
 Route::middleware(['auth', 'role:admin|carga|consulta'])->group(function () {
-Route::resource('carreras', \App\Http\Controllers\CarreraController::class)
-    ->only(['show', 'index']);
-});
-
-// ----------------- Asignaturas -----------------
-//Administra Asignaturas (admin, carga)
-Route::middleware(['auth', 'role:admin|carga'])->group(function () { //protege el grupo de la ruta
-
-    // EXCEPCION (para que no se contrapongan los roles)
-    Route::resource('asignaturas', \App\Http\Controllers\AsignaturaController::class)
-    ->except(['show', 'index']);
-});
-
-// Ver Asignaturas (admin, carga y consulta)
-Route::middleware(['auth', 'role:admin|carga|consulta'])->group(function () {
-Route::resource('asignaturas', \App\Http\Controllers\AsignaturaController::class)
-->only(['show', 'index']);
-});
-
-// ----------------- Docentes -----------------
-//Administra Docentes (admin, carga)
-Route::middleware(['auth', 'role:admin|carga'])->group(function () { //protege el grupo de la ruta
-    // Ruta intermedia
-    Route::get('/docentes/buscar', [DocenteController::class, 'mostrarBusqueda'])->name('docentes.buscar');
-
-    // Ruta que procesa el DNI
-    Route::post('/docentes/buscar', [DocenteController::class, 'buscarDni'])->name('docentes.buscarDni');
-    
-    // EXCEPCION (para que no se contrapongan los roles)
-    Route::resource('docentes', \App\Http\Controllers\DocenteController::class)
-    ->except(['show', 'index']);
-});
-// Ver Docentes (admin, carga y consulta)
-Route::middleware(['auth', 'role:admin|carga|consulta'])->group(function () {
-    Route::resource('docentes', \App\Http\Controllers\DocenteController::class)
-    ->only(['show', 'index']);
-});
-
-// ----------------- Estudiantes -----------------
-//Administra Estudiantes (admin, carga)
-Route::middleware(['auth', 'role:admin|carga'])->group(function () { //protege el grupo de la ruta
-    // Ruta intermedia
-    Route::get('/estudiantes/buscar', [EstudianteController::class, 'mostrarBusqueda'])->name('estudiantes.buscar');
-
-    // Ruta que procesa el DNI
-    Route::post('/estudiantes/buscar', [EstudianteController::class, 'buscarDni'])->name('estudiantes.buscarDni');
-    
-    // EXCEPCION (para que no se contrapongan los roles)
-    Route::resource('estudiantes', \App\Http\Controllers\EstudianteController::class)
-    ->except(['show', 'index']);
-});
-// Ver Estudiantes (admin, carga y consulta)
-Route::middleware(['auth', 'role:admin|carga|consulta'])->group(function () {
-Route::resource('estudiantes', \App\Http\Controllers\EstudianteController::class)
-    ->only(['show', 'index']);
-});
-
-// ----------------- Veedores -----------------
-//Administra Veedores (admin, carga)
-Route::middleware(['auth', 'role:admin|carga'])->group(function () { //protege el grupo de la ruta
-    // Ruta intermedia
-    Route::get('/veedores/buscar', [VeedorController::class, 'mostrarBusqueda'])->name('veedores.buscar');
-
-    // Ruta que procesa el DNI
-    Route::post('/veedores/buscar', [VeedorController::class, 'buscarDni'])->name('veedores.buscarDni');
-    
-    // EXCEPCION (para que no se contrapongan los roles)
-    Route::resource('veedores', \App\Http\Controllers\VeedorController::class)
-    ->except(['show', 'index']);
-});
-
-// Ver Veedores (admin, carga y consulta)
-Route::middleware(['auth', 'role:admin|carga|consulta'])->group(function () {
-    Route::resource('veedores', \App\Http\Controllers\VeedorController::class)
+    Route::resource('movimientos_stock', MovimientoStockController::class)
         ->only(['show', 'index']);
-    });
+});
+
+// ----------------- Ventas -----------------
+// Ventas reemplaza Asignaturas
+Route::middleware(['auth', 'role:admin|carga'])->group(function () {
+    Route::resource('ventas', VentaController::class)
+        ->except(['show', 'index']);
+});
+
+Route::middleware(['auth', 'role:admin|carga|consulta'])->group(function () {
+    Route::resource('ventas', VentaController::class)
+        ->only(['show', 'index']);
+});
+
+// ----------------- Repartos -----------------
+// Repartos reemplaza Docentes
+Route::middleware(['auth', 'role:admin|carga'])->group(function () {
+    Route::get('/repartos/buscar', [RepartoController::class, 'mostrarBusqueda'])
+        ->name('repartos.buscar');
+    Route::post('/repartos/buscar', [RepartoController::class, 'buscarDni'])
+        ->name('repartos.buscarDni');
+
+    Route::resource('repartos', RepartoController::class)
+        ->except(['show', 'index']);
+});
+
+Route::middleware(['auth', 'role:admin|carga|consulta'])->group(function () {
+    Route::resource('repartos', RepartoController::class)
+        ->only(['show', 'index']);
+});
+
+// ----------------- Vehículos -----------------
+// Vehículos reemplaza Estudiantes
+Route::middleware(['auth', 'role:admin|carga'])->group(function () {
+    Route::get('/vehiculos/buscar', [VehiculoController::class, 'mostrarBusqueda'])
+        ->name('vehiculos.buscar');
+    Route::post('/vehiculos/buscar', [VehiculoController::class, 'buscarDni'])
+        ->name('vehiculos.buscarDni');
+
+    Route::resource('vehiculos', VehiculoController::class)
+        ->except(['show', 'index']);
+});
+
+Route::middleware(['auth', 'role:admin|carga|consulta'])->group(function () {
+    Route::resource('vehiculos', VehiculoController::class)
+        ->only(['show', 'index']);
+});
+
+// ----------------- Vendedores -----------------
+// Vendedores reemplaza Veedores
+Route::middleware(['auth', 'role:admin|carga'])->group(function () {
+    Route::get('/vendedores/buscar', [VendedorController::class, 'mostrarBusqueda'])
+        ->name('vendedores.buscar');
+
+    Route::post('/vendedores/buscar', [VendedorController::class, 'buscarDni'])
+        ->name('vendedores.buscarDni');
+
+    Route::resource('vendedores', VendedorController::class)
+        ->except(['show', 'index']);
+});
+
+Route::middleware(['auth', 'role:admin|carga|consulta'])->group(function () {
+    Route::resource('vendedores', VendedorController::class)
+        ->only(['show', 'index']);
+});
 
 // ----------------- Informes -----------------
 Route::middleware(['auth'])->group(function () {

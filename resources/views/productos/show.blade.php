@@ -18,21 +18,21 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>Nombre y Apellido</label>
+                                            <label>Nombre</label>
                                             <input type="text" class="form-control" value="{{ $producto->nombre }}" disabled>
                                         </div>
                                     </div>
 
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label>DNI</label>
-                                            <input type="number" class="form-control" value="{{ $producto->precio }}" disabled>
+                                            <label>Precio</label>
+                                            <input type="text" class="form-control" value="{{ $producto->precio }}" disabled>
                                         </div>
                                     </div>
 
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label>Fecha de Nacimiento</label>
+                                            <label>Stock</label>
                                             <input type="text" class="form-control" value="{{ $producto->stock }}" disabled>
                                         </div>
                                     </div>
@@ -41,21 +41,21 @@
                                 <div class="row">
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label>Género</label>
-                                            <input type="text" class="form-control" value="{{ $producto->categoria_id }}" disabled>
+                                            <label>Categoría (ID)</label>
+                                            <input type="text" class="form-control" value="{{ $producto->categoria_id ?? '-' }}" disabled>
                                         </div>
                                     </div>
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>Email</label>
-                                            <input type="text" class="form-control" value="{{ $producto->descripcion }}" disabled>
+                                            <label>Descripción</label>
+                                            <input type="text" class="form-control" value="{{ $producto->descripcion ?? '-' }}" disabled>
                                         </div>
                                     </div>
 
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label>Teléfono</label>
+                                            <label>ID</label>
                                             <input type="text" class="form-control" value="{{ $producto->id }}" disabled>
                                         </div>
                                     </div>
@@ -64,14 +64,14 @@
                                 <div class="row">
                                     <div class="col-md-5">
                                         <div class="form-group">
-                                            <label>Dirección</label>
+                                            <label>Creado</label>
                                             <input type="text" class="form-control" value="{{ $producto->created_at }}" disabled>
                                         </div>
                                     </div>
 
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label>Localidad/Ciudad</label>
+                                            <label>Actualizado</label>
                                             <input type="text" class="form-control" value="{{ $producto->updated_at }}" disabled>
                                         </div>
                                     </div>

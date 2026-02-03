@@ -24,6 +24,10 @@ return new class extends Migration
         ];
 
         foreach ($tablas as $tabla) {
+            if (!Schema::hasTable($tabla)) {
+                continue;
+            }
+
             Schema::table($tabla, function (Blueprint $table) use ($tabla) {
                 if (!Schema::hasColumn($tabla, 'deleted_at')) {
                     $table->softDeletes();
@@ -50,6 +54,10 @@ return new class extends Migration
         ];
 
         foreach ($tablas as $tabla) {
+            if (!Schema::hasTable($tabla)) {
+                continue;
+            }
+
             Schema::table($tabla, function (Blueprint $table) {
                 $table->dropSoftDeletes();
             });

@@ -23,7 +23,7 @@ return new class extends Migration
             $table->date('fecha_adscripcion')->nullable();
 
             // Relación 1:1 con jerarquía (cargo concursado)
-            $table->foreignId('jerarquia_id')->constrained()->onDelete('cascade');
+            $table->foreignId('cliente_id')->constrained('clientes')->onDelete('cascade');
 
             // Otros campos descriptivos
             $table->string('tipo_adscripcion')->nullable();       // Ej: Ordinario, Reválida

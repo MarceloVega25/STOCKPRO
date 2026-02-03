@@ -21,18 +21,14 @@ class DatabaseSeeder extends Seeder
         //]);
         $this->call([
             RolSeeder::class, //primero para que no genere problemas en la migracion
-            JerarquiaSeeder::class,
+            ClienteSeeder::class,
             DepartamentoSeeder::class,
             CarreraSeeder::class,
-            AsignaturaSeeder::class,
             UsuarioSeeder::class,
-            DocenteSeeder::class,
-            EstudianteSeeder::class,
-            VeedorSeeder::class,
-            InscriptoSeeder::class,
-            AdscriptoSeeder::class,
-            ConcursoSeeder::class,
-            AdscripcionSeeder::class,
+            VendedorSeeder::class,
+            ProductoSeeder::class,
+            ProveedorSeeder::class,
+            CategoriaSeeder::class,
         ]);
         
     }

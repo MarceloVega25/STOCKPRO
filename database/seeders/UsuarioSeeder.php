@@ -15,6 +15,11 @@ class UsuarioSeeder extends Seeder
         ]);
         $admin->assignRole('admin');
 
+        $admin = Usuario::factory()->create([
+            'email' => 'marcelovega614@gmail.com',
+        ]);
+        $admin->assignRole('admin');
+
         // Crear y asignar rol carga
         $carga = Usuario::factory()->create([
             'email' => 'carga@example.com',
