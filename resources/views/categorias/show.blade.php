@@ -75,7 +75,7 @@
                         <div class="row mt-3">
                             <div class="col-md-4">
                                 <label>Ventas</label>
-                                <textarea class="form-control" disabled>{{ $categoria->asignaturas->pluck('nombre')->implode(', ') }}</textarea>
+                                <textarea class="form-control" disabled>{{ $categoria->ventas->pluck('nombre')->implode(', ') }}</textarea>
                             </div>
                             <div class="col-md-4">
                                 <label>Departamentos</label>
@@ -90,7 +90,7 @@
                         <div class="row mt-3">
                             <div class="col-md-6">
                                 <label>Repartos Titulares</label>
-                                @forelse ($categoria->docentesTitulares as $reparto)
+                                @forelse ($categoria->repartosTitulares as $reparto)
                                     <input type="text" class="form-control mb-2" value="{{ $reparto->nombre_apellido }}, DNI: {{ $reparto->dni }}, Institución: {{ $reparto->institucion }}" disabled>
                                 @empty
                                     <input type="text" class="form-control" value="No hay repartos titulares registrados" disabled>
@@ -99,7 +99,7 @@
 
                             <div class="col-md-6">
                                 <label>Repartos Suplentes</label>
-                                @forelse ($categoria->docentesSuplentes as $reparto)
+                                @forelse ($categoria->repartosSuplentes as $reparto)
                                     <input type="text" class="form-control mb-2" value="{{ $reparto->nombre_apellido }}, DNI: {{ $reparto->dni }}, Institución: {{ $reparto->institucion }}" disabled>
                                 @empty
                                     <input type="text" class="form-control" value="No hay repartos suplentes registrados" disabled>
@@ -110,7 +110,7 @@
                         <div class="row mt-3">
                             <div class="col-md-6">
                                 <label>Vehículos Titulares</label>
-                                @forelse ($categoria->estudiantesTitulares as $vehiculo)
+                                @forelse ($categoria->vehiculosTitulares as $vehiculo)
                                     <input type="text" class="form-control mb-2" value="{{ $vehiculo->nombre_apellido }}, DNI: {{ $vehiculo->dni }}, Institución: {{ $vehiculo->institucion }}" disabled>
                                 @empty
                                     <input type="text" class="form-control" value="No hay vehículos titulares registrados" disabled>
@@ -119,7 +119,7 @@
 
                             <div class="col-md-6">
                                 <label>Vehículos Suplentes</label>
-                                @forelse ($categoria->estudiantesSuplentes as $vehiculo)
+                                @forelse ($categoria->vehiculosSuplentes as $vehiculo)
                                     <input type="text" class="form-control mb-2" value="{{ $vehiculo->nombre_apellido }}, DNI: {{ $vehiculo->dni }}, Institución: {{ $vehiculo->institucion }}" disabled>
                                 @empty
                                     <input type="text" class="form-control" value="No hay vehículos suplentes registrados" disabled>
@@ -130,7 +130,7 @@
                         <div class="row mt-3">
                             <div class="col-md-6">
                                 <label>Vendedores</label>
-                                @forelse ($categoria->veedores as $vendedor)
+                                @forelse ($categoria->vendedores as $vendedor)
                                     <input type="text" class="form-control mb-2" value="{{ $vendedor->nombre_apellido }}, DNI: {{ $vendedor->dni }}, Cargo: {{ $vendedor->cargo }}" disabled>
                                 @empty
                                     <input type="text" class="form-control" value="No hay vendedores registrados" disabled>

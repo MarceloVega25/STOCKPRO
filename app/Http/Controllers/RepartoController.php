@@ -23,10 +23,10 @@ class RepartoController extends Controller
     {
         $request->validate([
             'nombre_apellido' => 'required',
-            'dni' => ['required', 'digits:8', 'regex:/^[0-9]{8}$/', 'unique:docentes,dni'],
+            'dni' => ['required', 'digits:8', 'regex:/^[0-9]{8}$/', 'unique:repartos,dni'],
             'fecha_nacimiento' => ['required', 'date', 'before_or_equal:' . now()->subYears(18)->format('Y-m-d')],
             'genero' => 'required',
-            'email' => 'required|email|unique:docentes,email',
+            'email' => 'required|email|unique:repartos,email',
             'telefono' => 'required',
             'institucion' => 'required',
             'tipo' => 'required',
@@ -62,10 +62,10 @@ class RepartoController extends Controller
         $reparto->institucion = $request->institucion;
         $reparto->tipo = $request->tipo;
 
-        $reparto->cv = $request->file('cv')->store('cv_docentes', 'public');
+        $reparto->cv = $request->file('cv')->store('cv_repartos', 'public');
 
         if ($request->hasFile('fotografia')) {
-            $reparto->fotografia = $request->file('fotografia')->store('fotografias_docentes', 'public');
+            $reparto->fotografia = $request->file('fotografia')->store('fotografias_repartos', 'public');
         }
 
         $reparto->save();
@@ -89,10 +89,10 @@ class RepartoController extends Controller
     {
         $request->validate([
             'nombre_apellido' => 'required',
-            'dni' => ['required', 'digits:8', 'regex:/^[0-9]{8}$/', 'unique:docentes,dni,' . $id],
+            'dni' => ['required', 'digits:8', 'regex:/^[0-9]{8}$/', 'unique:repartos,dni,' . $id],
             'fecha_nacimiento' => ['required', 'date', 'before_or_equal:' . now()->subYears(18)->format('Y-m-d')],
             'genero' => 'required',
-            'email' => 'required|email|unique:docentes,email,' . $id,
+            'email' => 'required|email|unique:repartos,email,' . $id,
             'telefono' => 'required',
             'institucion' => 'required',
             'tipo' => 'required',
@@ -134,7 +134,7 @@ class RepartoController extends Controller
             if ($reparto->cv && File::exists($cvPath)) {
                 unlink($cvPath);
             }
-            $reparto->cv = $request->file('cv')->store('cv_docentes', 'public');
+            $reparto->cv = $request->file('cv')->store('cv_repartos', 'public');
         }
 
         if ($request->hasFile('fotografia')) {
@@ -142,7 +142,7 @@ class RepartoController extends Controller
             if ($reparto->fotografia && File::exists($fotoPath)) {
                 unlink($fotoPath);
             }
-            $reparto->fotografia = $request->file('fotografia')->store('fotografias_docentes', 'public');
+            $reparto->fotografia = $request->file('fotografia')->store('fotografias_repartos', 'public');
         }
 
         $reparto->save();

@@ -71,15 +71,15 @@ class CategoriaSeeder extends Seeder
             'observaciones' => 'Categoría simulada para pruebas.',
         ]);
 
-        $categoria->asignaturas()->attach($venta->id);
+        $categoria->ventas()->attach($venta->id);
         $categoria->departamentos()->attach($departamento->id);
         $categoria->carreras()->attach([$carrera1->id, $carrera2->id]);
-        $categoria->docentes()->attach([
+        $categoria->repartos()->attach([
             $docente1->id => ['tipo' => 'titular'],
             $docente2->id => ['tipo' => 'suplente'],
         ]);
-        $categoria->estudiantes()->attach([$estudiante1->id => ['tipo' => 'titular']]);
-        $categoria->veedores()->attach($veedor1->id);
+        $categoria->vehiculos()->attach([$estudiante1->id => ['tipo' => 'titular']]);
+        $categoria->vendedores()->attach($veedor1->id);
         $categoria->productos()->attach($producto1->id);
 
         $categoria->registrarEstado('Categoría creada automáticamente', 'Seeder de prueba.');

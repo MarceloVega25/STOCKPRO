@@ -22,7 +22,7 @@ class CategoriaController extends Controller
     public function index()
     {
         $categorias = Categoria::with([
-            'cliente', 'carreras', 'asignaturas', 'departamentos',
+            'cliente', 'carreras', 'ventas', 'departamentos',
             'designado', 'estados'
         ])->orderBy('id', 'desc')->get();
 
@@ -33,13 +33,13 @@ class CategoriaController extends Controller
     {
         return view('categorias.create', [
             'clientes' => Cliente::all(),
-            'asignaturas' => Venta::all(),
+            'ventas' => Venta::all(),
             'departamentos' => Departamento::all(),
             'carreras' => Carrera::all(),
             'productos' => Producto::all(),
-            'docentes' => Reparto::all(),
-            'estudiantes' => Vehiculo::all(),
-            'veedores' => Vendedor::all(),
+            'repartos' => Reparto::all(),
+            'vehiculos' => Vehiculo::all(),
+            'vendedores' => Vendedor::all(),
         ]);
     }
 
@@ -60,34 +60,30 @@ class CategoriaController extends Controller
             'fecha_concurso', 'expediente', 'observaciones', 'estado', 'comentario', 'designado_id'
         ]));
 
-        $categoria->asignaturas()->sync($request->input('asignaturas', []));
+        $categoria->ventas()->sync($request->input('ventas', []));
         $categoria->departamentos()->sync($request->input('departamentos', []));
         $categoria->carreras()->sync($request->input('carreras', []));
-        $categoria->veedores()->sync($request->input('veedores', []));
+        $categoria->vendedores()->sync($request->input('vendedores', []));
         $categoria->productos()->sync($request->input('productos', []));
 
-        if ($request->has('docentes_titulares')) {
-            foreach ($request->docentes_titulares as $id) {
-                $categoria->docentes()->attach($id, ['tipo' => 'titular']);
-            }
+        $repartosTitulares = $request->input('repartos_titulares', []);
+        foreach ($repartosTitulares as $id) {
+            $categoria->repartos()->attach($id, ['tipo' => 'titular']);
         }
 
-        if ($request->has('docentes_suplentes')) {
-            foreach ($request->docentes_suplentes as $id) {
-                $categoria->docentes()->attach($id, ['tipo' => 'suplente']);
-            }
+        $repartosSuplentes = $request->input('repartos_suplentes', []);
+        foreach ($repartosSuplentes as $id) {
+            $categoria->repartos()->attach($id, ['tipo' => 'suplente']);
         }
 
-        if ($request->has('estudiantes_titulares')) {
-            foreach ($request->estudiantes_titulares as $id) {
-                $categoria->estudiantes()->attach($id, ['tipo' => 'titular']);
-            }
+        $vehiculosTitulares = $request->input('vehiculos_titulares', []);
+        foreach ($vehiculosTitulares as $id) {
+            $categoria->vehiculos()->attach($id, ['tipo' => 'titular']);
         }
 
-        if ($request->has('estudiantes_suplentes')) {
-            foreach ($request->estudiantes_suplentes as $id) {
-                $categoria->estudiantes()->attach($id, ['tipo' => 'suplente']);
-            }
+        $vehiculosSuplentes = $request->input('vehiculos_suplentes', []);
+        foreach ($vehiculosSuplentes as $id) {
+            $categoria->vehiculos()->attach($id, ['tipo' => 'suplente']);
         }
 
         $detalle = "Categoría creada: N° {$categoria->numero}/{$categoria->anio}, Jerarquía: " . optional($categoria->cliente)->razon_social .
@@ -106,10 +102,10 @@ class CategoriaController extends Controller
     public function show(Categoria $categoria)
     {
         $categoria->load([
-            'cliente', 'asignaturas', 'departamentos',
-            'carreras', 'productos', 'veedores',
-            'docentesTitulares', 'docentesSuplentes',
-            'estudiantesTitulares', 'estudiantesSuplentes',
+            'cliente', 'ventas', 'departamentos',
+            'carreras', 'productos', 'vendedores',
+            'repartosTitulares', 'repartosSuplentes',
+            'vehiculosTitulares', 'vehiculosSuplentes',
             'estados', 'designado', 'seguimientos'
         ]);
 
@@ -119,21 +115,21 @@ class CategoriaController extends Controller
     public function edit(Categoria $categoria)
     {
         $categoria->load([
-            'cliente', 'asignaturas', 'departamentos',
-            'carreras', 'docentesTitulares', 'docentesSuplentes',
-            'estudiantesTitulares', 'estudiantesSuplentes',
-            'veedores', 'productos',
+            'cliente', 'ventas', 'departamentos',
+            'carreras', 'repartosTitulares', 'repartosSuplentes',
+            'vehiculosTitulares', 'vehiculosSuplentes',
+            'vendedores', 'productos',
         ]);
 
         return view('categorias.edit', [
             'categoria' => $categoria,
             'clientes' => Cliente::all(),
-            'asignaturas' => Venta::all(),
+            'ventas' => Venta::all(),
             'departamentos' => Departamento::all(),
             'carreras' => Carrera::all(),
-            'docentes' => Reparto::all(),
-            'estudiantes' => Vehiculo::all(),
-            'veedores' => Vendedor::all(),
+            'repartos' => Reparto::all(),
+            'vehiculos' => Vehiculo::all(),
+            'vendedores' => Vendedor::all(),
             'productos' => Producto::all(),
         ]);
     }
@@ -205,26 +201,26 @@ class CategoriaController extends Controller
             }
         }
 
-        $categoria->asignaturas()->sync($request->input('asignaturas', []));
+        $categoria->ventas()->sync($request->input('ventas', []));
         $categoria->departamentos()->sync($request->input('departamentos', []));
         $categoria->carreras()->sync($request->input('carreras', []));
-        $categoria->veedores()->sync($request->input('veedores', []));
+        $categoria->vendedores()->sync($request->input('vendedores', []));
         $categoria->productos()->sync($request->input('productos', []));
 
-        $categoria->docentes()->detach();
-        foreach ($request->input('docentes_titulares', []) as $id) {
-            $categoria->docentes()->attach($id, ['tipo' => 'titular']);
+        $categoria->repartos()->detach();
+        foreach ($request->input('repartos_titulares', []) as $id) {
+            $categoria->repartos()->attach($id, ['tipo' => 'titular']);
         }
-        foreach ($request->input('docentes_suplentes', []) as $id) {
-            $categoria->docentes()->attach($id, ['tipo' => 'suplente']);
+        foreach ($request->input('repartos_suplentes', []) as $id) {
+            $categoria->repartos()->attach($id, ['tipo' => 'suplente']);
         }
 
-        $categoria->estudiantes()->detach();
-        foreach ($request->input('estudiantes_titulares', []) as $id) {
-            $categoria->estudiantes()->attach($id, ['tipo' => 'titular']);
+        $categoria->vehiculos()->detach();
+        foreach ($request->input('vehiculos_titulares', []) as $id) {
+            $categoria->vehiculos()->attach($id, ['tipo' => 'titular']);
         }
-        foreach ($request->input('estudiantes_suplentes', []) as $id) {
-            $categoria->estudiantes()->attach($id, ['tipo' => 'suplente']);
+        foreach ($request->input('vehiculos_suplentes', []) as $id) {
+            $categoria->vehiculos()->attach($id, ['tipo' => 'suplente']);
         }
 
         if (count($cambios)) {

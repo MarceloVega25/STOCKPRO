@@ -4,12 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class SeguimientoAdscripcion extends Model
+class SeguimientoCompra extends Model
 {
-   protected $table = 'seguimientos_adscripciones';
+    protected $table = 'seguimientos_compras';
 
     protected $fillable = [
-        'adscripcion_id',
+        'compra_id',
         'accion',
         'detalle',
         'usuario',
@@ -18,8 +18,8 @@ class SeguimientoAdscripcion extends Model
 
     protected $dates = ['fecha'];
 
-    public function adscripcion()
+    public function compra()
     {
-        return $this->belongsTo(Adscripcion::class);
+        return $this->belongsTo(Compra::class, 'compra_id');
     }
 }

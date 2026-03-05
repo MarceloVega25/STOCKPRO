@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('adscripcion_carrera', function (Blueprint $table) {
+        Schema::create('compra_carrera', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('adscripcion_id')->constrained('adscripciones')->onDelete('cascade');
+            $table->foreignId('compra_id')->constrained('compras')->onDelete('cascade');
             $table->foreignId('carrera_id')->constrained('carreras')->onDelete('cascade');
             $table->timestamps();
         });
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('adscripcion_carrera');
+        Schema::dropIfExists('compra_carrera');
     }
 };

@@ -53,9 +53,9 @@ class Categoria extends Model
         return $this->numero . '/' . $this->anio;
     }
 
-    public function asignaturas()
+    public function ventas()
     {
-        return $this->belongsToMany(Venta::class, 'categoria_asignatura')->withTimestamps();
+        return $this->belongsToMany(Venta::class, 'categoria_venta')->withTimestamps();
     }
 
     public function departamentos()
@@ -68,23 +68,23 @@ class Categoria extends Model
         return $this->belongsToMany(Carrera::class, 'categoria_carrera')->withTimestamps();
     }
 
-    public function docentes()
+    public function repartos()
     {
-        return $this->belongsToMany(Reparto::class, 'categoria_docente')
+        return $this->belongsToMany(Reparto::class, 'categoria_reparto')
             ->withPivot('tipo')
             ->withTimestamps();
     }
 
-    public function estudiantes()
+    public function vehiculos()
     {
-        return $this->belongsToMany(Vehiculo::class, 'categoria_estudiante')
+        return $this->belongsToMany(Vehiculo::class, 'categoria_vehiculo')
             ->withPivot('tipo')
             ->withTimestamps();
     }
 
-    public function veedores()
+    public function vendedores()
     {
-        return $this->belongsToMany(Vendedor::class, 'categoria_veedor')->withTimestamps();
+        return $this->belongsToMany(Vendedor::class, 'categoria_vendedor')->withTimestamps();
     }
 
     public function productos()
@@ -92,30 +92,30 @@ class Categoria extends Model
         return $this->belongsToMany(Producto::class, 'categoria_producto')->withTimestamps();
     }
 
-    public function docentesTitulares()
+    public function repartosTitulares()
     {
-        return $this->belongsToMany(Reparto::class, 'categoria_docente')
+        return $this->belongsToMany(Reparto::class, 'categoria_reparto')
             ->wherePivot('tipo', 'titular')
             ->withTimestamps();
     }
 
-    public function docentesSuplentes()
+    public function repartosSuplentes()
     {
-        return $this->belongsToMany(Reparto::class, 'categoria_docente')
+        return $this->belongsToMany(Reparto::class, 'categoria_reparto')
             ->wherePivot('tipo', 'suplente')
             ->withTimestamps();
     }
 
-    public function estudiantesTitulares()
+    public function vehiculosTitulares()
     {
-        return $this->belongsToMany(Vehiculo::class, 'categoria_estudiante')
+        return $this->belongsToMany(Vehiculo::class, 'categoria_vehiculo')
             ->wherePivot('tipo', 'titular')
             ->withTimestamps();
     }
 
-    public function estudiantesSuplentes()
+    public function vehiculosSuplentes()
     {
-        return $this->belongsToMany(Vehiculo::class, 'categoria_estudiante')
+        return $this->belongsToMany(Vehiculo::class, 'categoria_vehiculo')
             ->wherePivot('tipo', 'suplente')
             ->withTimestamps();
     }

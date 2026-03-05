@@ -10,7 +10,7 @@ class Compra extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'adscripciones';
+    protected $table = 'compras';
 
     protected $fillable = [
         'numero',
@@ -19,10 +19,10 @@ class Compra extends Model
         'cierre_publicidad',
         'inicio_inscripcion',
         'cierre_inscripcion',
-        'fecha_adscripcion',
+        'fecha_compra',
         'cliente_id',
-        'tipo_adscripcion',
-        'modalidad_adscripcion',
+        'tipo_compra',
+        'modalidad_compra',
         'expediente',
         'observaciones',
         'estado',
@@ -37,7 +37,7 @@ class Compra extends Model
 
     public function estados()
     {
-        return $this->hasMany(EstadoAdscripcion::class);
+        return $this->hasMany(EstadoCompra::class, 'compra_id');
     }
 
     public function registrarEstado($estado, $comentario = null)
@@ -53,70 +53,69 @@ class Compra extends Model
         return $this->numero . '/' . $this->anio;
     }
 
-    // Mantener nombres legacy para no tocar vistas/controladores
-    public function asignaturas()
+    public function ventas()
     {
-        return $this->belongsToMany(Venta::class, 'adscripcion_asignatura')->withTimestamps();
+        return $this->belongsToMany(Venta::class, 'compra_venta')->withTimestamps();
     }
 
     public function departamentos()
     {
-        return $this->belongsToMany(Departamento::class, 'adscripcion_departamento')->withTimestamps();
+        return $this->belongsToMany(Departamento::class, 'compra_departamento')->withTimestamps();
     }
 
     public function carreras()
     {
-        return $this->belongsToMany(Carrera::class, 'adscripcion_carrera')->withTimestamps();
+        return $this->belongsToMany(Carrera::class, 'compra_carrera')->withTimestamps();
     }
 
-    public function docentes()
+    public function repartos()
     {
-        return $this->belongsToMany(Reparto::class, 'adscripcion_docente')
+        return $this->belongsToMany(Reparto::class, 'compra_reparto')
             ->withPivot('tipo')
             ->withTimestamps();
     }
 
-    public function estudiantes()
+    public function vehiculos()
     {
-        return $this->belongsToMany(Vehiculo::class, 'adscripcion_estudiante')
+        return $this->belongsToMany(Vehiculo::class, 'compra_vehiculo')
             ->withPivot('tipo')
             ->withTimestamps();
     }
 
-    public function veedores()
+    public function vendedores()
     {
-        return $this->belongsToMany(Vendedor::class, 'adscripcion_veedor')->withTimestamps();
+        return $this->belongsToMany(Vendedor::class, 'compra_vendedor')->withTimestamps();
     }
 
     public function proveedores()
     {
-        return $this->belongsToMany(Proveedor::class, 'adscripcion_proveedor')->withTimestamps();
+        return $this->belongsToMany(Proveedor::class, 'compra_proveedor')->withTimestamps();
     }
 
-    public function docentesTitulares()
+    public function repartosTitulares()
     {
-        return $this->belongsToMany(Reparto::class, 'adscripcion_docente')
+        return $this->belongsToMany(Reparto::class, 'compra_reparto')
             ->wherePivot('tipo', 'titular')
             ->withTimestamps();
     }
 
-    public function docentesSuplentes()
+    public function repartosSuplentes()
     {
-        return $this->belongsToMany(Reparto::class, 'adscripcion_docente')
+        return $this->belongsToMany(Reparto::class, 'compra_reparto')
             ->wherePivot('tipo', 'suplente')
             ->withTimestamps();
     }
 
-    public function estudiantesTitulares()
+    public function vehiculosTitulares()
     {
-        return $this->belongsToMany(Vehiculo::class, 'adscripcion_estudiante')
+        return $this->belongsToMany(Vehiculo::class, 'compra_vehiculo')
             ->wherePivot('tipo', 'titular')
             ->withTimestamps();
     }
 
-    public function estudiantesSuplentes()
+    public function vehiculosSuplentes()
     {
-        return $this->belongsToMany(Vehiculo::class, 'adscripcion_estudiante')
+        return $this->belongsToMany(Vehiculo::class, 'compra_vehiculo')
             ->wherePivot('tipo', 'suplente')
             ->withTimestamps();
     }
@@ -128,6 +127,6 @@ class Compra extends Model
 
     public function seguimientos()
     {
-        return $this->hasMany(SeguimientoAdscripcion::class, 'adscripcion_id');
+        return $this->hasMany(SeguimientoCompra::class, 'compra_id');
     }
 }

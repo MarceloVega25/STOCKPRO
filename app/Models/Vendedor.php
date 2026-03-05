@@ -10,7 +10,7 @@ class Vendedor extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'veedores';
+    protected $table = 'vendedores';
 
     protected $fillable = [
         'nombre_apellido',

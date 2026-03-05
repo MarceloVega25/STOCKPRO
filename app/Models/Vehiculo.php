@@ -10,7 +10,7 @@ class Vehiculo extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'estudiantes';
+    protected $table = 'vehiculos';
 
     protected $fillable = [
         'nombre_apellido',

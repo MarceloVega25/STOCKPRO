@@ -23,10 +23,10 @@ class VehiculoController extends Controller
     {
         $request->validate([
             'nombre_apellido' => 'required',
-            'dni' => ['required', 'digits:8', 'regex:/^[0-9]{8}$/', 'unique:estudiantes,dni'],
+            'dni' => ['required', 'digits:8', 'regex:/^[0-9]{8}$/', 'unique:vehiculos,dni'],
             'fecha_nacimiento' => ['required', 'date', 'before_or_equal:' . now()->subYears(18)->format('Y-m-d')],
             'genero' => 'required',
-            'email' => 'required|email|unique:estudiantes,email',
+            'email' => 'required|email|unique:vehiculos,email',
             'telefono' => 'required',
             'institucion' => 'required',
             'tipo' => 'required',
@@ -62,10 +62,10 @@ class VehiculoController extends Controller
         $vehiculo->institucion = $request->institucion;
         $vehiculo->tipo = $request->tipo;
 
-        $vehiculo->cv = $request->file('cv')->store('cv_estudiantes', 'public');
+        $vehiculo->cv = $request->file('cv')->store('cv_vehiculos', 'public');
 
         if ($request->hasFile('fotografia')) {
-            $vehiculo->fotografia = $request->file('fotografia')->store('fotografias_estudiantes', 'public');
+            $vehiculo->fotografia = $request->file('fotografia')->store('fotografias_vehiculos', 'public');
         }
 
         $vehiculo->save();
@@ -89,10 +89,10 @@ class VehiculoController extends Controller
     {
         $request->validate([
             'nombre_apellido' => 'required',
-            'dni' => ['required', 'digits:8', 'regex:/^[0-9]{8}$/', 'unique:estudiantes,dni,' . $id],
+            'dni' => ['required', 'digits:8', 'regex:/^[0-9]{8}$/', 'unique:vehiculos,dni,' . $id],
             'fecha_nacimiento' => ['required', 'date', 'before_or_equal:' . now()->subYears(18)->format('Y-m-d')],
             'genero' => 'required',
-            'email' => 'required|email|unique:estudiantes,email,' . $id,
+            'email' => 'required|email|unique:vehiculos,email,' . $id,
             'telefono' => 'required',
             'institucion' => 'required',
             'tipo' => 'required',
@@ -134,7 +134,7 @@ class VehiculoController extends Controller
             if ($vehiculo->cv && File::exists($cvPath)) {
                 unlink($cvPath);
             }
-            $vehiculo->cv = $request->file('cv')->store('cv_estudiantes', 'public');
+            $vehiculo->cv = $request->file('cv')->store('cv_vehiculos', 'public');
         }
 
         if ($request->hasFile('fotografia')) {
@@ -142,7 +142,7 @@ class VehiculoController extends Controller
             if ($vehiculo->fotografia && File::exists($fotoPath)) {
                 unlink($fotoPath);
             }
-            $vehiculo->fotografia = $request->file('fotografia')->store('fotografias_estudiantes', 'public');
+            $vehiculo->fotografia = $request->file('fotografia')->store('fotografias_vehiculos', 'public');
         }
 
         $vehiculo->save();

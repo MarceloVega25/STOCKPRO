@@ -34,8 +34,8 @@
             @foreach ($datos as $compra)
                 <tr>
                     <td>{{ $compra->id }}</td>
-                    <td>{{ $compra->tipo_adscripcion }}</td>
-                    <td>{{ $compra->modalidad_adscripcion }}</td>
+                    <td>{{ $compra->tipo_compra }}</td>
+                    <td>{{ $compra->modalidad_compra }}</td>
                 </tr>
             @endforeach
         </tbody>

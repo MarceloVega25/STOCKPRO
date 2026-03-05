@@ -10,7 +10,7 @@ class Reparto extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'docentes';
+    protected $table = 'repartos';
 
     protected $fillable = [
         'nombre_apellido',

@@ -23,7 +23,7 @@
                         </div>
                         <div class="col-md-3">
                             <label>Fecha</label>
-                            <input type="text" class="form-control" value="{{ $compra->fecha_adscripcion ? \Carbon\Carbon::parse($compra->fecha_adscripcion)->format('d/m/Y') : '' }}" disabled>
+                            <input type="text" class="form-control" value="{{ $compra->fecha_compra ? \Carbon\Carbon::parse($compra->fecha_compra)->format('d/m/Y') : '' }}" disabled>
                         </div>
                         <div class="col-md-3">
                             <label>Expediente</label>
@@ -38,11 +38,11 @@
                         </div>
                         <div class="col-md-4">
                             <label>Tipo</label>
-                            <input type="text" class="form-control" value="{{ $compra->tipo_adscripcion }}" disabled>
+                            <input type="text" class="form-control" value="{{ $compra->tipo_compra }}" disabled>
                         </div>
                         <div class="col-md-4">
                             <label>Modalidad</label>
-                            <input type="text" class="form-control" value="{{ $compra->modalidad_adscripcion }}" disabled>
+                            <input type="text" class="form-control" value="{{ $compra->modalidad_compra }}" disabled>
                         </div>
                     </div>
 
@@ -76,7 +76,7 @@
                         <div class="col-md-4">
                             <label>Ventas</label>
                             <select class="form-control select2" multiple disabled>
-                                @foreach ($compra->asignaturas as $a)
+                                @foreach ($compra->ventas as $a)
                                     <option selected>{{ $a->nombre }}</option>
                                 @endforeach
                             </select>
@@ -102,13 +102,13 @@
                     <div class="row mt-3">
                         <div class="col-md-6">
                             <label>Repartos Titulares</label>
-                            @foreach ($compra->docentesTitulares as $reparto)
+                            @foreach ($compra->repartosTitulares as $reparto)
                                 <input type="text" class="form-control mb-2" value="{{ $reparto->nombre_apellido }}, DNI: {{ $reparto->dni }}, Institución: {{ $reparto->institucion }}" disabled>
                             @endforeach
                         </div>
                         <div class="col-md-6">
                             <label>Repartos Suplentes</label>
-                            @foreach ($compra->docentesSuplentes as $reparto)
+                            @foreach ($compra->repartosSuplentes as $reparto)
                                 <input type="text" class="form-control mb-2" value="{{ $reparto->nombre_apellido }}, DNI: {{ $reparto->dni }}, Institución: {{ $reparto->institucion }}" disabled>
                             @endforeach
                         </div>
@@ -117,13 +117,13 @@
                     <div class="row mt-3">
                         <div class="col-md-6">
                             <label>Vehículos Titulares</label>
-                            @foreach ($compra->estudiantesTitulares as $vehiculo)
+                            @foreach ($compra->vehiculosTitulares as $vehiculo)
                                 <input type="text" class="form-control mb-2" value="{{ $vehiculo->nombre_apellido }}, DNI: {{ $vehiculo->dni }}, Institución: {{ $vehiculo->institucion }}" disabled>
                             @endforeach
                         </div>
                         <div class="col-md-6">
                             <label>Vehículos Suplentes</label>
-                            @foreach ($compra->estudiantesSuplentes as $vehiculo)
+                            @foreach ($compra->vehiculosSuplentes as $vehiculo)
                                 <input type="text" class="form-control mb-2" value="{{ $vehiculo->nombre_apellido }}, DNI: {{ $vehiculo->dni }}, Institución: {{ $vehiculo->institucion }}" disabled>
                             @endforeach
                         </div>
@@ -132,7 +132,7 @@
                     <div class="row mt-3">
                         <div class="col-md-6">
                             <label>Vendedores</label>
-                            @foreach ($compra->veedores as $vendedor)
+                            @foreach ($compra->vendedores as $vendedor)
                                 <input type="text" class="form-control mb-2" value="{{ $vendedor->nombre_apellido }}, DNI: {{ $vendedor->dni }}, Cargo: {{ $vendedor->cargo }}" disabled>
                             @endforeach
                         </div>

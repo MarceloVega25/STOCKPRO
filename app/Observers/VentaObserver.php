@@ -11,7 +11,7 @@ class VentaObserver
     public function created(Venta $venta)
     {
         Auditoria::create([
-            'tabla_afectada' => 'asignaturas',
+            'tabla_afectada' => 'ventas',
             'operacion' => 'INSERT',
             'registro_id' => $venta->id,
             'datos_nuevos' => json_encode($venta),
@@ -22,7 +22,7 @@ class VentaObserver
     public function updated(Venta $venta)
     {
         Auditoria::create([
-            'tabla_afectada' => 'asignaturas',
+            'tabla_afectada' => 'ventas',
             'operacion' => 'UPDATE',
             'registro_id' => $venta->id,
             'datos_anteriores' => json_encode($venta->getOriginal()),
@@ -34,7 +34,7 @@ class VentaObserver
     public function deleted(Venta $venta)
     {
         Auditoria::create([
-            'tabla_afectada' => 'asignaturas',
+            'tabla_afectada' => 'ventas',
             'operacion' => 'DELETE',
             'registro_id' => $venta->id,
             'datos_anteriores' => json_encode($venta),

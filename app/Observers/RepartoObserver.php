@@ -11,7 +11,7 @@ class RepartoObserver
     public function created(Reparto $reparto)
     {
         Auditoria::create([
-            'tabla_afectada' => 'docentes',
+            'tabla_afectada' => 'repartos',
             'operacion' => 'INSERT',
             'registro_id' => $reparto->id,
             'datos_nuevos' => json_encode($reparto),
@@ -22,7 +22,7 @@ class RepartoObserver
     public function updated(Reparto $reparto)
     {
         Auditoria::create([
-            'tabla_afectada' => 'docentes',
+            'tabla_afectada' => 'repartos',
             'operacion' => 'UPDATE',
             'registro_id' => $reparto->id,
             'datos_anteriores' => json_encode($reparto->getOriginal()),
@@ -34,7 +34,7 @@ class RepartoObserver
     public function deleted(Reparto $reparto)
     {
         Auditoria::create([
-            'tabla_afectada' => 'docentes',
+            'tabla_afectada' => 'repartos',
             'operacion' => 'DELETE',
             'registro_id' => $reparto->id,
             'datos_anteriores' => json_encode($reparto),

@@ -11,7 +11,7 @@ class CompraObserver
     public function created(Compra $compra)
     {
         Auditoria::create([
-            'tabla_afectada' => 'adscripciones',
+            'tabla_afectada' => 'compras',
             'operacion' => 'INSERT',
             'registro_id' => $compra->id,
             'datos_nuevos' => json_encode($compra),
@@ -22,7 +22,7 @@ class CompraObserver
     public function updated(Compra $compra)
     {
         Auditoria::create([
-            'tabla_afectada' => 'adscripciones',
+            'tabla_afectada' => 'compras',
             'operacion' => 'UPDATE',
             'registro_id' => $compra->id,
             'datos_anteriores' => json_encode($compra->getOriginal()),
@@ -34,7 +34,7 @@ class CompraObserver
     public function deleted(Compra $compra)
     {
         Auditoria::create([
-            'tabla_afectada' => 'adscripciones',
+            'tabla_afectada' => 'compras',
             'operacion' => 'DELETE',
             'registro_id' => $compra->id,
             'datos_anteriores' => json_encode($compra),

@@ -11,8 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('adscripciones', function (Blueprint $table) {
-            $table->unsignedBigInteger('designado_id')->nullable()->after('id');
+        if (!Schema::hasTable('compras')) {
+            return;
+        }
+
+        if (Schema::hasColumn('compras', 'designado_id')) {
+            return;
+        }
+
+        Schema::table('compras', function (Blueprint $table) {
+            $table->unsignedBigInteger('designado_id')->nullable()->after('comentario');
             $table->foreign('designado_id')->references('id')->on('proveedores')->onDelete('set null');
         });
     }
@@ -22,7 +30,11 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('adscripciones', function (Blueprint $table) {
+        if (!Schema::hasTable('compras') || !Schema::hasColumn('compras', 'designado_id')) {
+            return;
+        }
+
+        Schema::table('compras', function (Blueprint $table) {
             $table->dropForeign(['designado_id']);
             $table->dropColumn('designado_id');
         });

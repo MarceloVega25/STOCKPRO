@@ -23,7 +23,7 @@ class AuditoriaSeeder extends Seeder
 
         foreach ($fechas as $i => $fecha) {
             Auditoria::create([
-                'tabla_afectada' => ['docentes', 'inscriptos', 'concursos'][$i % 3],
+                'tabla_afectada' => ['repartos', 'productos', 'categorias'][$i % 3],
                 'operacion' => ['INSERT', 'UPDATE', 'DELETE'][$i % 3],
                 'registro_id' => rand(1, 50),
                 'datos_anteriores' => json_encode(['campo' => 'valor anterior']),

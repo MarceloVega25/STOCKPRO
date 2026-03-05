@@ -8,9 +8,9 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('adscripcion_proveedor', function (Blueprint $table) {
+        Schema::create('compra_proveedor', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('adscripcion_id')->constrained('adscripciones')->onDelete('cascade');
+            $table->foreignId('compra_id')->constrained('compras')->onDelete('cascade');
             $table->foreignId('proveedor_id')->constrained('proveedores')->onDelete('cascade');
             $table->timestamps();
         });
@@ -18,6 +18,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('adscripcion_proveedor');
+        Schema::dropIfExists('compra_proveedor');
     }
 };

@@ -117,7 +117,7 @@ Route::middleware(['auth', 'role:admin|carga|consulta'])->group(function () {
 });
 
 // ----------------- Compras -----------------
-// Compras reemplaza Adscripciones
+// Módulo Compras
 Route::middleware(['auth', 'role:admin|carga'])->group(function () {
     Route::resource('compras', CompraController::class)
         ->except(['show', 'index']);
@@ -175,7 +175,7 @@ Route::middleware(['auth', 'role:admin|carga|consulta'])->group(function () {
 });
 
 // ----------------- Ventas -----------------
-// Ventas reemplaza Asignaturas
+// Módulo Ventas
 Route::middleware(['auth', 'role:admin|carga'])->group(function () {
     Route::resource('ventas', VentaController::class)
         ->except(['show', 'index']);
@@ -187,7 +187,7 @@ Route::middleware(['auth', 'role:admin|carga|consulta'])->group(function () {
 });
 
 // ----------------- Repartos -----------------
-// Repartos reemplaza Docentes
+// Módulo Repartos
 Route::middleware(['auth', 'role:admin|carga'])->group(function () {
     Route::get('/repartos/buscar', [RepartoController::class, 'mostrarBusqueda'])
         ->name('repartos.buscar');
@@ -204,7 +204,7 @@ Route::middleware(['auth', 'role:admin|carga|consulta'])->group(function () {
 });
 
 // ----------------- Vehículos -----------------
-// Vehículos reemplaza Estudiantes
+// Módulo Vehículos
 Route::middleware(['auth', 'role:admin|carga'])->group(function () {
     Route::get('/vehiculos/buscar', [VehiculoController::class, 'mostrarBusqueda'])
         ->name('vehiculos.buscar');
@@ -221,7 +221,7 @@ Route::middleware(['auth', 'role:admin|carga|consulta'])->group(function () {
 });
 
 // ----------------- Vendedores -----------------
-// Vendedores reemplaza Veedores
+// Módulo Vendedores
 Route::middleware(['auth', 'role:admin|carga'])->group(function () {
     Route::get('/vendedores/buscar', [VendedorController::class, 'mostrarBusqueda'])
         ->name('vendedores.buscar');

@@ -32,7 +32,7 @@
                                 </div>
                                 <div class="col-md-3">
                                     <label>Fecha</label>
-                                    <input type="date" name="fecha_adscripcion" class="form-control">
+                                    <input type="date" name="fecha_compra" class="form-control">
                                 </div>
                                 <div class="col-md-3">
                                     <label>Expediente</label>
@@ -52,8 +52,8 @@
                                     </select>
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="tipo_adscripcion">Tipo</label><b>*</b>
-                                    <select name="tipo_adscripcion" class="form-control" required>
+                                    <label for="tipo_compra">Tipo</label><b>*</b>
+                                    <select name="tipo_compra" class="form-control" required>
                                         <option value="">Seleccione</option>
                                         <option value="Abierto">Abierto</option>
                                         <option value="Cerrado">Cerrado</option>
@@ -62,7 +62,7 @@
 
                                 <div class="col-md-4">
                                     <label>Modalidad</label><b>*</b>
-                                    <select name="modalidad_adscripcion" class="form-control" required>
+                                    <select name="modalidad_compra" class="form-control" required>
                                         <option value="">Seleccione</option>
                                         <option value="Presencial">Presencial</option>
                                         <option value="Virtual">Virtual</option>
@@ -98,9 +98,9 @@
 
                             <div class="row mt-3">
                                 <div class="col-md-4">
-                                    <label>Asignaturas</label>
-                                    <select name="asignaturas[]" class="form-control select2" multiple>
-                                        @foreach ($asignaturas as $a)
+                                    <label>Ventas</label>
+                                    <select name="ventas[]" class="form-control select2" multiple>
+                                        @foreach ($ventas as $a)
                                             <option value="{{ $a->id }}">{{ $a->nombre }}</option>
                                         @endforeach
                                     </select>
@@ -127,18 +127,18 @@
 
                             <div class="row mt-3">
                                 <div class="col-md-6">
-                                    <label>Docentes Titulares</label>
-                                    <select name="docentes_titulares[]" class="form-control select2" multiple>
-                                        @foreach ($docentes as $d)
+                                    <label>Repartos Titulares</label>
+                                    <select name="repartos_titulares[]" class="form-control select2" multiple>
+                                        @foreach ($repartos as $d)
                                             <option value="{{ $d->id }}">{{ $d->nombre_apellido }}, DNI: {{ $d->dni }}, Institución: {{ $d->institucion }}</option>
                                         @endforeach
                                     </select>
                                 </div>
 
                                 <div class="col-md-6">
-                                    <label>Docentes Suplentes</label>
-                                    <select name="docentes_suplentes[]" class="form-control select2" multiple>
-                                        @foreach ($docentes as $d)
+                                    <label>Repartos Suplentes</label>
+                                    <select name="repartos_suplentes[]" class="form-control select2" multiple>
+                                        @foreach ($repartos as $d)
                                             <option value="{{ $d->id }}">{{ $d->nombre_apellido }}, DNI: {{ $d->dni }}, Institución: {{ $d->institucion }}</option>
                                         @endforeach
                                     </select>
@@ -147,18 +147,18 @@
 
                             <div class="row mt-3">
                                 <div class="col-md-6">
-                                    <label>Estudiantes Titulares</label>
-                                    <select name="estudiantes_titulares[]" class="form-control select2" multiple>
-                                        @foreach ($estudiantes as $e)
+                                    <label>Vehículos Titulares</label>
+                                    <select name="vehiculos_titulares[]" class="form-control select2" multiple>
+                                        @foreach ($vehiculos as $e)
                                             <option value="{{ $e->id }}">{{ $e->nombre_apellido }}, DNI: {{ $e->dni }}, Institución: {{ $e->institucion }}</option>
                                         @endforeach
                                     </select>
                                 </div>
 
                                 <div class="col-md-6">
-                                    <label>Estudiantes Suplentes</label>
-                                    <select name="estudiantes_suplentes[]" class="form-control select2" multiple>
-                                        @foreach ($estudiantes as $e)
+                                    <label>Vehículos Suplentes</label>
+                                    <select name="vehiculos_suplentes[]" class="form-control select2" multiple>
+                                        @foreach ($vehiculos as $e)
                                             <option value="{{ $e->id }}">{{ $e->nombre_apellido }}, DNI: {{ $e->dni }}, Institución: {{ $e->institucion }}</option>
                                         @endforeach
                                     </select>
@@ -167,9 +167,9 @@
 
                             <div class="row mt-3">
                                 <div class="col-md-6">
-                                    <label>Veedores</label>
-                                    <select name="veedores[]" class="form-control select2" multiple>
-                                        @foreach ($veedores as $v)
+                                    <label>Vendedores</label>
+                                    <select name="vendedores[]" class="form-control select2" multiple>
+                                        @foreach ($vendedores as $v)
                                             <option value="{{ $v->id }}">{{ $v->nombre_apellido }}, DNI: {{ $v->dni }}, Cargo: {{ $v->cargo }}</option>
                                         @endforeach
                                     </select>

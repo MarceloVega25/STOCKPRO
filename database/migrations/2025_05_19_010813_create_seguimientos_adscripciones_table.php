@@ -8,10 +8,10 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('seguimientos_adscripciones', function (Blueprint $table) {
+        Schema::create('seguimientos_compras', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('adscripcion_id')->constrained('adscripciones')->onDelete('cascade');
-             $table->string('accion'); // Ej: "Se agregó docente titular"
+            $table->foreignId('compra_id')->constrained('compras')->onDelete('cascade');
+             $table->string('accion'); // Ej: "Se agregó reparto titular"
             $table->text('detalle')->nullable(); // Info extra
             $table->string('usuario')->nullable(); // Quién hizo la acción
             $table->timestamp('fecha')->useCurrent(); // Cuándo se hizo
@@ -21,6 +21,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('seguimientos_adscripciones');
+        Schema::dropIfExists('seguimientos_compras');
     }
 };

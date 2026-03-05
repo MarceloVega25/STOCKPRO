@@ -5,20 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class EstadoAdscripcion extends Model
+class EstadoCompra extends Model
 {
-    protected $table = 'estado_adscripciones'; // O el nombre que tenga tu tabla real
-
     use HasFactory;
 
+    protected $table = 'estados_compras';
+
     protected $fillable = [
-        'adscripcion_id',
+        'compra_id',
         'estado',
         'comentario',
     ];
 
-    public function adscripcion()
+    public function compra()
     {
-        return $this->belongsTo(Adscripcion::class);
+        return $this->belongsTo(Compra::class, 'compra_id');
     }
 }

@@ -9,16 +9,12 @@ return new class extends Migration
     public function up(): void
     {
         $tablas = [
-            'adscriptos',
-            'inscriptos',
-            'docentes',
-            'estudiantes',
-            'veedores',
-            'concursos',
-            'adscripciones',
+            'repartos',
+            'vehiculos',
+            'vendedores',
+            'compras',
             'usuarios',
-            'jerarquias',
-            'asignaturas',
+            'ventas',
             'departamentos',
             'carreras',
         ];
@@ -39,16 +35,12 @@ return new class extends Migration
     public function down(): void
     {
         $tablas = [
-            'adscriptos',
-            'inscriptos',
-            'docentes',
-            'estudiantes',
-            'veedores',
-            'concursos',
-            'adscripciones',
+            'repartos',
+            'vehiculos',
+            'vendedores',
+            'compras',
             'usuarios',
-            'jerarquias',
-            'asignaturas',
+            'ventas',
             'departamentos',
             'carreras',
         ];

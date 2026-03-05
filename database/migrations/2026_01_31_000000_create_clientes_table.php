@@ -9,7 +9,7 @@ return new class extends Migration
     public function up(): void
     {
         // Intentionally left blank. The 'clientes' table is created by an earlier migration
-        // to satisfy foreign-key constraints (e.g., adscripciones.cliente_id).
+        // to satisfy foreign-key constraints (e.g., compras.cliente_id).
     }
 
     public function down(): void

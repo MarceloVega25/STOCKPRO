@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('estado_adscripciones', function (Blueprint $table) {
+        Schema::create('estados_compras', function (Blueprint $table) {
             $table->id();
 
-            // Adscripcion asociado
-            $table->foreignId('adscripcion_id')->constrained('adscripciones')->onDelete('cascade'); // ✅ BIEN
+            // Compra asociado
+            $table->foreignId('compra_id')->constrained('compras')->onDelete('cascade');
 
-            // Estado del adscripcion (texto)
+            // Estado de la compra (texto)
             $table->string('estado'); // Ej: "Inscripción abierta", "Jurado designado", etc.
             $table->text('comentario')->nullable(); // Observaciones opcionales
 
@@ -31,7 +31,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('estado_adscripciones');
+        Schema::dropIfExists('estados_compras');
     }
 };
 

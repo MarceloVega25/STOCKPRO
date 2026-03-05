@@ -22,8 +22,8 @@ class VentaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nombre' => 'required|unique:asignaturas,nombre',
-            'siglas' => 'required|unique:asignaturas,siglas',
+            'nombre' => 'required|unique:ventas,nombre',
+            'siglas' => 'required|unique:ventas,siglas',
         ], [
             'nombre.unique' => 'El Nombre ya está registrado.',
             'siglas.unique' => 'La sigla ya está registrada.',
@@ -56,8 +56,8 @@ class VentaController extends Controller
         $venta = Venta::findOrFail($id);
 
         $request->validate([
-            'nombre' => 'required|unique:asignaturas,nombre,' . $venta->id,
-            'siglas' => 'required|unique:asignaturas,siglas,' . $venta->id,
+            'nombre' => 'required|unique:ventas,nombre,' . $venta->id,
+            'siglas' => 'required|unique:ventas,siglas,' . $venta->id,
         ], [
             'nombre.unique' => 'El Nombre ya está registrado.',
             'siglas.unique' => 'Esa Sigla ya está registrada.',

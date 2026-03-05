@@ -15,7 +15,7 @@ use App\Models\Proveedor;
 use App\Models\Reparto;
 use App\Models\Vehiculo;
 use App\Models\Vendedor;
-use App\Models\SeguimientoAdscripcion;
+use App\Models\SeguimientoCompra;
 
 class CompraController extends Controller
 {
@@ -24,7 +24,7 @@ class CompraController extends Controller
         $compras = Compra::with([
             'cliente',
             'carreras',
-            'asignaturas',
+            'ventas',
             'departamentos',
             'designado',
             'estados'
@@ -37,13 +37,13 @@ class CompraController extends Controller
     {
         return view('compras.create', [
             'clientes' => Cliente::all(),
-            'asignaturas' => Venta::all(),
+            'ventas' => Venta::all(),
             'departamentos' => Departamento::all(),
             'carreras' => Carrera::all(),
             'proveedores' => Proveedor::all(),
-            'docentes' => Reparto::all(),
-            'estudiantes' => Vehiculo::all(),
-            'veedores' => Vendedor::all(),
+            'repartos' => Reparto::all(),
+            'vehiculos' => Vehiculo::all(),
+            'vendedores' => Vendedor::all(),
         ]);
     }
 
@@ -53,8 +53,8 @@ class CompraController extends Controller
             'numero' => 'required',
             'anio' => 'required|numeric',
             'cliente_id' => 'required|exists:clientes,id',
-            'tipo_adscripcion' => 'required',
-            'modalidad_adscripcion' => 'required',
+            'tipo_compra' => 'required',
+            'modalidad_compra' => 'required',
             'designado_id' => 'nullable|exists:proveedores,id',
         ]);
 
@@ -62,13 +62,13 @@ class CompraController extends Controller
             'numero',
             'anio',
             'cliente_id',
-            'tipo_adscripcion',
-            'modalidad_adscripcion',
+            'tipo_compra',
+            'modalidad_compra',
             'inicio_publicidad',
             'cierre_publicidad',
             'inicio_inscripcion',
             'cierre_inscripcion',
-            'fecha_adscripcion',
+            'fecha_compra',
             'expediente',
             'observaciones',
             'estado',
@@ -76,41 +76,37 @@ class CompraController extends Controller
             'designado_id'
         ]));
 
-        $compra->asignaturas()->sync($request->input('asignaturas', []));
+        $compra->ventas()->sync($request->input('ventas', []));
         $compra->departamentos()->sync($request->input('departamentos', []));
         $compra->carreras()->sync($request->input('carreras', []));
-        $compra->veedores()->sync($request->input('veedores', []));
+        $compra->vendedores()->sync($request->input('vendedores', []));
         $compra->proveedores()->sync($request->input('proveedores', []));
 
-        if ($request->has('docentes_titulares')) {
-            foreach ($request->docentes_titulares as $id) {
-                $compra->docentes()->attach($id, ['tipo' => 'titular']);
-            }
+        $repartosTitulares = $request->input('repartos_titulares', []);
+        foreach ($repartosTitulares as $id) {
+            $compra->repartos()->attach($id, ['tipo' => 'titular']);
         }
 
-        if ($request->has('docentes_suplentes')) {
-            foreach ($request->docentes_suplentes as $id) {
-                $compra->docentes()->attach($id, ['tipo' => 'suplente']);
-            }
+        $repartosSuplentes = $request->input('repartos_suplentes', []);
+        foreach ($repartosSuplentes as $id) {
+            $compra->repartos()->attach($id, ['tipo' => 'suplente']);
         }
 
-        if ($request->has('estudiantes_titulares')) {
-            foreach ($request->estudiantes_titulares as $id) {
-                $compra->estudiantes()->attach($id, ['tipo' => 'titular']);
-            }
+        $vehiculosTitulares = $request->input('vehiculos_titulares', []);
+        foreach ($vehiculosTitulares as $id) {
+            $compra->vehiculos()->attach($id, ['tipo' => 'titular']);
         }
 
-        if ($request->has('estudiantes_suplentes')) {
-            foreach ($request->estudiantes_suplentes as $id) {
-                $compra->estudiantes()->attach($id, ['tipo' => 'suplente']);
-            }
+        $vehiculosSuplentes = $request->input('vehiculos_suplentes', []);
+        foreach ($vehiculosSuplentes as $id) {
+            $compra->vehiculos()->attach($id, ['tipo' => 'suplente']);
         }
 
         $detalle = "Compra creada: N° {$compra->numero}/{$compra->anio}, Cliente: " . optional($compra->cliente)->razon_social .
-            ", Tipo: {$compra->tipo_adscripcion}, Modalidad: {$compra->modalidad_adscripcion}";
+            ", Tipo: {$compra->tipo_compra}, Modalidad: {$compra->modalidad_compra}";
 
-        SeguimientoAdscripcion::create([
-            'adscripcion_id' => $compra->id,
+        SeguimientoCompra::create([
+            'compra_id' => $compra->id,
             'accion' => 'Compra creada',
             'detalle' => Str::limit($detalle, 1000),
             'usuario' => Auth::check() ? Auth::user()->nombre_apellido : 'Sistema',
@@ -123,15 +119,15 @@ class CompraController extends Controller
     {
         $compra->load([
             'cliente',
-            'asignaturas',
+            'ventas',
             'departamentos',
             'carreras',
             'proveedores',
-            'veedores',
-            'docentesTitulares',
-            'docentesSuplentes',
-            'estudiantesTitulares',
-            'estudiantesSuplentes',
+            'vendedores',
+            'repartosTitulares',
+            'repartosSuplentes',
+            'vehiculosTitulares',
+            'vehiculosSuplentes',
             'estados',
             'designado',
             'seguimientos'
@@ -144,26 +140,26 @@ class CompraController extends Controller
     {
         $compra->load([
             'cliente',
-            'asignaturas',
+            'ventas',
             'departamentos',
             'carreras',
-            'docentesTitulares',
-            'docentesSuplentes',
-            'estudiantesTitulares',
-            'estudiantesSuplentes',
-            'veedores',
+            'repartosTitulares',
+            'repartosSuplentes',
+            'vehiculosTitulares',
+            'vehiculosSuplentes',
+            'vendedores',
             'proveedores',
         ]);
 
         return view('compras.edit', [
             'compra' => $compra,
             'clientes' => Cliente::all(),
-            'asignaturas' => Venta::all(),
+            'ventas' => Venta::all(),
             'departamentos' => Departamento::all(),
             'carreras' => Carrera::all(),
-            'docentes' => Reparto::all(),
-            'estudiantes' => Vehiculo::all(),
-            'veedores' => Vendedor::all(),
+            'repartos' => Reparto::all(),
+            'vehiculos' => Vehiculo::all(),
+            'vendedores' => Vendedor::all(),
             'proveedores' => Proveedor::all(),
         ]);
     }
@@ -174,8 +170,8 @@ class CompraController extends Controller
             'numero' => 'required',
             'anio' => 'required|numeric',
             'cliente_id' => 'required|exists:clientes,id',
-            'tipo_adscripcion' => 'required',
-            'modalidad_adscripcion' => 'required',
+            'tipo_compra' => 'required',
+            'modalidad_compra' => 'required',
             'designado_id' => 'nullable|exists:proveedores,id',
         ]);
 
@@ -184,11 +180,11 @@ class CompraController extends Controller
         $compra->update($request->only([
             'numero',
             'anio',
-            'fecha_adscripcion',
+            'fecha_compra',
             'expediente',
             'cliente_id',
-            'tipo_adscripcion',
-            'modalidad_adscripcion',
+            'tipo_compra',
+            'modalidad_compra',
             'inicio_publicidad',
             'cierre_publicidad',
             'inicio_inscripcion',
@@ -199,32 +195,32 @@ class CompraController extends Controller
             'designado_id'
         ]));
 
-        $compra->asignaturas()->sync($request->input('asignaturas', []));
+        $compra->ventas()->sync($request->input('ventas', []));
         $compra->departamentos()->sync($request->input('departamentos', []));
         $compra->carreras()->sync($request->input('carreras', []));
-        $compra->veedores()->sync($request->input('veedores', []));
+        $compra->vendedores()->sync($request->input('vendedores', []));
         $compra->proveedores()->sync($request->input('proveedores', []));
 
-        $compra->docentes()->detach();
-        foreach ($request->input('docentes_titulares', []) as $id) {
-            $compra->docentes()->attach($id, ['tipo' => 'titular']);
+        $compra->repartos()->detach();
+        foreach ($request->input('repartos_titulares', []) as $id) {
+            $compra->repartos()->attach($id, ['tipo' => 'titular']);
         }
-        foreach ($request->input('docentes_suplentes', []) as $id) {
-            $compra->docentes()->attach($id, ['tipo' => 'suplente']);
+        foreach ($request->input('repartos_suplentes', []) as $id) {
+            $compra->repartos()->attach($id, ['tipo' => 'suplente']);
         }
 
-        $compra->estudiantes()->detach();
-        foreach ($request->input('estudiantes_titulares', []) as $id) {
-            $compra->estudiantes()->attach($id, ['tipo' => 'titular']);
+        $compra->vehiculos()->detach();
+        foreach ($request->input('vehiculos_titulares', []) as $id) {
+            $compra->vehiculos()->attach($id, ['tipo' => 'titular']);
         }
-        foreach ($request->input('estudiantes_suplentes', []) as $id) {
-            $compra->estudiantes()->attach($id, ['tipo' => 'suplente']);
+        foreach ($request->input('vehiculos_suplentes', []) as $id) {
+            $compra->vehiculos()->attach($id, ['tipo' => 'suplente']);
         }
 
         $detalle = "Compra actualizada: N° {$compra->numero}/{$compra->anio}";
 
-        SeguimientoAdscripcion::create([
-            'adscripcion_id' => $compra->id,
+        SeguimientoCompra::create([
+            'compra_id' => $compra->id,
             'accion' => 'Compra actualizada',
             'detalle' => Str::limit($detalle, 1000),
             'usuario' => Auth::check() ? Auth::user()->nombre_apellido : 'Sistema',

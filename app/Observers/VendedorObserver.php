@@ -11,7 +11,7 @@ class VendedorObserver
     public function created(Vendedor $vendedor)
     {
         Auditoria::create([
-            'tabla_afectada' => 'veedores',
+            'tabla_afectada' => 'vendedores',
             'operacion' => 'INSERT',
             'registro_id' => $vendedor->id,
             'datos_nuevos' => json_encode($vendedor),
@@ -22,7 +22,7 @@ class VendedorObserver
     public function updated(Vendedor $vendedor)
     {
         Auditoria::create([
-            'tabla_afectada' => 'veedores',
+            'tabla_afectada' => 'vendedores',
             'operacion' => 'UPDATE',
             'registro_id' => $vendedor->id,
             'datos_anteriores' => json_encode($vendedor->getOriginal()),
@@ -34,7 +34,7 @@ class VendedorObserver
     public function deleted(Vendedor $vendedor)
     {
         Auditoria::create([
-            'tabla_afectada' => 'veedores',
+            'tabla_afectada' => 'vendedores',
             'operacion' => 'DELETE',
             'registro_id' => $vendedor->id,
             'datos_anteriores' => json_encode($vendedor),

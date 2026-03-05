@@ -51,27 +51,19 @@ class InformeController extends Controller
 
         $modelos = [
             'categorias' => Categoria::class,
-            // compatibilidad: antes 'concursos'
-            'concursos' => Categoria::class,
-            // compatibilidad: antes 'adscriptos'
-            'adscriptos' => Proveedor::class,
             'proveedores' => Proveedor::class,
-            'adscripciones' => Compra::class,
-            'docentes' => Reparto::class,
-            'estudiantes' => Vehiculo::class,
-            'veedores' => Vendedor::class,
-            // compatibilidad: antes 'jerarquias'
-            'jerarquias' => Cliente::class,
             'clientes' => Cliente::class,
             'carreras' => Carrera::class,
             'departamentos' => Departamento::class,
             'stock' => Departamento::class,
             'movimientos_stock' => Carrera::class,
-            'asignaturas' => Venta::class,
-            // compatibilidad: antes 'inscriptos'
-            'inscriptos' => Producto::class,
             'productos' => Producto::class,
             'usuarios' => Usuario::class,
+            'compras' => Compra::class,
+            'ventas' => Venta::class,
+            'repartos' => Reparto::class,
+            'vehiculos' => Vehiculo::class,
+            'vendedores' => Vendedor::class,
         ];
 
         if (!array_key_exists($modulo, $modelos)) {
@@ -85,39 +77,24 @@ class InformeController extends Controller
             return back()->with('error', 'No hay datos para ese rango de fechas.');
         }
 
-        $vista = "informes.pdf_" . $modulo;
-        if ($modulo === 'adscriptos') {
-            $vista = 'informes.pdf_proveedores';
+        $vistasPdfMap = [
+            'compras' => 'informes.pdf_compras',
+            'ventas' => 'informes.pdf_ventas',
+            'repartos' => 'informes.pdf_repartos',
+            'vehiculos' => 'informes.pdf_vehiculos',
+            'vendedores' => 'informes.pdf_vendedores',
+        ];
+
+        $vistaPdf = 'informes.pdf_' . $modulo;
+        if (array_key_exists($modulo, $vistasPdfMap)) {
+            $vistaPdf = $vistasPdfMap[$modulo];
         }
-        if ($modulo === 'jerarquias') {
-            $vista = 'informes.pdf_clientes';
-        }
-        if ($modulo === 'proveedores') {
-            $vista = 'informes.pdf_proveedores';
-        }
-        if ($modulo === 'clientes') {
-            $vista = 'informes.pdf_clientes';
-        }
-        // compatibilidad: antes 'inscriptos'
-        if ($modulo === 'inscriptos') {
-            $vista = 'informes.pdf_productos';
-        }
-        // compatibilidad: antes 'concursos'
-        if ($modulo === 'concursos') {
-            $vista = 'informes.pdf_categorias';
-        }
-        if ($modulo === 'stock') {
-            $vista = 'informes.pdf_departamentos';
-        }
-        if ($modulo === 'movimientos_stock') {
-            $vista = 'informes.pdf_carreras';
-        }
-        if (!view()->exists($vista)) {
-            return back()->with('error', 'La vista PDF para este módulo no existe: ' . $vista);
+        if (!view()->exists($vistaPdf)) {
+            return back()->with('error', 'La vista PDF para este módulo no existe: ' . $vistaPdf);
         }
 
         $filename = "informe_{$modulo}_{$desde}_{$hasta}.pdf";
-        $pdf = Pdf::loadView($vista, compact('datos', 'desde', 'hasta'));
+        $pdf = Pdf::loadView($vistaPdf, compact('datos', 'desde', 'hasta'));
 
         // Guardar PDF en storage/app/public/informes
         Storage::disk('public')->put("informes/{$filename}", $pdf->output());
@@ -140,27 +117,19 @@ class InformeController extends Controller
 
         $modelos = [
             'categorias' => Categoria::class,
-            // compatibilidad: antes 'adscriptos'
-            'adscriptos' => Proveedor::class,
             'proveedores' => Proveedor::class,
-            'adscripciones' => Compra::class,
-            'docentes' => Reparto::class,
-            'estudiantes' => Vehiculo::class,
-            'veedores' => Vendedor::class,
-            // compatibilidad: antes 'jerarquias'
-            'jerarquias' => Cliente::class,
             'clientes' => Cliente::class,
             'carreras' => Carrera::class,
             'departamentos' => Departamento::class,
             'stock' => Departamento::class,
             'movimientos_stock' => Carrera::class,
-            'asignaturas' => Venta::class,
-            // compatibilidad: antes 'inscriptos'
-            'inscriptos' => Producto::class,
-            // compatibilidad: antes 'concursos'
-            'concursos' => Categoria::class,
             'productos' => Producto::class,
             'usuarios' => Usuario::class,
+            'compras' => Compra::class,
+            'ventas' => Venta::class,
+            'repartos' => Reparto::class,
+            'vehiculos' => Vehiculo::class,
+            'vendedores' => Vendedor::class,
         ];
 
         if (!array_key_exists($modulo, $modelos)) {
@@ -174,31 +143,24 @@ class InformeController extends Controller
             return back()->with('error', 'No hay datos para el año seleccionado.');
         }
 
-        $vista = "informes.pdf_" . $modulo;
-        if ($modulo === 'adscriptos') {
-            $vista = 'informes.pdf_proveedores';
+        $vistasPdfMap = [
+            'compras' => 'informes.pdf_compras',
+            'ventas' => 'informes.pdf_ventas',
+            'repartos' => 'informes.pdf_repartos',
+            'vehiculos' => 'informes.pdf_vehiculos',
+            'vendedores' => 'informes.pdf_vendedores',
+        ];
+
+        $vistaPdf = 'informes.pdf_' . $modulo;
+        if (array_key_exists($modulo, $vistasPdfMap)) {
+            $vistaPdf = $vistasPdfMap[$modulo];
         }
-        if ($modulo === 'jerarquias') {
-            $vista = 'informes.pdf_clientes';
-        }
-        if ($modulo === 'proveedores') {
-            $vista = 'informes.pdf_proveedores';
-        }
-        if ($modulo === 'clientes') {
-            $vista = 'informes.pdf_clientes';
-        }
-        if ($modulo === 'inscriptos') {
-            $vista = 'informes.pdf_productos';
-        }
-        if ($modulo === 'concursos') {
-            $vista = 'informes.pdf_categorias';
-        }
-        if (!view()->exists($vista)) {
-            return back()->with('error', 'La vista PDF para este módulo no existe: ' . $vista);
+        if (!view()->exists($vistaPdf)) {
+            return back()->with('error', 'La vista PDF para este módulo no existe: ' . $vistaPdf);
         }
 
         $filename = "informe_{$modulo}_{$anio}.pdf";
-        $pdf = Pdf::loadView($vista, compact('datos', 'anio'));
+        $pdf = Pdf::loadView($vistaPdf, compact('datos', 'anio'));
 
         Storage::disk('public')->put("informes/{$filename}", $pdf->output());
 

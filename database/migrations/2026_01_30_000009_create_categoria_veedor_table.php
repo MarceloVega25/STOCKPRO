@@ -8,16 +8,16 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('categoria_veedor', function (Blueprint $table) {
+        Schema::create('categoria_vendedor', function (Blueprint $table) {
             $table->id();
             $table->foreignId('categoria_id')->constrained('categorias')->onDelete('cascade');
-            $table->foreignId('veedor_id')->constrained('veedores')->onDelete('cascade');
+            $table->foreignId('vendedor_id')->constrained('vendedores')->onDelete('cascade');
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('categoria_veedor');
+        Schema::dropIfExists('categoria_vendedor');
     }
 };

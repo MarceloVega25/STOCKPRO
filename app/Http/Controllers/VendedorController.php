@@ -23,10 +23,10 @@ class VendedorController extends Controller
     {
         $request->validate([
             'nombre_apellido' => 'required',
-            'dni' => ['required', 'digits:8', 'regex:/^[0-9]{8}$/', 'unique:veedores,dni'],
+            'dni' => ['required', 'digits:8', 'regex:/^[0-9]{8}$/', 'unique:vendedores,dni'],
             'fecha_nacimiento' => ['required', 'date', 'before_or_equal:' . now()->subYears(18)->format('Y-m-d')],
             'genero' => 'required',
-            'email' => 'required|email|unique:veedores,email',
+            'email' => 'required|email|unique:vendedores,email',
             'telefono' => 'required',
             'institucion' => 'required',
             'cargo' => 'required',
@@ -62,10 +62,10 @@ class VendedorController extends Controller
         $vendedor->institucion = $request->institucion;
         $vendedor->cargo = $request->cargo;
 
-        $vendedor->cv = $request->file('cv')->store('cv_veedores', 'public');
+        $vendedor->cv = $request->file('cv')->store('cv_vendedores', 'public');
 
         if ($request->hasFile('fotografia')) {
-            $vendedor->fotografia = $request->file('fotografia')->store('fotografias_veedores', 'public');
+            $vendedor->fotografia = $request->file('fotografia')->store('fotografias_vendedores', 'public');
         }
 
         $vendedor->save();
@@ -89,10 +89,10 @@ class VendedorController extends Controller
     {
         $request->validate([
             'nombre_apellido' => 'required',
-            'dni' => ['required', 'digits:8', 'regex:/^[0-9]{8}$/', 'unique:veedores,dni,' . $id],
+            'dni' => ['required', 'digits:8', 'regex:/^[0-9]{8}$/', 'unique:vendedores,dni,' . $id],
             'fecha_nacimiento' => ['required', 'date', 'before_or_equal:' . now()->subYears(18)->format('Y-m-d')],
             'genero' => 'required',
-            'email' => 'required|email|unique:veedores,email,' . $id,
+            'email' => 'required|email|unique:vendedores,email,' . $id,
             'telefono' => 'required',
             'institucion' => 'required',
             'cargo' => 'required',
@@ -134,7 +134,7 @@ class VendedorController extends Controller
             if ($vendedor->cv && File::exists($cvPath)) {
                 unlink($cvPath);
             }
-            $vendedor->cv = $request->file('cv')->store('cv_veedores', 'public');
+            $vendedor->cv = $request->file('cv')->store('cv_vendedores', 'public');
         }
 
         if ($request->hasFile('fotografia')) {
@@ -142,7 +142,7 @@ class VendedorController extends Controller
             if ($vendedor->fotografia && File::exists($fotoPath)) {
                 unlink($fotoPath);
             }
-            $vendedor->fotografia = $request->file('fotografia')->store('fotografias_veedores', 'public');
+            $vendedor->fotografia = $request->file('fotografia')->store('fotografias_vendedores', 'public');
         }
 
         $vendedor->save();

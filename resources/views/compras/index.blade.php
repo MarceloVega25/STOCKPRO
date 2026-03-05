@@ -48,11 +48,11 @@
                                         <td>{{ $compra->id }}</td>
                                         <td>{{ $compra->numero }}/{{ $compra->anio }}</td>
                                         <td>{{ $compra->cliente->cuit ?? '-' }}</td>
-                                        <td>{{ $compra->tipo_adscripcion }}</td>
-                                        <td>{{ $compra->modalidad_adscripcion }}</td>
+                                        <td>{{ $compra->tipo_compra }}</td>
+                                        <td>{{ $compra->modalidad_compra }}</td>
                                         <td>
-                                            @if($compra->fecha_adscripcion)
-                                                {{ \Carbon\Carbon::parse($compra->fecha_adscripcion)->format('d/m/Y') }}
+                                            @if($compra->fecha_compra)
+                                                {{ \Carbon\Carbon::parse($compra->fecha_compra)->format('d/m/Y') }}
                                             @else
                                                 <em>Sin fecha</em>
                                             @endif

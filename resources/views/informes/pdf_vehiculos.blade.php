@@ -27,7 +27,7 @@
             <tr>
                 <th>Nombre</th>
                 <th>DNI</th>
-                <th>Carrera</th>
+                <th>Institución</th>
             </tr>
         </thead>
         <tbody>
@@ -35,12 +35,12 @@
                 <tr>
                     <td>{{ $vehiculo->nombre_apellido }}</td>
                     <td>{{ $vehiculo->dni }}</td>
-                    <td>{{ $vehiculo->carrera }}</td>
+                    <td>{{ $vehiculo->institucion }}</td>
                 </tr>
             @endforeach
         </tbody>
     </table>
 
-    <p style="margin-top: 20px;"><strong>Total de estudiantes: {{ $datos->count() }}</strong></p>
+    <p style="margin-top: 20px;"><strong>Total de vehículos: {{ $datos->count() }}</strong></p>
 </body>
 </html>

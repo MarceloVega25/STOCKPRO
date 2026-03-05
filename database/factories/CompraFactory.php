@@ -23,10 +23,10 @@ class CompraFactory extends Factory
             'cierre_publicidad' => Carbon::now()->subDays(5),
             'inicio_inscripcion' => Carbon::now()->subDays(4),
             'cierre_inscripcion' => Carbon::now()->addDays(5),
-            'fecha_adscripcion' => Carbon::now()->addDays(15),
+            'fecha_compra' => Carbon::now()->addDays(15),
             'cliente_id' => Cliente::inRandomOrder()->first()?->id ?? Cliente::factory(),
-            'tipo_adscripcion' => $this->faker->randomElement(['Ordinario', 'Reválida', 'Interino']),
-            'modalidad_adscripcion' => $this->faker->randomElement(['Presencial', 'Virtual', 'Mixta']),
+            'tipo_compra' => $this->faker->randomElement(['Ordinario', 'Reválida', 'Interino']),
+            'modalidad_compra' => $this->faker->randomElement(['Presencial', 'Virtual', 'Mixta']),
             'expediente' => 'EXP-' . $this->faker->unique()->numerify('2024-####'),
             'observaciones' => $this->faker->sentence(),
         ];

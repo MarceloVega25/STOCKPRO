@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('adscripcion_estudiante', function (Blueprint $table) {
+        Schema::create('compra_vehiculo', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('adscripcion_id')->constrained('adscripciones')->onDelete('cascade');
-            $table->foreignId('estudiante_id')->constrained('estudiantes')->onDelete('cascade');
+            $table->foreignId('compra_id')->constrained('compras')->onDelete('cascade');
+            $table->foreignId('vehiculo_id')->constrained('vehiculos')->onDelete('cascade');
             $table->enum('tipo', ['titular', 'suplente']);
             $table->timestamps();
         });
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('adscripcion_estudiante');
+        Schema::dropIfExists('compra_vehiculo');
     }
 };
