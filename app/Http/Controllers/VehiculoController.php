@@ -188,7 +188,7 @@ class VehiculoController extends Controller
         if ($vehiculo) {
             return redirect()->route('vehiculos.buscar')->with([
                 'mensaje' => 'existe',
-                'docente_id' => $vehiculo->id
+                'vehiculo_id' => $vehiculo->id
             ]);
         }
 

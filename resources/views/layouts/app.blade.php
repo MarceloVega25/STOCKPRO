@@ -58,7 +58,7 @@
             <div class="container">
                 <a class="navbar-brand d-flex align-items-center" href="{{ url('/') }}">
                     <img src="{{ asset('images/icono.jpg') }}" alt="FICH Logo" width="40px" class="me-2">
-                    <span>Bienvenido al Sistema de Gestión de Compras, Ventas, Stock y Repartos</span>
+                    <span>Bienvenido al Sistema de Gestión de Compras, Ventas y Entregas</span>
                 </a>                
                 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"

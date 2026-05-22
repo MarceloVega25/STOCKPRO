@@ -25,23 +25,50 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>Nombre</label><b>*</b>
-                                    <input type="text" name="nombre" class="form-control"
-                                        value="{{ old('nombre', $movimiento_stock->nombre) }}" required>
-                                    @error('nombre')
-                                        <small style="color: red;">*Este campo es requerido</small>
-                                    @enderror
+                                    <label>Producto</label><b>*</b>
+                                    <select name="producto_id" class="form-control" required>
+                                        @foreach ($productos as $p)
+                                            <option value="{{ $p->id }}" {{ old('producto_id', $movimiento_stock->producto_id) == $p->id ? 'selected' : '' }}>
+                                                {{ $p->nombre }}
+                                            </option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>Siglas</label><b>*</b>
-                                    <input type="text" name="siglas" class="form-control"
-                                        value="{{ old('siglas', $movimiento_stock->siglas) }}" required>
-                                    @error('siglas')
-                                        <small style="color: red;">*Este campo es requerido</small>
-                                    @enderror
+                                    <label>Tipo</label><b>*</b>
+                                    <select name="tipo" class="form-control" required>
+                                        <option value="entrada" {{ old('tipo', $movimiento_stock->tipo) == 'entrada' ? 'selected' : '' }}>Entrada</option>
+                                        <option value="salida" {{ old('tipo', $movimiento_stock->tipo) == 'salida' ? 'selected' : '' }}>Salida</option>
+                                        <option value="ajuste" {{ old('tipo', $movimiento_stock->tipo) == 'ajuste' ? 'selected' : '' }}>Ajuste</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Cantidad</label><b>*</b>
+                                    <input type="number" name="cantidad" class="form-control" value="{{ old('cantidad', $movimiento_stock->cantidad) }}" min="1" required>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Fecha</label>
+                                    <input type="datetime-local" name="fecha" class="form-control" value="{{ old('fecha', optional($movimiento_stock->fecha)->format('Y-m-d\\TH:i')) }}">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Motivo</label>
+                                    <input type="text" name="motivo" class="form-control" value="{{ old('motivo', $movimiento_stock->motivo) }}">
                                 </div>
                             </div>
                         </div>

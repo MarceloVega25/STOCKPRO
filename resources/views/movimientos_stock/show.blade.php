@@ -15,15 +15,40 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>Nombre</label>
-                                    <input type="text" class="form-control" value="{{ $movimiento_stock->nombre }}" disabled>
+                                    <label>Producto</label>
+                                    <input type="text" class="form-control" value="{{ optional($movimiento_stock->producto)->nombre }}" disabled>
                                 </div>
                             </div>
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>Siglas</label>
-                                    <input type="text" class="form-control" value="{{ $movimiento_stock->siglas }}" disabled>
+                                    <label>Fecha</label>
+                                    <input type="text" class="form-control" value="{{ optional($movimiento_stock->fecha)->format('d/m/Y H:i') }}" disabled>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Tipo</label>
+                                    <input type="text" class="form-control" value="{{ $movimiento_stock->tipo }}" disabled>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Cantidad</label>
+                                    <input type="text" class="form-control" value="{{ $movimiento_stock->cantidad }}" disabled>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Motivo</label>
+                                    <input type="text" class="form-control" value="{{ $movimiento_stock->motivo }}" disabled>
                                 </div>
                             </div>
                         </div>

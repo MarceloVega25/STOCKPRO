@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Proveedor;
 use App\Models\Producto;
 use App\Models\Reparto;
+use App\Models\Repartidor;
 use App\Models\Vehiculo;
 use App\Models\Vendedor;
 use App\Models\Usuario;
@@ -21,6 +22,7 @@ public function index(){
     $productos = Producto::all();
     $proveedores = Proveedor::all();
     $repartos = Reparto::all();
+    $repartidores = Repartidor::all();
     $vehiculos = Vehiculo::all();
     $vendedores = Vendedor::all();
     $usuarios = Usuario::all();
@@ -31,6 +33,7 @@ public function index(){
     return view('index',['productos' => $productos,
     'proveedores' => $proveedores, 
     'repartos' => $repartos, 
+    'repartidores' => $repartidores,
     'vehiculos' => $vehiculos,
     'vendedores'=>$vendedores,
     'usuarios'=>$usuarios,

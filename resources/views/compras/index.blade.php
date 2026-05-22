@@ -33,12 +33,11 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Número/Año</th>
-                                    <th>Cliente</th>
-                                    <th>Tipo</th>
-                                    <th>Modalidad</th>
+                                    <th>Código</th>
+                                    <th>Proveedor</th>
                                     <th>Fecha</th>
-                                    <th>Designado</th>
+                                    <th>Comprobante</th>
+                                    <th>Total</th>
                                     <th>Acción</th>
                                 </tr>
                             </thead>
@@ -46,24 +45,11 @@
                                 @foreach ($compras as $compra)
                                     <tr>
                                         <td>{{ $compra->id }}</td>
-                                        <td>{{ $compra->numero }}/{{ $compra->anio }}</td>
-                                        <td>{{ $compra->cliente->cuit ?? '-' }}</td>
-                                        <td>{{ $compra->tipo_compra }}</td>
-                                        <td>{{ $compra->modalidad_compra }}</td>
-                                        <td>
-                                            @if($compra->fecha_compra)
-                                                {{ \Carbon\Carbon::parse($compra->fecha_compra)->format('d/m/Y') }}
-                                            @else
-                                                <em>Sin fecha</em>
-                                            @endif
-                                        </td>
-                                        <td>
-                                            @if($compra->designado)
-                                                {{ $compra->designado->nombre_apellido }}
-                                            @else
-                                                <em>Sin designar</em>
-                                            @endif
-                                        </td>
+                                        <td>{{ $compra->codigo }}</td>
+                                        <td>{{ optional($compra->proveedor)->nombre_apellido ?? '-' }}</td>
+                                        <td>{{ $compra->fecha ? \Carbon\Carbon::parse($compra->fecha)->format('d/m/Y') : '-' }}</td>
+                                        <td>{{ $compra->comprobante ?? '-' }}</td>
+                                        <td>{{ number_format((float) $compra->total, 2, ',', '.') }}</td>
 
                                         <td style="text-align: center">
                                             <div class="btn-group" role="group" aria-label="Acciones">

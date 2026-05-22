@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="content" style="margin-left: 20px">
-    <h1>Creación de un nuevo Stock</h1>
+    <h1>Creación de un nuevo Departamento</h1>
 
     @foreach ($errors->all() as $error)
         <div class="alert alert-danger">
@@ -26,7 +26,7 @@
                                 <div class="form-group">
                                     <label>Nombre</label><b>*</b>
                                     <input type="text" name="nombre" class="form-control"
-                                        placeholder="Ingrese Nombre de Stock" value="{{ old('nombre') }}" required>
+                                        placeholder="Ingrese Nombre del Departamento" value="{{ old('nombre') }}" required>
                                     @error('nombre')
                                         <small style="color: red;">*Este campo es requerido</small>
                                     @enderror
@@ -37,7 +37,7 @@
                                 <div class="form-group">
                                     <label>Siglas</label><b>*</b>
                                     <input type="text" name="siglas" class="form-control"
-                                        placeholder="Ingrese Siglas de Stock" value="{{ old('siglas') }}" required>
+                                        placeholder="Ingrese Siglas del Departamento" value="{{ old('siglas') }}" required>
                                     @error('siglas')
                                         <small style="color: red;">*Este campo es requerido</small>
                                     @enderror

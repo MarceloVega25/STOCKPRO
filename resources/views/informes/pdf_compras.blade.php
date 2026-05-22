@@ -26,21 +26,27 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Tipo</th>
-                <th>Modalidad</th>
+                <th>Código</th>
+                <th>Proveedor</th>
+                <th>Fecha</th>
+                <th>Comprobante</th>
+                <th>Total</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($datos as $compra)
                 <tr>
                     <td>{{ $compra->id }}</td>
-                    <td>{{ $compra->tipo_compra }}</td>
-                    <td>{{ $compra->modalidad_compra }}</td>
+                    <td>{{ $compra->codigo }}</td>
+                    <td>{{ optional($compra->proveedor)->nombre_apellido ?? '-' }}</td>
+                    <td>{{ $compra->fecha ? Carbon::parse($compra->fecha)->format('d/m/Y') : '-' }}</td>
+                    <td>{{ $compra->comprobante ?? '-' }}</td>
+                    <td>{{ number_format((float) $compra->total, 2, ',', '.') }}</td>
                 </tr>
             @endforeach
         </tbody>
     </table>
 
-        <p style="margin-top: 20px;"><strong>Total de concursos: {{ $datos->count() }}</strong></p>
+        <p style="margin-top: 20px;"><strong>Total de compras: {{ $datos->count() }}</strong></p>
 </body>
 </html>

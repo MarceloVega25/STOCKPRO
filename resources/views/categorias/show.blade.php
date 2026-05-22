@@ -13,130 +13,17 @@
 
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-3">
-                                <label>Número</label>
-                                <input type="text" class="form-control" value="{{ $categoria->numero }}" disabled>
+                            <div class="col-md-6">
+                                <label>Nombre</label>
+                                <input type="text" class="form-control" value="{{ $categoria->nombre }}" disabled>
                             </div>
-                            <div class="col-md-3">
-                                <label>Año</label>
-                                <input type="text" class="form-control" value="{{ $categoria->anio }}" disabled>
+                            <div class="col-md-6">
+                                <label>Descripción</label>
+                                <input type="text" class="form-control" value="{{ $categoria->descripcion ?? '' }}" disabled>
                             </div>
-                            <div class="col-md-3">
-                                <label>Fecha</label>
-                                <input type="text" class="form-control" value="{{ $categoria->fecha_concurso ? \Carbon\Carbon::parse($categoria->fecha_concurso)->format('d/m/Y') : '' }}" disabled>
-                            </div>
-                            <div class="col-md-3">
-                                <label>Expediente</label>
-                                <input type="text" class="form-control" value="{{ $categoria->expediente }}" disabled>
-                            </div>
-                        </div>
-
-                        <div class="row mt-3">
-                            <div class="col-md-4">
-                                <label>Cliente</label>
-                                <input type="text" class="form-control" value="{{ $categoria->cliente->razon_social ?? '' }}" disabled>
-                            </div>
-                            <div class="col-md-4">
-                                <label>Tipo</label>
-                                <input type="text" class="form-control" value="{{ $categoria->tipo_concurso }}" disabled>
-                            </div>
-                            <div class="col-md-4">
-                                <label>Modalidad</label>
-                                <input type="text" class="form-control" value="{{ $categoria->modalidad_concurso }}" disabled>
-                            </div>
-                        </div>
-
-                        <div class="row mt-3">
-                            <div class="col-md-3">
-                                <label>Inicio Publicidad</label>
-                                <input type="text" class="form-control" value="{{ $categoria->inicio_publicidad ? \Carbon\Carbon::parse($categoria->inicio_publicidad)->format('d/m/Y') : '' }}" disabled>
-                            </div>
-                            <div class="col-md-3">
-                                <label>Cierre Publicidad</label>
-                                <input type="text" class="form-control" value="{{ $categoria->cierre_publicidad ? \Carbon\Carbon::parse($categoria->cierre_publicidad)->format('d/m/Y') : '' }}" disabled>
-                            </div>
-                            <div class="col-md-3">
-                                <label>Inicio Inscripción</label>
-                                <input type="text" class="form-control" value="{{ $categoria->inicio_inscripcion ? \Carbon\Carbon::parse($categoria->inicio_inscripcion)->format('d/m/Y') : '' }}" disabled>
-                            </div>
-                            <div class="col-md-3">
-                                <label>Cierre Inscripción</label>
-                                <input type="text" class="form-control" value="{{ $categoria->cierre_inscripcion ? \Carbon\Carbon::parse($categoria->cierre_inscripcion)->format('d/m/Y') : '' }}" disabled>
-                            </div>
-                        </div>
-
-                        <div class="form-group mt-3">
-                            <label>Observaciones</label>
-                            <textarea class="form-control" disabled>{{ $categoria->observaciones }}</textarea>
                         </div>
 
                         <hr>
-
-                        <div class="row mt-3">
-                            <div class="col-md-4">
-                                <label>Ventas</label>
-                                <textarea class="form-control" disabled>{{ $categoria->ventas->pluck('nombre')->implode(', ') }}</textarea>
-                            </div>
-                            <div class="col-md-4">
-                                <label>Departamentos</label>
-                                <textarea class="form-control" disabled>{{ $categoria->departamentos->pluck('nombre')->implode(', ') }}</textarea>
-                            </div>
-                            <div class="col-md-4">
-                                <label>Carreras</label>
-                                <textarea class="form-control" disabled>{{ $categoria->carreras->pluck('nombre')->implode(', ') }}</textarea>
-                            </div>
-                        </div>
-
-                        <div class="row mt-3">
-                            <div class="col-md-6">
-                                <label>Repartos Titulares</label>
-                                @forelse ($categoria->repartosTitulares as $reparto)
-                                    <input type="text" class="form-control mb-2" value="{{ $reparto->nombre_apellido }}, DNI: {{ $reparto->dni }}, Institución: {{ $reparto->institucion }}" disabled>
-                                @empty
-                                    <input type="text" class="form-control" value="No hay repartos titulares registrados" disabled>
-                                @endforelse
-                            </div>
-
-                            <div class="col-md-6">
-                                <label>Repartos Suplentes</label>
-                                @forelse ($categoria->repartosSuplentes as $reparto)
-                                    <input type="text" class="form-control mb-2" value="{{ $reparto->nombre_apellido }}, DNI: {{ $reparto->dni }}, Institución: {{ $reparto->institucion }}" disabled>
-                                @empty
-                                    <input type="text" class="form-control" value="No hay repartos suplentes registrados" disabled>
-                                @endforelse
-                            </div>
-                        </div>
-
-                        <div class="row mt-3">
-                            <div class="col-md-6">
-                                <label>Vehículos Titulares</label>
-                                @forelse ($categoria->vehiculosTitulares as $vehiculo)
-                                    <input type="text" class="form-control mb-2" value="{{ $vehiculo->nombre_apellido }}, DNI: {{ $vehiculo->dni }}, Institución: {{ $vehiculo->institucion }}" disabled>
-                                @empty
-                                    <input type="text" class="form-control" value="No hay vehículos titulares registrados" disabled>
-                                @endforelse
-                            </div>
-
-                            <div class="col-md-6">
-                                <label>Vehículos Suplentes</label>
-                                @forelse ($categoria->vehiculosSuplentes as $vehiculo)
-                                    <input type="text" class="form-control mb-2" value="{{ $vehiculo->nombre_apellido }}, DNI: {{ $vehiculo->dni }}, Institución: {{ $vehiculo->institucion }}" disabled>
-                                @empty
-                                    <input type="text" class="form-control" value="No hay vehículos suplentes registrados" disabled>
-                                @endforelse
-                            </div>
-                        </div>
-
-                        <div class="row mt-3">
-                            <div class="col-md-6">
-                                <label>Vendedores</label>
-                                @forelse ($categoria->vendedores as $vendedor)
-                                    <input type="text" class="form-control mb-2" value="{{ $vendedor->nombre_apellido }}, DNI: {{ $vendedor->dni }}, Cargo: {{ $vendedor->cargo }}" disabled>
-                                @empty
-                                    <input type="text" class="form-control" value="No hay vendedores registrados" disabled>
-                                @endforelse
-                            </div>
-                        </div>
 
                         <div class="row mt-3">
                             <div class="col-md-12">
@@ -146,13 +33,6 @@
                                 @empty
                                     <input type="text" class="form-control" value="No hay productos registrados" disabled>
                                 @endforelse
-                            </div>
-                        </div>
-
-                        <div class="row mt-3">
-                            <div class="col-md-12">
-                                <label>Designado</label>
-                                <input type="text" class="form-control" value="{{ $categoria->designado ? $categoria->designado->nombre . ', Precio: ' . $categoria->designado->precio . ', Stock: ' . $categoria->designado->stock : 'Sin designar' }}" disabled>
                             </div>
                         </div>
 

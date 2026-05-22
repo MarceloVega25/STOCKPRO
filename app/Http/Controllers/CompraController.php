@@ -7,28 +7,20 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 use App\Models\Compra;
-use App\Models\Cliente;
-use App\Models\Venta;
-use App\Models\Departamento;
-use App\Models\Carrera;
+use App\Models\CompraItem;
+use App\Models\MovimientoStock;
+use App\Models\Producto;
 use App\Models\Proveedor;
-use App\Models\Reparto;
-use App\Models\Vehiculo;
-use App\Models\Vendedor;
 use App\Models\SeguimientoCompra;
+use Illuminate\Support\Facades\DB;
 
 class CompraController extends Controller
 {
     public function index()
     {
-        $compras = Compra::with([
-            'cliente',
-            'carreras',
-            'ventas',
-            'departamentos',
-            'designado',
-            'estados'
-        ])->orderBy('id', 'desc')->get();
+        $compras = Compra::with(['proveedor'])
+            ->orderBy('id', 'desc')
+            ->get();
 
         return view('compras.index', compact('compras'));
     }
@@ -36,14 +28,8 @@ class CompraController extends Controller
     public function create()
     {
         return view('compras.create', [
-            'clientes' => Cliente::all(),
-            'ventas' => Venta::all(),
-            'departamentos' => Departamento::all(),
-            'carreras' => Carrera::all(),
-            'proveedores' => Proveedor::all(),
-            'repartos' => Reparto::all(),
-            'vehiculos' => Vehiculo::all(),
-            'vendedores' => Vendedor::all(),
+            'proveedores' => Proveedor::orderBy('nombre_apellido')->get(),
+            'productos' => Producto::orderBy('nombre')->get(),
         ]);
     }
 
@@ -52,115 +38,108 @@ class CompraController extends Controller
         $request->validate([
             'numero' => 'required',
             'anio' => 'required|numeric',
-            'cliente_id' => 'required|exists:clientes,id',
-            'tipo_compra' => 'required',
-            'modalidad_compra' => 'required',
-            'designado_id' => 'nullable|exists:proveedores,id',
+            'fecha' => 'required|date',
+            'comprobante' => 'nullable|string|max:255',
+            'proveedor_id' => 'required|exists:proveedores,id',
+            'observaciones' => 'nullable|string',
+            'producto_id' => 'required|array|min:1',
+            'producto_id.*' => 'nullable|exists:productos,id',
+            'cantidad' => 'required|array|min:1',
+            'cantidad.*' => 'nullable|integer|min:1',
+            'precio_unitario' => 'required|array|min:1',
+            'precio_unitario.*' => 'nullable|numeric|min:0',
         ]);
 
-        $compra = Compra::create($request->only([
-            'numero',
-            'anio',
-            'cliente_id',
-            'tipo_compra',
-            'modalidad_compra',
-            'inicio_publicidad',
-            'cierre_publicidad',
-            'inicio_inscripcion',
-            'cierre_inscripcion',
-            'fecha_compra',
-            'expediente',
-            'observaciones',
-            'estado',
-            'comentario',
-            'designado_id'
-        ]));
+        $compra = null;
 
-        $compra->ventas()->sync($request->input('ventas', []));
-        $compra->departamentos()->sync($request->input('departamentos', []));
-        $compra->carreras()->sync($request->input('carreras', []));
-        $compra->vendedores()->sync($request->input('vendedores', []));
-        $compra->proveedores()->sync($request->input('proveedores', []));
+        DB::transaction(function () use ($request, &$compra) {
+            $compra = Compra::create($request->only([
+                'numero',
+                'anio',
+                'fecha',
+                'comprobante',
+                'proveedor_id',
+                'observaciones',
+            ]));
 
-        $repartosTitulares = $request->input('repartos_titulares', []);
-        foreach ($repartosTitulares as $id) {
-            $compra->repartos()->attach($id, ['tipo' => 'titular']);
-        }
+            $total = 0;
 
-        $repartosSuplentes = $request->input('repartos_suplentes', []);
-        foreach ($repartosSuplentes as $id) {
-            $compra->repartos()->attach($id, ['tipo' => 'suplente']);
-        }
+            $productoIds = $request->input('producto_id', []);
+            $cantidades = $request->input('cantidad', []);
+            $precios = $request->input('precio_unitario', []);
 
-        $vehiculosTitulares = $request->input('vehiculos_titulares', []);
-        foreach ($vehiculosTitulares as $id) {
-            $compra->vehiculos()->attach($id, ['tipo' => 'titular']);
-        }
+            $tieneItems = false;
 
-        $vehiculosSuplentes = $request->input('vehiculos_suplentes', []);
-        foreach ($vehiculosSuplentes as $id) {
-            $compra->vehiculos()->attach($id, ['tipo' => 'suplente']);
-        }
+            foreach ($productoIds as $i => $productoId) {
+                if (!$productoId) {
+                    continue;
+                }
 
-        $detalle = "Compra creada: N° {$compra->numero}/{$compra->anio}, Cliente: " . optional($compra->cliente)->razon_social .
-            ", Tipo: {$compra->tipo_compra}, Modalidad: {$compra->modalidad_compra}";
+                $cantidad = (int) ($cantidades[$i] ?? 0);
+                $precioUnitario = (float) ($precios[$i] ?? 0);
+                $subtotal = $cantidad * $precioUnitario;
 
-        SeguimientoCompra::create([
-            'compra_id' => $compra->id,
-            'accion' => 'Compra creada',
-            'detalle' => Str::limit($detalle, 1000),
-            'usuario' => Auth::check() ? Auth::user()->nombre_apellido : 'Sistema',
-        ]);
+                $tieneItems = true;
+
+                $item = new CompraItem();
+                $item->compra_id = $compra->id;
+                $item->producto_id = $productoId;
+                $item->cantidad = $cantidad;
+                $item->precio_unitario = $precioUnitario;
+                $item->subtotal = $subtotal;
+                $item->save();
+
+                $producto = Producto::lockForUpdate()->findOrFail($productoId);
+                $producto->stock = ((int) $producto->stock) + $cantidad;
+                $producto->save();
+
+                MovimientoStock::create([
+                    'producto_id' => $productoId,
+                    'compra_id' => $compra->id,
+                    'tipo' => 'entrada',
+                    'cantidad' => $cantidad,
+                    'fecha' => $request->fecha,
+                    'motivo' => 'Compra',
+                    'usuario_id' => Auth::id(),
+                ]);
+
+                $total += $subtotal;
+            }
+
+            if (!$tieneItems) {
+                throw new \RuntimeException('Debe cargar al menos un item.');
+            }
+
+            $compra->total = $total;
+            $compra->save();
+
+            $detalle = "Compra creada: N° {$compra->numero}/{$compra->anio}, Proveedor: " . optional($compra->proveedor)->nombre_apellido;
+            SeguimientoCompra::create([
+                'compra_id' => $compra->id,
+                'accion' => 'Compra creada',
+                'detalle' => Str::limit($detalle, 1000),
+                'usuario' => Auth::check() ? Auth::user()->nombre_apellido : 'Sistema',
+            ]);
+        });
 
         return redirect()->route('compras.index')->with('mensaje', 'Compra creada correctamente.');
     }
 
     public function show(Compra $compra)
     {
-        $compra->load([
-            'cliente',
-            'ventas',
-            'departamentos',
-            'carreras',
-            'proveedores',
-            'vendedores',
-            'repartosTitulares',
-            'repartosSuplentes',
-            'vehiculosTitulares',
-            'vehiculosSuplentes',
-            'estados',
-            'designado',
-            'seguimientos'
-        ]);
+        $compra->load(['proveedor', 'items.producto', 'seguimientos']);
 
         return view('compras.show', compact('compra'));
     }
 
     public function edit(Compra $compra)
     {
-        $compra->load([
-            'cliente',
-            'ventas',
-            'departamentos',
-            'carreras',
-            'repartosTitulares',
-            'repartosSuplentes',
-            'vehiculosTitulares',
-            'vehiculosSuplentes',
-            'vendedores',
-            'proveedores',
-        ]);
+        $compra->load(['items']);
 
         return view('compras.edit', [
             'compra' => $compra,
-            'clientes' => Cliente::all(),
-            'ventas' => Venta::all(),
-            'departamentos' => Departamento::all(),
-            'carreras' => Carrera::all(),
-            'repartos' => Reparto::all(),
-            'vehiculos' => Vehiculo::all(),
-            'vendedores' => Vendedor::all(),
-            'proveedores' => Proveedor::all(),
+            'proveedores' => Proveedor::orderBy('nombre_apellido')->get(),
+            'productos' => Producto::orderBy('nombre')->get(),
         ]);
     }
 
@@ -169,69 +148,119 @@ class CompraController extends Controller
         $request->validate([
             'numero' => 'required',
             'anio' => 'required|numeric',
-            'cliente_id' => 'required|exists:clientes,id',
-            'tipo_compra' => 'required',
-            'modalidad_compra' => 'required',
-            'designado_id' => 'nullable|exists:proveedores,id',
+            'fecha' => 'required|date',
+            'comprobante' => 'nullable|string|max:255',
+            'proveedor_id' => 'required|exists:proveedores,id',
+            'observaciones' => 'nullable|string',
+            'producto_id' => 'required|array|min:1',
+            'producto_id.*' => 'nullable|exists:productos,id',
+            'cantidad' => 'required|array|min:1',
+            'cantidad.*' => 'nullable|integer|min:1',
+            'precio_unitario' => 'required|array|min:1',
+            'precio_unitario.*' => 'nullable|numeric|min:0',
         ]);
 
-        $original = clone $compra;
+        DB::transaction(function () use ($request, $compra) {
+            $itemsPrevios = $compra->items()->get();
+            foreach ($itemsPrevios as $itemPrevio) {
+                $producto = Producto::lockForUpdate()->findOrFail($itemPrevio->producto_id);
+                $producto->stock = ((int) $producto->stock) - ((int) $itemPrevio->cantidad);
+                if ($producto->stock < 0) {
+                    throw new \RuntimeException('La actualización deja el stock en negativo.');
+                }
+                $producto->save();
+            }
 
-        $compra->update($request->only([
-            'numero',
-            'anio',
-            'fecha_compra',
-            'expediente',
-            'cliente_id',
-            'tipo_compra',
-            'modalidad_compra',
-            'inicio_publicidad',
-            'cierre_publicidad',
-            'inicio_inscripcion',
-            'cierre_inscripcion',
-            'observaciones',
-            'estado',
-            'comentario',
-            'designado_id'
-        ]));
+            MovimientoStock::where('compra_id', $compra->id)->delete();
+            $compra->items()->delete();
 
-        $compra->ventas()->sync($request->input('ventas', []));
-        $compra->departamentos()->sync($request->input('departamentos', []));
-        $compra->carreras()->sync($request->input('carreras', []));
-        $compra->vendedores()->sync($request->input('vendedores', []));
-        $compra->proveedores()->sync($request->input('proveedores', []));
+            $compra->update($request->only([
+                'numero',
+                'anio',
+                'fecha',
+                'comprobante',
+                'proveedor_id',
+                'observaciones',
+            ]));
 
-        $compra->repartos()->detach();
-        foreach ($request->input('repartos_titulares', []) as $id) {
-            $compra->repartos()->attach($id, ['tipo' => 'titular']);
-        }
-        foreach ($request->input('repartos_suplentes', []) as $id) {
-            $compra->repartos()->attach($id, ['tipo' => 'suplente']);
-        }
+            $total = 0;
+            $productoIds = $request->input('producto_id', []);
+            $cantidades = $request->input('cantidad', []);
+            $precios = $request->input('precio_unitario', []);
 
-        $compra->vehiculos()->detach();
-        foreach ($request->input('vehiculos_titulares', []) as $id) {
-            $compra->vehiculos()->attach($id, ['tipo' => 'titular']);
-        }
-        foreach ($request->input('vehiculos_suplentes', []) as $id) {
-            $compra->vehiculos()->attach($id, ['tipo' => 'suplente']);
-        }
+            $tieneItems = false;
 
-        $detalle = "Compra actualizada: N° {$compra->numero}/{$compra->anio}";
+            foreach ($productoIds as $i => $productoId) {
+                if (!$productoId) {
+                    continue;
+                }
+                $cantidad = (int) ($cantidades[$i] ?? 0);
+                $precioUnitario = (float) ($precios[$i] ?? 0);
+                $subtotal = $cantidad * $precioUnitario;
 
-        SeguimientoCompra::create([
-            'compra_id' => $compra->id,
-            'accion' => 'Compra actualizada',
-            'detalle' => Str::limit($detalle, 1000),
-            'usuario' => Auth::check() ? Auth::user()->nombre_apellido : 'Sistema',
-        ]);
+                $tieneItems = true;
+
+                CompraItem::create([
+                    'compra_id' => $compra->id,
+                    'producto_id' => $productoId,
+                    'cantidad' => $cantidad,
+                    'precio_unitario' => $precioUnitario,
+                    'subtotal' => $subtotal,
+                ]);
+
+                $producto = Producto::lockForUpdate()->findOrFail($productoId);
+                $producto->stock = ((int) $producto->stock) + $cantidad;
+                $producto->save();
+
+                MovimientoStock::create([
+                    'producto_id' => $productoId,
+                    'compra_id' => $compra->id,
+                    'tipo' => 'entrada',
+                    'cantidad' => $cantidad,
+                    'fecha' => $request->fecha,
+                    'motivo' => 'Compra',
+                    'usuario_id' => Auth::id(),
+                ]);
+
+                $total += $subtotal;
+            }
+
+            if (!$tieneItems) {
+                throw new \RuntimeException('Debe cargar al menos un item.');
+            }
+
+            $compra->total = $total;
+            $compra->save();
+
+            $detalle = "Compra actualizada: N° {$compra->numero}/{$compra->anio}";
+            SeguimientoCompra::create([
+                'compra_id' => $compra->id,
+                'accion' => 'Compra actualizada',
+                'detalle' => Str::limit($detalle, 1000),
+                'usuario' => Auth::check() ? Auth::user()->nombre_apellido : 'Sistema',
+            ]);
+        });
 
         return redirect()->route('compras.index')->with('mensaje', 'Compra actualizada correctamente.');
     }
 
     public function destroy(Compra $compra)
     {
-        $compra->delete();
+        DB::transaction(function () use ($compra) {
+            $items = $compra->items()->get();
+            foreach ($items as $item) {
+                $producto = Producto::lockForUpdate()->findOrFail($item->producto_id);
+                $producto->stock = ((int) $producto->stock) - ((int) $item->cantidad);
+                if ($producto->stock < 0) {
+                    throw new \RuntimeException('No se puede eliminar: deja stock en negativo.');
+                }
+                $producto->save();
+            }
+
+            MovimientoStock::where('compra_id', $compra->id)->delete();
+            $compra->items()->delete();
+            $compra->delete();
+        });
 
         return redirect()->route('compras.index')->with('mensaje', 'Compra eliminada correctamente.');
     }

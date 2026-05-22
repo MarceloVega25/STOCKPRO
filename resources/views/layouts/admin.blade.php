@@ -34,7 +34,7 @@
     <li class="nav-item d-none d-sm-inline-block">
             
                 <a href="{{ url('/') }}" class="nav-link text-white">
-                <strong>Sistema de Gestión de Compras, Ventas, Stock y Repartos
+                <strong>Sistema de Gestión de Compras, Ventas y Entregas
             </a>
             </strong>
         </li>
@@ -202,18 +202,10 @@
                                     </p>
                                 </a>
                                 <ul class="nav nav-treeview">
-                                    @role('admin|carga')
-                                    <li class="nav-item">
-                                        <a href="{{ \Illuminate\Support\Facades\Route::has('stock.create') ? route('stock.create') : '#' }}" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Nuevo "Stock"</p>
-                                        </a>
-                                    </li>
-                                    @endrole
                                     <li class="nav-item">
                                         <a href="{{ \Illuminate\Support\Facades\Route::has('stock.index') ? route('stock.index') : '#' }}" class="nav-link">
                                             <i class="far fa-circle nav-icon"></i>
-                                            <p>Listado Stock</p>
+                                            <p>Listado de Stock</p>
                                         </a>
                                     </li>
                                 </ul>
@@ -404,7 +396,7 @@
                                 <i class="bi bi-truck"></i>
                             </i>
                             <p>
-                                Gestión de Repartos
+                                Gestión de Entregas y Repartidores
                                 <i class="right fas fa-angle-left"></i>
                                 </i>
                             </p>
@@ -417,7 +409,7 @@
                                         <i class="bi bi-microsoft-teams"></i>
                                     </i>
                                     <p>
-                                        Repartos
+                                        Repartos (Entregas)
                                         <i class="right fas fa-angle-left"></i>
                                         </i>
                                     </p>
@@ -434,7 +426,42 @@
                                     <li class="nav-item">
                                         <a href="{{ route('repartos.index') }}" class="nav-link">
                                             <i class="far fa-circle nav-icon"></i>
-                                            <p>Listado de Repartos</p>
+                                            <p>Listado de Repartos (Entregas)</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="#" class="nav-link active">
+                                    <i class="nav-icon fas">
+                                        <i class="bi bi-people"></i>
+                                    </i>
+                                    <p>
+                                        Repartidores
+                                        <i class="right fas fa-angle-left"></i>
+                                        </i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    @role('admin|carga')
+                                    <li class="nav-item">
+                                        <a href="{{ route('repartidores.buscar') }}" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Buscar por DNI</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ route('repartidores.create') }}" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Nuevo "Repartidor"</p>
+                                        </a>
+                                    </li>
+                                    @endrole
+                                    <li class="nav-item">
+                                        <a href="{{ route('repartidores.index') }}" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Listado de Repartidores</p>
                                         </a>
                                     </li>
                                 </ul>

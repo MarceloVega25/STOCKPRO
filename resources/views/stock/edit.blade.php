@@ -18,30 +18,22 @@
                 </div>
 
                 <div class="card-body">
-                    <form action="{{ url('/stock/' . $stock->id) }}" method="POST">
+                    <form action="{{ url('/stock/' . $producto->id) }}" method="POST">
                         @csrf
                         @method('PUT')
 
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>Nombre</label><b>*</b>
-                                    <input type="text" name="nombre" class="form-control"
-                                        value="{{ old('nombre', $stock->nombre) }}" required>
-                                    @error('nombre')
-                                        <small style="color: red;">*Este campo es requerido</small>
-                                    @enderror
+                                    <label>Producto</label>
+                                    <input type="text" class="form-control" value="{{ $producto->nombre }}" disabled>
                                 </div>
                             </div>
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>Siglas</label><b>*</b>
-                                    <input type="text" name="siglas" class="form-control"
-                                        value="{{ old('siglas', $stock->siglas) }}" required>
-                                    @error('siglas')
-                                        <small style="color: red;">*Este campo es requerido</small>
-                                    @enderror
+                                    <label>Stock Mínimo</label>
+                                    <input type="number" name="stock_minimo" class="form-control" value="{{ old('stock_minimo', $producto->stock_minimo) }}" min="0">
                                 </div>
                             </div>
                         </div>

@@ -17,6 +17,7 @@ class Producto extends Model
         'descripcion',
         'precio',
         'stock',
+        'stock_minimo',
         'categoria_id'
     ];
 }

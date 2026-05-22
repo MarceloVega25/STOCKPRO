@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('compra_reparto', function (Blueprint $table) {
+        Schema::create('compra_repartidor', function (Blueprint $table) {
             $table->id();
             $table->foreignId('compra_id')->constrained('compras')->onDelete('cascade');
-            $table->foreignId('reparto_id')->constrained('repartos')->onDelete('cascade');
+            $table->foreignId('repartidor_id')->constrained('repartidores')->onDelete('cascade');
             $table->enum('tipo', ['titular', 'suplente']);
             $table->timestamps();
         });
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('compra_reparto');
+        Schema::dropIfExists('compra_repartidor');
     }
 };

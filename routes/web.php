@@ -14,6 +14,7 @@ use App\Http\Controllers\AuditoriaController;
 use App\Http\Controllers\InformeController;
 use App\Http\Controllers\VentaController;
 use App\Http\Controllers\RepartoController;
+use App\Http\Controllers\RepartidorController;
 use App\Http\Controllers\VehiculoController;
 use App\Http\Controllers\VendedorController;
 use App\Http\Controllers\StockController;
@@ -151,10 +152,10 @@ Route::middleware(['auth', 'role:admin|carga|consulta'])->group(function () {
 // Legacy deshabilitado: Carreras -> Movimientos de Stock
 
 // ----------------- Stock -----------------
-// Stock reemplaza Departamentos
+// Stock (inventario por producto)
 Route::middleware(['auth', 'role:admin|carga'])->group(function () {
     Route::resource('stock', StockController::class)
-        ->except(['show', 'index']);
+        ->only(['edit', 'update']);
 });
 
 Route::middleware(['auth', 'role:admin|carga|consulta'])->group(function () {
@@ -189,17 +190,29 @@ Route::middleware(['auth', 'role:admin|carga|consulta'])->group(function () {
 // ----------------- Repartos -----------------
 // Módulo Repartos
 Route::middleware(['auth', 'role:admin|carga'])->group(function () {
-    Route::get('/repartos/buscar', [RepartoController::class, 'mostrarBusqueda'])
-        ->name('repartos.buscar');
-    Route::post('/repartos/buscar', [RepartoController::class, 'buscarDni'])
-        ->name('repartos.buscarDni');
-
     Route::resource('repartos', RepartoController::class)
         ->except(['show', 'index']);
 });
 
 Route::middleware(['auth', 'role:admin|carga|consulta'])->group(function () {
     Route::resource('repartos', RepartoController::class)
+        ->only(['show', 'index']);
+});
+
+// ----------------- Repartidores -----------------
+// Módulo Repartidores (personas)
+Route::middleware(['auth', 'role:admin|carga'])->group(function () {
+    Route::get('/repartidores/buscar', [RepartidorController::class, 'mostrarBusqueda'])
+        ->name('repartidores.buscar');
+    Route::post('/repartidores/buscar', [RepartidorController::class, 'buscarDni'])
+        ->name('repartidores.buscarDni');
+
+    Route::resource('repartidores', RepartidorController::class)
+        ->except(['show', 'index']);
+});
+
+Route::middleware(['auth', 'role:admin|carga|consulta'])->group(function () {
+    Route::resource('repartidores', RepartidorController::class)
         ->only(['show', 'index']);
 });
 

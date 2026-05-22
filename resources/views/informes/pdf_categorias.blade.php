@@ -26,16 +26,16 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Tipo</th>
-                <th>Modalidad</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($datos as $categoria)
                 <tr>
                     <td>{{ $categoria->id }}</td>
-                    <td>{{ $categoria->tipo_concurso }}</td>
-                    <td>{{ $categoria->modalidad_concurso }}</td>
+                    <td>{{ $categoria->nombre }}</td>
+                    <td>{{ $categoria->descripcion }}</td>
                 </tr>
             @endforeach
         </tbody>

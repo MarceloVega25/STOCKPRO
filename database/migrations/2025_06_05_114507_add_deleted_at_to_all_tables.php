@@ -10,6 +10,7 @@ return new class extends Migration
     {
         $tablas = [
             'repartos',
+            'repartidores',
             'vehiculos',
             'vendedores',
             'compras',
@@ -36,6 +37,7 @@ return new class extends Migration
     {
         $tablas = [
             'repartos',
+            'repartidores',
             'vehiculos',
             'vendedores',
             'compras',

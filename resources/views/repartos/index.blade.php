@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="content" style="margin-left: 20px">
-        <h1>Listado de Repartos</h1>
+        <h1>Listado de Repartos (Entregas)</h1>
 
         @if ($message = Session::get('mensaje'))
             <script>
@@ -18,11 +18,11 @@
             <div class="col-md-12">
                 <div class="card card-outline card-danger">
                     <div class="card-header">
-                        <h3 class="card-title"><b>REPARTOS REGISTRADOS</b></h3>
+                        <h3 class="card-title"><b>REPARTOS (ENTREGAS) REGISTRADOS</b></h3>
                         <div class="card-tools">
                             @role('admin|carga')
-                            <a href="{{ route('repartos.buscar') }}" class="btn btn-primary">
-                                <i class="bi bi-person-add"></i>Agregar Nuevo Reparto
+                            <a href="{{ route('repartos.create') }}" class="btn btn-primary">
+                                <i class="bi bi-plus-circle"></i>Agregar Nuevo Reparto
                             </a>
                             @endrole
                         </div>
@@ -33,10 +33,12 @@
                             <thead>
                                 <tr>
                                     <th>N°</th>
-                                    <th>Nombre y Apellido</th>
-                                    <th>Telefono</th>
-                                    <th>Mail</th>
-                                    <th>Tipo</th>
+                                    <th>Compra</th>
+                                    <th>Repartidor</th>
+                                    <th>Vehículo</th>
+                                    <th>Fecha</th>
+                                    <th>Estado</th>
+                                    <th>Dirección</th>
                                     <th>Agregado</th>
                                     <th>Accion</th>
                                 </tr>
@@ -46,10 +48,12 @@
                                 @foreach ($repartos as $reparto)
                                     <tr>
                                         <td><?php echo $contador = $contador + 1; ?></td>
-                                        <td>{{ $reparto->nombre_apellido }}</td>
-                                        <td>{{ $reparto->telefono }}</td>
-                                        <td>{{ $reparto->email }}</td>
-                                        <td>{{ $reparto->tipo }}</td>
+                                        <td>{{ $reparto->compra ? ($reparto->compra->numero . '/' . $reparto->compra->anio) : '' }}</td>
+                                        <td>{{ $reparto->repartidor->nombre_apellido ?? '' }}</td>
+                                        <td>{{ $reparto->vehiculo->patente ?? '' }}</td>
+                                        <td>{{ $reparto->fecha_reparto ? \Carbon\Carbon::parse($reparto->fecha_reparto)->format('d/m/Y') : '' }}</td>
+                                        <td>{{ $reparto->estado }}</td>
+                                        <td>{{ $reparto->direccion_entrega }}</td>
                                         <td>{{ \Carbon\Carbon::parse($reparto->created_at)->format('d/m/Y H:i') }}</td>
 
                                         <td style="text-align: center">
@@ -80,10 +84,10 @@
                                     "pageLength": 10,
                                     "language": {
                                         "emptyTable": "No hay información",
-                                        "info": "Mostrando _START_ a _END_ de _TOTAL_ Repartos",
-                                        "infoEmpty": "Mostrando 0 a 0 de 0 Repartos",
-                                        "infoFiltered": "(Filtrado de _MAX_ total Repartos)",
-                                        "lengthMenu": "Mostrar _MENU_ Repartos",
+                                        "info": "Mostrando _START_ a _END_ de _TOTAL_ Repartos (Entregas)",
+                                        "infoEmpty": "Mostrando 0 a 0 de 0 Repartos (Entregas)",
+                                        "infoFiltered": "(Filtrado de _MAX_ total Repartos (Entregas))",
+                                        "lengthMenu": "Mostrar _MENU_ Repartos (Entregas)",
                                         "loadingRecords": "Cargando...",
                                         "processing": "Procesando...",
                                         "search": "Buscador:",

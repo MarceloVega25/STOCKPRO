@@ -8,19 +8,19 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('categoria_reparto', function (Blueprint $table) {
+        Schema::create('categoria_repartidor', function (Blueprint $table) {
             $table->id();
             $table->foreignId('categoria_id')->constrained('categorias')->onDelete('cascade');
-            $table->foreignId('reparto_id')->constrained('repartos')->onDelete('cascade');
+            $table->foreignId('repartidor_id')->constrained('repartidores')->onDelete('cascade');
             $table->enum('tipo', ['titular', 'suplente']);
             $table->timestamps();
 
-            $table->unique(['categoria_id', 'reparto_id', 'tipo']);
+            $table->unique(['categoria_id', 'repartidor_id', 'tipo']);
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('categoria_reparto');
+        Schema::dropIfExists('categoria_repartidor');
     }
 };

@@ -26,10 +26,10 @@ class DatabaseSeeder extends Seeder
             CarreraSeeder::class,
             UsuarioSeeder::class,
             VendedorSeeder::class,
+            CategoriaSeeder::class,
             ProductoSeeder::class,
             ProveedorSeeder::class,
             CompraSeeder::class,
-            CategoriaSeeder::class,
         ]);
         
     }

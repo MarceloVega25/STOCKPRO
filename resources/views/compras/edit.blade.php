@@ -33,60 +33,24 @@
                                 </div>
                                 <div class="col-md-3">
                                     <label>Fecha</label>
-                                    <input type="date" name="fecha_compra" class="form-control" value="{{ $compra->fecha_compra }}">
+                                    <input type="date" name="fecha" class="form-control" value="{{ $compra->fecha }}" required>
                                 </div>
                                 <div class="col-md-3">
                                     <label>Expediente</label>
-                                    <input type="text" name="expediente" class="form-control" value="{{ $compra->expediente }}">
+                                    <input type="text" name="comprobante" class="form-control" value="{{ $compra->comprobante }}">
                                 </div>
                             </div>
 
                             <div class="row mt-3">
                                 <div class="col-md-4">
-                                    <label>Cliente</label><b>*</b>
-                                    <select name="cliente_id" class="form-control" required>
-                                        @foreach ($clientes as $c)
-                                            <option value="{{ $c->id }}" {{ $compra->cliente_id == $c->id ? 'selected' : '' }}>
-                                                {{ $c->razon_social }} ({{ $c->cuit }})
+                                    <label>Proveedor</label><b>*</b>
+                                    <select name="proveedor_id" class="form-control" required>
+                                        @foreach ($proveedores as $p)
+                                            <option value="{{ $p->id }}" {{ $compra->proveedor_id == $p->id ? 'selected' : '' }}>
+                                                {{ $p->nombre_apellido }}
                                             </option>
                                         @endforeach
                                     </select>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <label>Tipo</label><b>*</b>
-                                    <select name="tipo_compra" class="form-control" required>
-                                        <option value="Abierto" {{ $compra->tipo_compra == 'Abierto' ? 'selected' : '' }}>Abierto</option>
-                                        <option value="Cerrado" {{ $compra->tipo_compra == 'Cerrado' ? 'selected' : '' }}>Cerrado</option>
-                                    </select>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <label>Modalidad</label><b>*</b>
-                                    <select name="modalidad_compra" class="form-control" required>
-                                        <option value="Presencial" {{ $compra->modalidad_compra == 'Presencial' ? 'selected' : '' }}>Presencial</option>
-                                        <option value="Virtual" {{ $compra->modalidad_compra == 'Virtual' ? 'selected' : '' }}>Virtual</option>
-                                        <option value="Mixta" {{ $compra->modalidad_compra == 'Mixta' ? 'selected' : '' }}>Mixta</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="row mt-3">
-                                <div class="col-md-3">
-                                    <label>Inicio Publicidad</label>
-                                    <input type="date" name="inicio_publicidad" class="form-control" value="{{ $compra->inicio_publicidad }}">
-                                </div>
-                                <div class="col-md-3">
-                                    <label>Cierre Publicidad</label>
-                                    <input type="date" name="cierre_publicidad" class="form-control" value="{{ $compra->cierre_publicidad }}">
-                                </div>
-                                <div class="col-md-3">
-                                    <label>Inicio Inscripción</label>
-                                    <input type="date" name="inicio_inscripcion" class="form-control" value="{{ $compra->inicio_inscripcion }}">
-                                </div>
-                                <div class="col-md-3">
-                                    <label>Cierre Inscripción</label>
-                                    <input type="date" name="cierre_inscripcion" class="form-control" value="{{ $compra->cierre_inscripcion }}">
                                 </div>
                             </div>
 
@@ -97,110 +61,40 @@
 
                             <hr>
 
-                            @php
-                                function isSelected($collection, $id) {
-                                    return $collection && $collection->contains('id', $id) ? 'selected' : '';
-                                }
-                            @endphp
-
-                            <div class="row mt-3">
-                                <div class="col-md-4">
-                                    <label>Ventas</label>
-                                    <select name="ventas[]" class="form-control select2" multiple>
-                                        @foreach ($ventas as $a)
-                                            <option value="{{ $a->id }}" {{ isSelected($compra->ventas, $a->id) }}>{{ $a->nombre }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-md-4">
-                                    <label>Departamentos</label>
-                                    <select name="departamentos[]" class="form-control select2" multiple>
-                                        @foreach ($departamentos as $d)
-                                            <option value="{{ $d->id }}" {{ isSelected($compra->departamentos, $d->id) }}>{{ $d->nombre }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-md-4">
-                                    <label>Carreras</label>
-                                    <select name="carreras[]" class="form-control select2" multiple>
-                                        @foreach ($carreras as $c)
-                                            <option value="{{ $c->id }}" {{ isSelected($compra->carreras, $c->id) }}>{{ $c->nombre }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="row mt-3">
-                                <div class="col-md-6">
-                                    <label>Repartos Titulares</label>
-                                    <select name="repartos_titulares[]" class="form-control select2" multiple>
-                                        @foreach ($repartos as $d)
-                                            <option value="{{ $d->id }}" {{ isSelected($compra->repartosTitulares, $d->id) }}>{{ $d->nombre_apellido }}, DNI: {{ $d->dni }}, Institución: {{ $d->institucion }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-md-6">
-                                    <label>Repartos Suplentes</label>
-                                    <select name="repartos_suplentes[]" class="form-control select2" multiple>
-                                        @foreach ($repartos as $d)
-                                            <option value="{{ $d->id }}" {{ isSelected($compra->repartosSuplentes, $d->id) }}>{{ $d->nombre_apellido }}, DNI: {{ $d->dni }}, Institución: {{ $d->institucion }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="row mt-3">
-                                <div class="col-md-6">
-                                    <label>Vehículos Titulares</label>
-                                    <select name="vehiculos_titulares[]" class="form-control select2" multiple>
-                                        @foreach ($vehiculos as $e)
-                                            <option value="{{ $e->id }}" {{ isSelected($compra->vehiculosTitulares, $e->id) }}>{{ $e->nombre_apellido }}, DNI: {{ $e->dni }}, Institución: {{ $e->institucion }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-md-6">
-                                    <label>Vehículos Suplentes</label>
-                                    <select name="vehiculos_suplentes[]" class="form-control select2" multiple>
-                                        @foreach ($vehiculos as $e)
-                                            <option value="{{ $e->id }}" {{ isSelected($compra->vehiculosSuplentes, $e->id) }}>{{ $e->nombre_apellido }}, DNI: {{ $e->dni }}, Institución: {{ $e->institucion }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="row mt-3">
-                                <div class="col-md-6">
-                                    <label>Vendedores</label>
-                                    <select name="vendedores[]" class="form-control select2" multiple>
-                                        @foreach ($vendedores as $v)
-                                            <option value="{{ $v->id }}" {{ isSelected($compra->vendedores, $v->id) }}>{{ $v->nombre_apellido }}, DNI: {{ $v->dni }}, Cargo: {{ $v->cargo }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
 
                             <div class="row mt-3">
                                 <div class="col-md-12">
-                                    <label>Proveedores</label>
-                                    <select name="proveedores[]" class="form-control select2" multiple>
-                                        @foreach ($proveedores as $p)
-                                            <option value="{{ $p->id }}" {{ isSelected($compra->proveedores, $p->id) }}>{{ $p->nombre_apellido }}, DNI: {{ $p->dni }}, Email: {{ $p->email }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="row mt-3">
-                                <div class="col-md-12">
-                                    <label>Designado</label>
-                                    <select name="designado_id" class="form-control">
-                                        <option value="">Seleccione un proveedor designado</option>
-                                        @foreach ($compra->proveedores as $p)
-                                            <option value="{{ $p->id }}" {{ $compra->designado_id == $p->id ? 'selected' : '' }}>
-                                                {{ $p->nombre_apellido }}, DNI: {{ $p->dni }}, Email: {{ $p->email }}
-                                            </option>
-                                        @endforeach
-                                    </select>
+                                    <label>Items</label><b>*</b>
+                                    <table class="table table-bordered table-sm">
+                                        <thead>
+                                            <tr>
+                                                <th>Producto</th>
+                                                <th style="width: 120px;">Cantidad</th>
+                                                <th style="width: 160px;">Precio Unitario</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($compra->items as $item)
+                                                <tr>
+                                                    <td>
+                                                        <select name="producto_id[]" class="form-control" required>
+                                                            @foreach ($productos as $prod)
+                                                                <option value="{{ $prod->id }}" {{ $item->producto_id == $prod->id ? 'selected' : '' }}>
+                                                                    {{ $prod->nombre }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <input type="number" name="cantidad[]" class="form-control" min="1" value="{{ $item->cantidad }}" required>
+                                                    </td>
+                                                    <td>
+                                                        <input type="number" name="precio_unitario[]" class="form-control" min="0" step="0.01" value="{{ $item->precio_unitario }}" required>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
 

@@ -15,15 +15,24 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>Nombre</label>
-                                    <input type="text" class="form-control" value="{{ $stock->nombre }}" disabled>
+                                    <label>Producto</label>
+                                    <input type="text" class="form-control" value="{{ $producto->nombre }}" disabled>
                                 </div>
                             </div>
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>Siglas</label>
-                                    <input type="text" class="form-control" value="{{ $stock->siglas }}" disabled>
+                                    <label>Stock</label>
+                                    <input type="text" class="form-control" value="{{ $producto->stock }}" disabled>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Stock Mínimo</label>
+                                    <input type="text" class="form-control" value="{{ $producto->stock_minimo }}" disabled>
                                 </div>
                             </div>
                         </div>
@@ -33,7 +42,7 @@
                                 <hr>
                                 <a href="{{ route('stock.index') }}" class="btn btn-danger">Volver al listado</a>
                                 @role('admin|carga')
-                                 <a href="{{ route('stock.edit', $stock->id) }}" class="btn btn-warning">Editar Stock</a>
+                                 <a href="{{ route('stock.edit', $producto->id) }}" class="btn btn-warning">Editar Stock</a>
                             @endrole
                                 </div>
                         </div>

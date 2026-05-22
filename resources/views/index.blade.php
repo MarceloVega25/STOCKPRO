@@ -57,12 +57,31 @@
           @endforeach
           <h3><?=$contador_de_reparto;?></h3>
 
-          <p>Repartos</p>
+          <p>Repartos (Entregas)</p>
         </div>
         <div class="icon">
           <i class="bi bi-people"></i>
         </div>
         <a href="{{ url('repartos') }}" class="small-box-footer" style="margin-top: 20px">Más información <i class="fas fa-arrow-circle-right"></i></a>
+      </div>
+    </div>
+
+    <div class="col-lg-3">
+      <!-- small box -->
+      <div class="small-box bg-light" style="height: 160px">
+        <div class="inner">
+          <?php $contador_de_repartidor = 0; ?>
+          @foreach ($repartidores as $repartidor)
+          <?php $contador_de_repartidor = $contador_de_repartidor + 1;?>            
+          @endforeach
+          <h3><?=$contador_de_repartidor;?></h3>
+
+          <p>Repartidores</p>
+        </div>
+        <div class="icon">
+          <i class="bi bi-person-badge"></i>
+        </div>
+        <a href="{{ url('repartidores') }}" class="small-box-footer" style="margin-top: 20px">Más información <i class="fas fa-arrow-circle-right"></i></a>
       </div>
     </div>
 

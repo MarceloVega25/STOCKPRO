@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Producto;
+use App\Models\Categoria;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -20,6 +21,7 @@ class ProductoFactory extends Factory
             'descripcion' => $this->faker->sentence(),
             'precio' => $this->faker->randomFloat(2, 10, 1000),
             'stock' => $this->faker->numberBetween(0, 100),
+            'categoria_id' => Categoria::inRandomOrder()->value('id'),
         ];
     }
 }

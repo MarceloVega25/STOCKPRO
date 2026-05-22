@@ -4,24 +4,35 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Reparto extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
     protected $table = 'repartos';
 
     protected $fillable = [
-        'nombre_apellido',
-        'dni',
-        'fecha_nacimiento',
-        'genero',
-        'email',
-        'telefono',
-        'institucion',
-        'tipo',
-        'cv',
-        'fotografia'
+        'compra_id',
+        'repartidor_id',
+        'vehiculo_id',
+        'fecha_reparto',
+        'estado',
+        'direccion_entrega',
+        'observaciones'
     ];
+
+    public function compra()
+    {
+        return $this->belongsTo(Compra::class);
+    }
+
+    public function repartidor()
+    {
+        return $this->belongsTo(Repartidor::class);
+    }
+
+    public function vehiculo()
+    {
+        return $this->belongsTo(Vehiculo::class);
+    }
 }

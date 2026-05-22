@@ -14,6 +14,7 @@ use App\Models\Carrera;
 use App\Models\Compra;
 use App\Models\Venta;
 use App\Models\Reparto;
+use App\Models\Repartidor;
 use App\Models\Vehiculo;
 use App\Models\Vendedor;
 
@@ -27,6 +28,7 @@ use App\Observers\CarreraObserver;
 use App\Observers\CompraObserver;
 use App\Observers\VentaObserver;
 use App\Observers\RepartoObserver;
+use App\Observers\RepartidorObserver;
 use App\Observers\VehiculoObserver;
 use App\Observers\VendedorObserver;
 
@@ -56,6 +58,7 @@ class AppServiceProvider extends ServiceProvider
     Compra::observe(CompraObserver::class);
     Venta::observe(VentaObserver::class);
     Reparto::observe(RepartoObserver::class);
+    Repartidor::observe(RepartidorObserver::class);
     Vehiculo::observe(VehiculoObserver::class);
     Vendedor::observe(VendedorObserver::class);
 }

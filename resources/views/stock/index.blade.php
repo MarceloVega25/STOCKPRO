@@ -21,11 +21,6 @@
                     <div class="card-header">
                         <h3 class="card-title"><b>STOCK REGISTRADO</b></h3>
                         <div class="card-tools">
-                            @role('admin|carga')
-                            <a href="{{ url('/stock/create') }}" class="btn btn-primary">
-                                <i class="bi bi-person-add"></i>Agregar Nuevo Stock
-                            </a>
-                            @endrole
                         </div>
                     </div>
 
@@ -35,38 +30,30 @@
                             <thead>
                                 <tr>
                                     <th>N°</th>
-                                    <th>Nombre</th>
-                                    <th>Siglas</th>
+                                    <th>Producto</th>
+                                    <th>Stock</th>
+                                    <th>Stock Mínimo</th>
                                     <th>Agregado</th>
                                     <th>Accion</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php $contador = 0; ?>
-                                @foreach ($stock as $item)
+                                @foreach ($productos as $item)
                                     <tr>
                                         <td>
                                             <?php echo $contador = $contador + 1; ?></td>
                                         <td>{{ $item->nombre }}</td>
-                                        <td>{{ $item->siglas }}</td>
+                                        <td>{{ $item->stock }}</td>
+                                        <td>{{ $item->stock_minimo }}</td>
                                         <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y H:i') }}</td>
                                         
                                         <td style="text-align: center">
                                             <div class="btn-group" role="group" aria-label="Basic example">
-                                                <a href="{{ url('/stock', $item->id) }}" type="button"
-                                                    class="btn btn-info"><i class="bi bi-eye"></i></a>
+                                                <a href="{{ url('/stock', $item->id) }}" type="button" class="btn btn-info"><i class="bi bi-eye"></i></a>
                                                     
                                                     @role('admin|carga')
-                                                <a href="{{ route('stock.edit', $item->id) }}" type="button"
-                                                    class="btn btn-success"><i class="bi bi-pencil"></i></a>
-
-                                                    <form id="delete-form-{{ $item->id }}" action="{{ url('/stock', $item->id) }}" method="POST" style="display: inline;">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="button" class="btn btn-danger" onclick="confirmarEliminacion({{ $item->id }})">
-                                                            <i class="bi bi-trash3"></i>
-                                                        </button>
-                                                    </form>
+                                                <a href="{{ route('stock.edit', $item->id) }}" type="button" class="btn btn-success"><i class="bi bi-pencil"></i></a>
                                                     @endrole
                                             </div>
                                         </td>
@@ -81,12 +68,12 @@
                                     "pageLength": 10,
                                     "language": {
                                         "emptyTable": "No hay información",
-                                        "info": "Mostrando _START_ a _END_ de _TOTAL_ Stock",
-                                        "infoEmpty": "Mostrando 0 a 0 de 0 Stock",
-                                        "infoFiltered": "(Filtrado de _MAX_ total Stock)",
+                                        "info": "Mostrando _START_ a _END_ de _TOTAL_ Productos",
+                                        "infoEmpty": "Mostrando 0 a 0 de 0 Productos",
+                                        "infoFiltered": "(Filtrado de _MAX_ total Productos)",
                                         "infoPostFix": "",
                                         "thousands": ",",
-                                        "lengthMenu": "Mostrar _MENU_ Stock",
+                                        "lengthMenu": "Mostrar _MENU_ Productos",
                                         "loadingRecords": "Cargando...",
                                         "processing": "Procesando...",
                                         "search": "Buscador:",
@@ -133,24 +120,5 @@
             </div>
         </div>
     </div>
-
-<script>
-    function confirmarEliminacion(id) {
-        Swal.fire({
-            title: '¿Estás seguro?',
-            text: "¡Esta acción no se puede deshacer!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Sí, eliminar',
-            cancelButtonText: 'Cancelar'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                document.getElementById('delete-form-' + id).submit();
-            }
-        });
-    }
-</script>
 
 @endsection

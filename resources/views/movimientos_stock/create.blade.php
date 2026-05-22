@@ -24,23 +24,52 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>Nombre</label><b>*</b>
-                                    <input type="text" name="nombre" class="form-control"
-                                        placeholder="Ingrese Nombre" value="{{ old('nombre') }}" required>
-                                    @error('nombre')
-                                        <small style="color: red;">*Este campo es requerido</small>
-                                    @enderror
+                                    <label>Producto</label><b>*</b>
+                                    <select name="producto_id" class="form-control" required>
+                                        <option value="">Seleccione</option>
+                                        @foreach ($productos as $p)
+                                            <option value="{{ $p->id }}" {{ old('producto_id') == $p->id ? 'selected' : '' }}>
+                                                {{ $p->nombre }} (Stock: {{ $p->stock }})
+                                            </option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>Siglas</label><b>*</b>
-                                    <input type="text" name="siglas" class="form-control"
-                                        placeholder="Ingrese Siglas" value="{{ old('siglas') }}" required>
-                                    @error('siglas')
-                                        <small style="color: red;">*Este campo es requerido</small>
-                                    @enderror
+                                    <label>Tipo</label><b>*</b>
+                                    <select name="tipo" class="form-control" required>
+                                        <option value="">Seleccione</option>
+                                        <option value="entrada" {{ old('tipo') == 'entrada' ? 'selected' : '' }}>Entrada</option>
+                                        <option value="salida" {{ old('tipo') == 'salida' ? 'selected' : '' }}>Salida</option>
+                                        <option value="ajuste" {{ old('tipo') == 'ajuste' ? 'selected' : '' }}>Ajuste</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Cantidad</label><b>*</b>
+                                    <input type="number" name="cantidad" class="form-control" value="{{ old('cantidad') }}" min="1" required>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Fecha</label>
+                                    <input type="datetime-local" name="fecha" class="form-control" value="{{ old('fecha') }}">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Motivo</label>
+                                    <input type="text" name="motivo" class="form-control" value="{{ old('motivo') }}">
                                 </div>
                             </div>
                         </div>

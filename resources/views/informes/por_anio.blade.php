@@ -50,6 +50,10 @@
                                             @if (Auth::user()->hasRole('admin'))
                                                 <option value="usuarios">Usuarios</option>
                                             @endif
+                                        @elseif (strtolower($modulo->nombre) === 'stock')
+                                            <option value="stock">Stock</option>
+                                        @elseif (strtolower($modulo->nombre) === 'movimientos_stock')
+                                            <option value="movimientos_stock">Movimientos de Stock</option>
                                         @else
                                             <option value="{{ strtolower($modulo->nombre) }}">{{ $modulo->nombre }}</option>
                                         @endif

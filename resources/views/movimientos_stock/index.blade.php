@@ -35,8 +35,11 @@
                             <thead>
                                 <tr>
                                     <th>N°</th>
-                                    <th>Nombre</th>
-                                    <th>Siglas</th>
+                                    <th>Fecha</th>
+                                    <th>Producto</th>
+                                    <th>Tipo</th>
+                                    <th>Cantidad</th>
+                                    <th>Usuario</th>
                                     <th>Agregado</th>
                                     <th>Accion</th>
                                 </tr>
@@ -47,8 +50,11 @@
                                     <tr>
                                         <td>
                                             <?php echo $contador = $contador + 1; ?></td>
-                                        <td>{{ $movimiento->nombre }}</td>
-                                        <td>{{ $movimiento->siglas }}</td>
+                                        <td>{{ optional($movimiento->fecha)->format('d/m/Y H:i') }}</td>
+                                        <td>{{ optional($movimiento->producto)->nombre }}</td>
+                                        <td>{{ $movimiento->tipo }}</td>
+                                        <td>{{ $movimiento->cantidad }}</td>
+                                        <td>{{ optional($movimiento->usuario)->nombre_apellido ?? '-' }}</td>
                                         <td>{{ \Carbon\Carbon::parse($movimiento->created_at)->format('d/m/Y H:i') }}</td>
                                         
                                         <td style="text-align: center">
@@ -81,12 +87,12 @@
                                     "pageLength": 10,
                                     "language": {
                                         "emptyTable": "No hay información",
-                                        "info": "Mostrando _START_ a _END_ de _TOTAL_ Movimientos",
-                                        "infoEmpty": "Mostrando 0 a 0 de 0 Movimientos",
-                                        "infoFiltered": "(Filtrado de _MAX_ total Movimientos)",
+                                        "info": "Mostrando _START_ a _END_ de _TOTAL_ Carreras",
+                                        "infoEmpty": "Mostrando 0 a 0 de 0 Carreras",
+                                        "infoFiltered": "(Filtrado de _MAX_ total Carreras)",
                                         "infoPostFix": "",
                                         "thousands": ",",
-                                        "lengthMenu": "Mostrar _MENU_ Movimientos",
+                                        "lengthMenu": "Mostrar _MENU_ Carreras",
                                         "loadingRecords": "Cargando...",
                                         "processing": "Procesando...",
                                         "search": "Buscador:",

@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('repartos', function (Blueprint $table) {
+        Schema::create('repartidores', function (Blueprint $table) {
             $table->id();
             $table->string('nombre_apellido', 255);
             $table->integer('dni')->unique();
-            $table->date('fecha_nacimiento', 8);
+            $table->date('fecha_nacimiento');
             $table->string('genero',50);
             $table->string('email')->unique();
             $table->string('telefono', 14);
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('repartos');
+        Schema::dropIfExists('repartidores');
     }
 };

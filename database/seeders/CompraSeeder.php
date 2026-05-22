@@ -7,14 +7,10 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Models\{
     Compra,
-    Cliente,
-    Venta,
-    Departamento,
-    Carrera,
     Proveedor,
-    Reparto,
-    Vehiculo,
-    Vendedor,
+    Producto,
+    CompraItem,
+    MovimientoStock,
     SeguimientoCompra
 };
 
@@ -22,80 +18,59 @@ class CompraSeeder extends Seeder
 {
     public function run(): void
     {
-        // Asegurar mínimos para relaciones (sin truncar para no borrar datos reales)
-        if (Cliente::count() === 0) {
-            Cliente::factory()->count(5)->create();
-        }
-        if (Venta::count() === 0) {
-            Venta::factory()->count(10)->create();
-        }
-        if (Departamento::count() === 0) {
-            Departamento::factory()->count(5)->create();
-        }
-        if (Carrera::count() === 0) {
-            Carrera::factory()->count(8)->create();
-        }
         if (Proveedor::count() === 0) {
             Proveedor::factory()->count(10)->create();
         }
-        if (Reparto::count() === 0) {
-            Reparto::factory()->count(12)->create();
-        }
-        if (Vehiculo::count() === 0) {
-            Vehiculo::factory()->count(12)->create();
-        }
-        if (Vendedor::count() === 0) {
-            Vendedor::factory()->count(8)->create();
+        if (Producto::count() === 0) {
+            Producto::factory()->count(20)->create();
         }
 
         $compras = Compra::factory()->count(15)->create([
             'anio' => now()->year,
-            'cliente_id' => Cliente::inRandomOrder()->first()->id,
-            'designado_id' => Proveedor::inRandomOrder()->first()->id,
+            'proveedor_id' => Proveedor::inRandomOrder()->first()->id,
+            'fecha' => now()->toDateString(),
         ]);
 
         foreach ($compras as $compra) {
-            $ventaIds = Venta::inRandomOrder()->limit(rand(1, 3))->pluck('id')->toArray();
-            $deptoIds = Departamento::inRandomOrder()->limit(rand(1, 2))->pluck('id')->toArray();
-            $carreraIds = Carrera::inRandomOrder()->limit(rand(1, 3))->pluck('id')->toArray();
-            $vendedorIds = Vendedor::inRandomOrder()->limit(rand(1, 2))->pluck('id')->toArray();
-            $proveedorIds = Proveedor::inRandomOrder()->limit(rand(1, 3))->pluck('id')->toArray();
+            $total = 0;
 
-            $compra->ventas()->sync($ventaIds);
-            $compra->departamentos()->sync($deptoIds);
-            $compra->carreras()->sync($carreraIds);
-            $compra->vendedores()->sync($vendedorIds);
-            $compra->proveedores()->sync($proveedorIds);
+            $productos = Producto::inRandomOrder()->limit(rand(1, 3))->get();
+            foreach ($productos as $p) {
+                $cantidad = rand(1, 10);
+                $precioUnitario = (float) $p->precio;
+                $subtotal = $cantidad * $precioUnitario;
 
-            // Repartos (titular/suplente)
-            $titularRepartoIds = Reparto::inRandomOrder()->limit(rand(1, 2))->pluck('id')->toArray();
-            $suplenteRepartoIds = Reparto::whereNotIn('id', $titularRepartoIds)->inRandomOrder()->limit(rand(0, 1))->pluck('id')->toArray();
+                CompraItem::create([
+                    'compra_id' => $compra->id,
+                    'producto_id' => $p->id,
+                    'cantidad' => $cantidad,
+                    'precio_unitario' => $precioUnitario,
+                    'subtotal' => $subtotal,
+                ]);
 
-            foreach ($titularRepartoIds as $id) {
-                $compra->repartos()->attach($id, ['tipo' => 'titular']);
-            }
-            foreach ($suplenteRepartoIds as $id) {
-                $compra->repartos()->attach($id, ['tipo' => 'suplente']);
-            }
+                $p->stock = ((int) $p->stock) + $cantidad;
+                $p->save();
 
-            // Vehiculos (titular/suplente)
-            $titularVehiculoIds = Vehiculo::inRandomOrder()->limit(rand(1, 2))->pluck('id')->toArray();
-            $suplenteVehiculoIds = Vehiculo::whereNotIn('id', $titularVehiculoIds)->inRandomOrder()->limit(rand(0, 1))->pluck('id')->toArray();
+                MovimientoStock::create([
+                    'producto_id' => $p->id,
+                    'compra_id' => $compra->id,
+                    'tipo' => 'entrada',
+                    'cantidad' => $cantidad,
+                    'fecha' => $compra->fecha ?? Carbon::now(),
+                    'motivo' => 'Compra (Seeder)',
+                    'usuario_id' => null,
+                ]);
 
-            foreach ($titularVehiculoIds as $id) {
-                $compra->vehiculos()->attach($id, ['tipo' => 'titular']);
-            }
-            foreach ($suplenteVehiculoIds as $id) {
-                $compra->vehiculos()->attach($id, ['tipo' => 'suplente']);
+                $total += $subtotal;
             }
 
-            // Estados/seguimientos coherentes
-            $compra->registrarEstado('Compra creada (Seeder)', 'Carga inicial de datos de prueba.');
+            $compra->total = $total;
+            $compra->save();
 
             SeguimientoCompra::create([
                 'compra_id' => $compra->id,
                 'accion' => 'Compra creada (Seeder)',
-                'detalle' => 'Se generó una compra con sus relaciones (ventas/repartos/vehículos/vendedores/proveedores).',
+                'detalle' => 'Se generó una compra con items y se actualizó el stock.',
                 'usuario' => 'Seeder',
                 'fecha' => Carbon::now(),
             ]);

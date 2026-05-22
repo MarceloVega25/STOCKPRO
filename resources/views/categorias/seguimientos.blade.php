@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="content" style="margin-left: 20px">
-        <h1>Seguimientos de la Categoría</h1>
+        <h1>Seguimientos de la Categoría de Producto</h1>
 
         <div class="row">
             <div class="col-md-11">

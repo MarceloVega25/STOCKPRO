@@ -33,7 +33,7 @@
                                     text: 'Se encontró un vehículo con ese DNI.',
                                     confirmButtonColor: '#3085d6'
                                 }).then(() => {
-                                    window.location.href = "{{ url('/vehiculos/' . session('docente_id')) }}";
+                                    window.location.href = "{{ url('/vehiculos/' . session('vehiculo_id')) }}";
                                 });
                             </script>
                         @elseif (session('mensaje') == 'nuevo')

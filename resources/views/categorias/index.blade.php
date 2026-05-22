@@ -33,12 +33,9 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Número/Año</th>
-                                    <th>Cliente</th>
-                                    <th>Tipo</th>
-                                    <th>Modalidad</th>
-                                    <th>Fecha</th>
-                                    <th>Designado</th>
+                                    <th>Nombre</th>
+                                    <th>Descripción</th>
+                                    <th>Productos</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
@@ -46,24 +43,9 @@
                                 @foreach ($categorias as $categoria)
                                     <tr>
                                         <td>{{ $categoria->id }}</td>
-                                        <td>{{ $categoria->numero }}/{{ $categoria->anio }}</td>
-                                        <td>{{ $categoria->cliente->razon_social ?? '-' }}</td>
-                                        <td>{{ $categoria->tipo_concurso }}</td>
-                                        <td>{{ $categoria->modalidad_concurso }}</td>
-                                        <td>
-                                            @if ($categoria->fecha_concurso)
-                                                {{ \Carbon\Carbon::parse($categoria->fecha_concurso)->format('d/m/Y') }}
-                                            @else
-                                                <em>Sin definir</em>
-                                            @endif
-                                        </td>
-                                        <td>
-                                            @if($categoria->designado)
-                                                {{ $categoria->designado->nombre_apellido }}
-                                            @else
-                                                <em>Sin designar</em>
-                                            @endif
-                                        </td>
+                                        <td>{{ $categoria->nombre }}</td>
+                                        <td>{{ $categoria->descripcion ?? '-' }}</td>
+                                        <td>{{ $categoria->productos_count ?? 0 }}</td>
                                         <td style="text-align: center">
                                             <div class="btn-group" role="group" aria-label="Acciones">
                                                 <a href="{{ route('categorias.seguimientos', $categoria->id) }}" class="btn btn-warning" title="Seguimiento">

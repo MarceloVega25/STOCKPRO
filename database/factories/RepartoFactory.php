@@ -2,7 +2,10 @@
 
 namespace Database\Factories;
 
+use App\Models\Compra;
+use App\Models\Repartidor;
 use App\Models\Reparto;
+use App\Models\Vehiculo;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -15,16 +18,13 @@ class RepartoFactory extends Factory
     public function definition(): array
     {
         return [
-            'nombre_apellido' => $this->faker->name(),
-            'dni' => $this->faker->unique()->numerify('########'),
-            'fecha_nacimiento' => $this->faker->date('Y-m-d', '2000-01-01'),
-            'genero' => $this->faker->randomElement(['Masculino', 'Femenino', 'Otro']),
-            'email' => $this->faker->unique()->safeEmail(),
-            'telefono' => $this->faker->numerify('##########'),
-            'institucion' => $this->faker->company(),
-            'tipo' => $this->faker->randomElement(['Titular', 'Suplente']),
-            'cv' => $this->faker->uuid() . '.pdf',
-            'fotografia' => $this->faker->uuid() . '.' . $this->faker->randomElement(['jpg', 'jpeg', 'png']),
+            'compra_id' => Compra::query()->inRandomOrder()->value('id') ?? Compra::factory(),
+            'repartidor_id' => Repartidor::query()->inRandomOrder()->value('id') ?? Repartidor::factory(),
+            'vehiculo_id' => Vehiculo::query()->inRandomOrder()->value('id'),
+            'fecha_reparto' => $this->faker->dateTimeBetween('-15 days', '+5 days'),
+            'estado' => $this->faker->randomElement(['pendiente', 'en_camino', 'entregado', 'cancelado']),
+            'direccion_entrega' => $this->faker->streetAddress(),
+            'observaciones' => $this->faker->optional()->sentence(),
         ];
     }
 }
